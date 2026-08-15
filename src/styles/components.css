@@ -1,0 +1,310 @@
+/* ============================================================================
+   Shared components
+   ========================================================================== */
+
+.container {
+  width: 100%;
+  max-width: var(--size-container);
+  margin-inline: auto;
+  padding: 2em 2.5em;
+}
+
+.container.smaller {
+  padding: 0.625em;
+}
+
+.grid-layout {
+  display: grid;
+  grid-template-columns: repeat(var(--grid-columns), 1fr);
+  gap: var(--grid-gutter);
+  width: 100%;
+}
+
+/* --- Button --------------------------------------------------------------
+   Three stacked layers. The two `button-cycle` discs sit behind the pill on
+   opposite sides; on hover they scale up and sweep through, so the fill
+   arrives as a rolling wipe rather than a fade. Clipped by the button's own
+   radius so the discs never escape the shape.
+   ------------------------------------------------------------------------ */
+
+.button {
+  display: inline-flex;
+  align-items: center;
+  gap: 0.35em;
+}
+
+/* The arrow rides in its own detached disc ahead of the pill, so the pair
+   reads as a mark plus a label rather than one long capsule. */
+.button-icon {
+  display: grid;
+  place-items: center;
+  width: 2.6em;
+  height: 2.6em;
+  flex: none;
+  border-radius: 50%;
+  background-color: var(--dark-green);
+  color: var(--white);
+  transition: transform var(--dur-mid) var(--ease-out);
+}
+
+.button-bg {
+  position: relative;
+  display: inline-flex;
+  align-items: center;
+  overflow: hidden;
+  isolation: isolate;
+  padding: 0.8em 1.5em;
+  border-radius: 10em;
+  background-color: var(--dark-green);
+  color: var(--white);
+  font-size: 1em;
+  font-weight: 500;
+  letter-spacing: 0.02em;
+  transition: color var(--dur-mid) var(--ease-out);
+}
+
+.button-bg.white-bg {
+  background-color: var(--white);
+  color: var(--dark-green);
+}
+
+.button.is-white .button-icon {
+  background-color: var(--white);
+  color: var(--dark-green);
+}
+
+.button-text {
+  position: relative;
+  z-index: 2;
+  line-height: 1;
+}
+
+.button-arrow {
+  width: 0.65em;
+  flex: none;
+}
+
+.button:hover .button-icon {
+  transform: rotate(45deg);
+}
+
+.button-cycle {
+  position: absolute;
+  top: 50%;
+  z-index: 1;
+  width: 1.2em;
+  height: 1.2em;
+  translate: 0 -50%;
+  pointer-events: none;
+}
+
+.button-cycle.is-first {
+  left: 0.3em;
+}
+.button-cycle.is-second {
+  right: 0.3em;
+}
+
+.button-cycle-bg {
+  display: block;
+  width: 100%;
+  height: 100%;
+  border-radius: 50%;
+  background-color: var(--light-green);
+  transform: scale(0);
+  transition: transform 0.55s var(--ease-out);
+}
+
+.button-cycle-bg.white-bg {
+  background-color: var(--bg-light);
+}
+
+.button:hover .button-cycle-bg {
+  transform: scale(14);
+}
+
+/* The second disc lags, so the two wipes cross rather than arrive together. */
+.button:hover .button-cycle.is-second .button-cycle-bg {
+  transition-delay: 0.06s;
+}
+
+.button:hover .button-bg {
+  background-color: transparent;
+  color: var(--dark-green);
+}
+
+/* --- Nav ---------------------------------------------------------------- */
+
+.navbar {
+  position: fixed;
+  inset: 0 0 auto;
+  z-index: var(--z-nav);
+  padding: 1.25em 2.5em;
+  mix-blend-mode: normal;
+}
+
+.nav-container {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: var(--grid-gutter);
+  max-width: var(--size-container);
+  margin-inline: auto;
+}
+
+.nav-social-media-inner {
+  display: flex;
+  gap: 0.5em;
+}
+
+.social-media-circle {
+  display: grid;
+  place-items: center;
+  width: 2.4em;
+  height: 2.4em;
+  border: 0.09em solid currentColor;
+  border-radius: 50%;
+  transition: background-color var(--dur-fast) var(--ease-out), color var(--dur-fast) var(--ease-out);
+}
+
+.social-media-circle svg {
+  width: 1.1em;
+}
+
+.social-media-link:hover .social-media-circle {
+  background-color: var(--dark-green);
+  color: var(--bg-light);
+}
+
+.nav-link-inner {
+  display: flex;
+  gap: 0.4em;
+}
+
+.nav-text {
+  display: block;
+  padding: 0.55em 1.1em;
+  border-radius: 10em;
+  background-color: var(--bg-pale);
+  color: var(--dark-green);
+  font-size: 1.0625em;
+  font-weight: 500;
+  letter-spacing: 0.01em;
+  transition: background-color var(--dur-fast) var(--ease-out), color var(--dur-fast) var(--ease-out);
+}
+
+.nav-link:hover .nav-text {
+  background-color: var(--dark-green);
+  color: var(--bg-pale);
+}
+
+/* --- Smiley / doodles ---------------------------------------------------- */
+
+/* Hand-lettered marginalia. Real glyphs in a script face read as handwriting;
+   hand-authored outline paths read as scribble. */
+.ink-script {
+  font-family: Caveat, "Segoe Script", cursive;
+  font-size: 30px;
+  font-weight: 600;
+}
+
+.top-smiley svg {
+  width: 100%;
+}
+
+.top-smiley.is-card {
+  width: 3.25em;
+  margin-inline: auto;
+}
+
+.top-smiley.is-benefit {
+  width: 5em;
+}
+
+/* Each doodle is drawn twice on slightly different paths and cross-faded, so
+   the ink looks redrawn frame to frame — the hand-lettered "boil" you get in
+   traditional animation. Two frames is enough to sell it. */
+.is-wiggle {
+  position: absolute;
+  inset: 0;
+}
+
+.stage-deco-text-wrap,
+.stage-deco-arrow-wrap,
+.stage-subline-wrap,
+.sequence-signature-text,
+.sequence-signature-arrow,
+.sequence-final-signature,
+.sequence-inner-signature,
+.statement-icon {
+  position: relative;
+}
+
+.stage-deco-text-wrap > svg,
+.stage-deco-arrow-wrap > svg,
+.stage-subline-wrap > svg,
+.sequence-signature-text > svg,
+.sequence-signature-arrow > svg,
+.sequence-final-signature > svg,
+.sequence-inner-signature > svg,
+.statement-icon > svg {
+  width: 100%;
+  animation: ink-boil 0.36s steps(1) infinite;
+}
+
+.is-wiggle {
+  animation-delay: 0.18s !important;
+}
+
+@keyframes ink-boil {
+  0%,
+  50% {
+    opacity: 1;
+  }
+  50.01%,
+  100% {
+    opacity: 0;
+  }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .stage-deco-text-wrap > svg,
+  .stage-deco-arrow-wrap > svg,
+  .stage-subline-wrap > svg,
+  .sequence-signature-text > svg,
+  .sequence-signature-arrow > svg,
+  .sequence-final-signature > svg,
+  .sequence-inner-signature > svg,
+  .statement-icon > svg {
+    animation: none;
+  }
+  .is-wiggle {
+    display: none;
+  }
+}
+
+/* --- Rating -------------------------------------------------------------- */
+
+.rating-inner {
+  display: flex;
+  flex-direction: column;
+  gap: 0.25em;
+}
+
+.rating-star-wrap,
+.testimonial-star-wrap {
+  display: flex;
+  gap: 0.15em;
+  color: var(--light-green);
+}
+
+.rating-star {
+  width: 1.05em;
+}
+
+.rating-text {
+  font-size: 0.9375em;
+  font-weight: 300;
+  text-transform: uppercase;
+  letter-spacing: 0.04em;
+}

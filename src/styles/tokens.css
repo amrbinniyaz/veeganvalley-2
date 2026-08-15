@@ -1,0 +1,72 @@
+/* ============================================================================
+   Design tokens + fluid scaling
+   ========================================================================== */
+
+/* Oswald carries the whole UI; Caveat is used only for the hand-lettered
+   marginalia, where drawing the glyphs as paths looked like scribble. */
+@import url("https://fonts.googleapis.com/css2?family=Oswald:wght@300;400;500;600;700&family=Caveat:wght@500;600&display=swap");
+
+:root {
+  /* --- Palette ---------------------------------------------------------- */
+  --white: #fff;
+  --bg-pale: #eef2e6;      /* page ground */
+  --bg-light: #b9cf9f;     /* hero / raised panels */
+  --dark-green: #2f5a2c;   /* type + strokes */
+  --light-green: #8dbb63;  /* accent, highlight tint */
+  --ink: #1d2b1c;
+
+  /* --- Fluid scaling ----------------------------------------------------
+     Everything downstream is authored in `em`, so the whole layout scales as
+     one unit off `body { font-size }`. --size-font is the design's 16px body
+     re-expressed as a fraction of the current viewport against the 1440px
+     canvas it was drawn on. Breakpoints only re-declare the reference frame.
+     -------------------------------------------------------------------- */
+  --size-unit: 16;
+  --size-container-ideal: 1440;
+  --size-container-min: 992px;
+  --size-container-max: 2560px;
+  --size-container: clamp(var(--size-container-min), 100vw, var(--size-container-max));
+  --size-font: calc(var(--size-container) / (var(--size-container-ideal) / var(--size-unit)));
+
+  /* --- Grid -------------------------------------------------------------- */
+  --grid-columns: 12;
+  --grid-gutter: 1.25em;
+  --grid-column-width: calc(
+    (100% - (var(--grid-gutter) * (var(--grid-columns) - 1))) / var(--grid-columns)
+  );
+
+  /* --- Motion ------------------------------------------------------------ */
+  --dur-fast: 0.25s;
+  --dur-mid: 0.45s;
+  --ease-out: cubic-bezier(0.32, 0.72, 0, 1);
+
+  /* --- Layers ------------------------------------------------------------ */
+  --z-lines: -2;
+  --z-nav: 100;
+  --z-loader: 9999;
+}
+
+@media screen and (max-width: 991px) {
+  :root {
+    --size-container-ideal: 640;
+    --size-container-min: 768px;
+    --size-container-max: 991px;
+    --grid-columns: 6;
+  }
+}
+
+@media screen and (max-width: 767px) {
+  :root {
+    --size-container-ideal: 550;
+    --size-container-min: 480px;
+    --size-container-max: 767px;
+  }
+}
+
+@media screen and (max-width: 479px) {
+  :root {
+    --size-container-ideal: 390;
+    --size-container-min: 320px;
+    --size-container-max: 479px;
+  }
+}

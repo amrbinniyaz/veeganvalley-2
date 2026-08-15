@@ -1,0 +1,1080 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <title>Veegan — Plant Protein Iced Matcha</title>
+    <meta
+      name="description"
+      content="Ceremonial-grade matcha blended with 22g of plant protein and glucomannan. No dairy, no added sugar, all day energy."
+    />
+    <link rel="preconnect" href="https://fonts.googleapis.com" />
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+    <script type="module" src="/src/main.js"></script>
+  </head>
+
+  <body class="body">
+    <div class="loader"></div>
+
+    <!-- ==================================================================
+         Nav
+         ================================================================== -->
+    <nav data-load-nav class="navbar">
+      <div class="nav-container">
+        <div class="nav-social-media-inner">
+          <a class="social-media-link" href="#" aria-label="Instagram">
+            <span class="social-media-circle">
+              <svg viewBox="0 0 24 24" fill="none" aria-hidden="true">
+                <rect x="3" y="3" width="18" height="18" rx="5" stroke="currentColor" stroke-width="2" />
+                <circle cx="12" cy="12" r="4" stroke="currentColor" stroke-width="2" />
+                <circle cx="17.5" cy="6.5" r="1.2" fill="currentColor" />
+              </svg>
+            </span>
+          </a>
+          <a class="social-media-link" href="#" aria-label="TikTok">
+            <span class="social-media-circle">
+              <svg viewBox="0 0 24 24" fill="none" aria-hidden="true">
+                <path
+                  d="M13.5 3v11.2a3.1 3.1 0 1 1-2.6-3.06"
+                  stroke="currentColor"
+                  stroke-width="2"
+                  stroke-linecap="round"
+                />
+                <path d="M13.5 3c.5 2.4 2.1 4 4.5 4.2" stroke="currentColor" stroke-width="2" stroke-linecap="round" />
+              </svg>
+            </span>
+          </a>
+        </div>
+
+        <div class="nav-link-inner">
+          <a class="nav-link" href="#nutrition"><span class="nav-text">Nutrition</span></a>
+          <a class="nav-link" href="#benefits"><span class="nav-text">Benefits</span></a>
+          <a class="nav-link" href="#reviews"><span class="nav-text">Reviews</span></a>
+        </div>
+
+        <a class="button is-white" href="#shop">
+          <span class="button-icon"><svg class="button-arrow" viewBox="0 0 10 10" fill="none" aria-hidden="true"><path d="M1 9 9 1M3 1h6v6" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" /></svg></span><span class="button-bg white-bg"><span class="button-cycle is-first"><span class="button-cycle-bg white-bg"></span></span><span class="button-text">Shop all</span><span class="button-cycle is-second"><span class="button-cycle-bg white-bg"></span></span></span>
+        </a>
+      </div>
+    </nav>
+
+    <div class="page-wrapper">
+      <!-- ================================================================
+           Stage / hero
+           ================================================================ -->
+      <section class="stage" data-load-stage data-inertia>
+        <div class="stage-container">
+          <div class="stage-content">
+            <div class="stage-logo" data-load-stage-logo>
+              <svg class="stage-logo-svg" viewBox="0 0 720 200" fill="none" aria-label="Veegan">
+                <text
+                  x="360"
+                  y="160"
+                  text-anchor="middle"
+                  font-family="Oswald, sans-serif"
+                  font-size="190"
+                  font-weight="600"
+                  letter-spacing="-4"
+                  fill="currentColor"
+                >
+                  Veegan
+                </text>
+              </svg>
+            </div>
+
+            <div class="stage-cta" data-load-stage-cta>
+              <a class="button" href="#shop">
+                <span class="button-icon">
+                  <svg class="button-arrow" viewBox="0 0 10 10" fill="none" aria-hidden="true">
+                    <path d="M1 9 9 1M3 1h6v6" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" />
+                  </svg>
+                </span>
+                <span class="button-bg">
+                  <span class="button-cycle is-first"><span class="button-cycle-bg"></span></span>
+                  <span class="button-text">Buy now</span>
+                  <span class="button-cycle is-second"><span class="button-cycle-bg"></span></span>
+                </span>
+              </a>
+            </div>
+
+            <div class="stage-wrap">
+              <div class="stage-left" data-load-stage-visual>
+                <!-- Ring, product, badges and doodles all occupy the same
+                     grid cell so they stack without absolute positioning
+                     fighting the canvas's own transforms. -->
+                <div class="stage-bg">
+                  <svg
+                    class="stage-bg-svg"
+                    viewBox="0 0 731 818"
+                    fill="none"
+                    data-load-stage-svg
+                    aria-hidden="true"
+                  >
+                    <path
+                      d="M542.941 42.7702C707.951 122.986 766.918 351.375 667.592 555.698C568.265 760.021 352.233 854.727 187.223 774.512C22.2122 694.296 -36.7556 465.905 62.5711 261.582C161.898 57.2593 377.93 -37.4456 542.941 42.7702Z"
+                      stroke="currentColor"
+                      stroke-width="28"
+                    />
+                  </svg>
+                </div>
+
+                <div class="stage-visual">
+                  <canvas
+                    class="stage-canvas"
+                    data-load-stage-canvas
+                    data-load-stage-canvas-img-path="/img/seq/"
+                  ></canvas>
+                </div>
+
+                <div class="stage-facts">
+                  <div class="stage-fact-outer is-first" data-inertia-item>
+                    <div class="stage-fact" data-load-stage-fact data-inertia-item-child>
+                      <div class="stage-fact-wrap">
+                        <span class="stage-fact-number">22</span><span class="stage-fact-unit">g</span>
+                      </div>
+                      <div class="stage-fact-text">of Protein</div>
+                    </div>
+                  </div>
+                  <div class="stage-fact-outer is-second" data-inertia-item>
+                    <div class="stage-fact" data-load-stage-fact data-inertia-item-child>
+                      <div class="stage-fact-wrap">
+                        <span class="stage-fact-number">0</span><span class="stage-fact-unit">g</span>
+                      </div>
+                      <div class="stage-fact-text">Dairy</div>
+                    </div>
+                  </div>
+                  <div class="stage-fact-outer is-third" data-inertia-item>
+                    <div class="stage-fact" data-load-stage-fact data-inertia-item-child>
+                      <div class="stage-fact-wrap">
+                        <span class="stage-fact-number">85</span><span class="stage-fact-unit">mg</span>
+                      </div>
+                      <div class="stage-fact-text">of Caffeine</div>
+                    </div>
+                  </div>
+                </div>
+
+                <div class="stage-deco">
+                  <div class="stage-deco-text-wrap" data-load-stage-deco-text>
+                    <svg class="stage-deco-text" viewBox="0 0 260 90" fill="none" aria-hidden="true">
+                      <text x="6" y="34" class="ink-script" fill="currentColor">Real plants,</text>
+                      <text x="14" y="72" class="ink-script" fill="currentColor">Real protein</text>
+                    </svg>
+                    <svg class="stage-deco-text is-wiggle" viewBox="0 0 260 90" fill="none" aria-hidden="true">
+                      <text x="7" y="35" class="ink-script" fill="currentColor">Real plants,</text>
+                      <text x="15" y="73" class="ink-script" fill="currentColor">Real protein</text>
+                    </svg>
+                  </div>
+
+                  <div class="stage-deco-arrow-wrap" data-load-stage-deco-arrow>
+                    <svg class="stage-deco-arrow" viewBox="0 0 90 120" fill="none" aria-hidden="true">
+                      <path d="M8 8c26 6 48 30 56 60" stroke="currentColor" stroke-width="4" stroke-linecap="round" />
+                      <path d="M46 62c8 3 15 5 18 6M60 84c2-8 3-13 4-16" stroke="currentColor" stroke-width="4" stroke-linecap="round" />
+                    </svg>
+                    <svg class="stage-deco-arrow is-wiggle" viewBox="0 0 90 120" fill="none" aria-hidden="true">
+                      <path d="M9 9c26 7 48 31 56 61" stroke="currentColor" stroke-width="4" stroke-linecap="round" />
+                      <path d="M47 63c8 3 15 4 18 5M61 85c2-8 3-12 4-15" stroke="currentColor" stroke-width="4" stroke-linecap="round" />
+                    </svg>
+                  </div>
+                </div>
+              </div>
+
+              <div class="stage-right">
+                <div class="stage-text-wrap">
+                  <h1 class="hero-heading" data-load-stage-title>
+                    <span class="white-span">Plants</span> meet Protein
+                  </h1>
+                  <div class="stage-paragraph-wrap">
+                    <p class="paragraph is-stage-paragraph" data-load-stage-text>
+                      Our Iced Matcha Latte blends ceremonial-grade matcha with plant protein and
+                      glucomannan, a natural fibre that keeps you full.
+                    </p>
+                    <div class="stage-subline-wrap" data-load-stage-underline>
+                      <svg class="subline-img" viewBox="0 0 300 24" fill="none" aria-hidden="true">
+                        <path
+                          d="M6 15c38-7 62 4 92 2s54-9 84-5 76 8 112 3"
+                          stroke="currentColor"
+                          stroke-width="3"
+                          stroke-linecap="round"
+                        />
+                      </svg>
+                      <svg class="subline-img is-wiggle" viewBox="0 0 300 24" fill="none" aria-hidden="true">
+                        <path
+                          d="M7 16c38-8 62 3 92 1s54-8 84-4 76 9 112 4"
+                          stroke="currentColor"
+                          stroke-width="3"
+                          stroke-linecap="round"
+                        />
+                      </svg>
+                    </div>
+                  </div>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+
+        <!-- The arc that both closes the hero and transitions into the pale
+             section below: a thick dark band, a clipped pale wedge behind it
+             carrying the next section's colour up, and huge text riding the
+             curve — scrubbed along it by scroll. -->
+        <div class="marquee" data-marquee>
+          <div class="marquee-inner">
+            <div class="marquee-overlay"></div>
+            <svg class="marquee-bg-svg" viewBox="0 0 1440 442" fill="none" style="overflow: visible" aria-hidden="true">
+              <path
+                stroke="currentColor"
+                stroke-width="160"
+                d="M-71 371.6C126.3 260 593.5 65.8 934.5 80.8c313 13.8 497 136 572 200"
+              />
+            </svg>
+            <svg
+              class="marquee-text-svg"
+              viewBox="0 0 1440 293"
+              fill="none"
+              style="overflow: visible"
+              data-marquee-svg
+              aria-hidden="true"
+            >
+              <path id="marquee-curve" fill="none" d="M-68 300C173 173 515.5 1 937.2 1 1254.5 1 1468 183.3 1543 246.9" />
+              <text>
+                <textPath href="#marquee-curve" startOffset="-30%">
+                  Fully plant powered · Fully plant powered · Fully plant powered · Fully plant powered
+                </textPath>
+              </text>
+            </svg>
+          </div>
+        </div>
+      </section>
+
+      <!-- ================================================================
+           Insider
+           ================================================================ -->
+      <section class="insider-section" id="nutrition" data-inertia>
+        <div class="insider-container">
+          <div class="grid-layout">
+            <h2 class="insider-heading">
+              You deserve better. You deserve Veegan:
+              <span class="light-green-span">Iced Matcha Latte.</span>
+            </h2>
+
+            <div class="insider-wrapper">
+              <div class="testimonial-wrapper">
+                <div class="testimonial-inner-wrap is-first" data-inertia-item>
+                  <div class="testimonial-inner _1" data-inertia-item-child>
+                    <!-- Placeholder panels. Swap for <video> and the sound
+                         toggle from the reference layout when footage exists. -->
+                    <div class="testimonial-media"></div>
+                  </div>
+                </div>
+                <div class="testimonial-inner-wrap is-second" data-inertia-item>
+                  <div class="testimonial-inner _2" data-inertia-item-child>
+                    <div class="testimonial-media"></div>
+                  </div>
+                </div>
+                <div class="testimonial-inner-wrap is-third" data-inertia-item>
+                  <div class="testimonial-inner _3" data-inertia-item-child>
+                    <div class="testimonial-media"></div>
+                  </div>
+                </div>
+              </div>
+
+              <div class="insider-text-inner">
+                <h3 class="insider-subheading">
+                  We want to make plant-based nutrition simple, honest and genuinely good — so you
+                  never have to choose between what works and what you actually enjoy.
+                </h3>
+                <p class="paragraph">
+                  Loved by thousands, this blend contains real stone-ground green tea, a complete pea and
+                  rice protein, and nothing you'd need a chemistry degree to pronounce.
+                </p>
+                <div class="insider-cta">
+                  <a class="button" href="#shop">
+                    <span class="button-icon"><svg class="button-arrow" viewBox="0 0 10 10" fill="none" aria-hidden="true"><path d="M1 9 9 1M3 1h6v6" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" /></svg></span><span class="button-bg"><span class="button-cycle is-first"><span class="button-cycle-bg"></span></span><span class="button-text">Buy now</span><span class="button-cycle is-second"><span class="button-cycle-bg"></span></span></span>
+                  </a>
+                  <div class="rating-inner">
+                    <div class="rating-star-wrap">
+                      <svg class="rating-star" viewBox="0 0 20 20" aria-hidden="true"><path fill="currentColor" d="m10 1 2.6 5.6 6 .8-4.4 4.2 1.1 6.1L10 14.8 4.7 17.7l1.1-6.1L1.4 7.4l6-.8L10 1Z"/></svg>
+                      <svg class="rating-star" viewBox="0 0 20 20" aria-hidden="true"><path fill="currentColor" d="m10 1 2.6 5.6 6 .8-4.4 4.2 1.1 6.1L10 14.8 4.7 17.7l1.1-6.1L1.4 7.4l6-.8L10 1Z"/></svg>
+                      <svg class="rating-star" viewBox="0 0 20 20" aria-hidden="true"><path fill="currentColor" d="m10 1 2.6 5.6 6 .8-4.4 4.2 1.1 6.1L10 14.8 4.7 17.7l1.1-6.1L1.4 7.4l6-.8L10 1Z"/></svg>
+                      <svg class="rating-star" viewBox="0 0 20 20" aria-hidden="true"><path fill="currentColor" d="m10 1 2.6 5.6 6 .8-4.4 4.2 1.1 6.1L10 14.8 4.7 17.7l1.1-6.1L1.4 7.4l6-.8L10 1Z"/></svg>
+                      <svg class="rating-star" viewBox="0 0 20 20" aria-hidden="true"><path fill="currentColor" d="m10 1 2.6 5.6 6 .8-4.4 4.2 1.1 6.1L10 14.8 4.7 17.7l1.1-6.1L1.4 7.4l6-.8L10 1Z"/></svg>
+                    </div>
+                    <div class="rating-text">2 847 reviews</div>
+                  </div>
+                </div>
+              </div>
+            </div>
+          </div>
+
+          <div class="insider-signature">
+            <svg class="insider-signature-img" viewBox="0 0 200 80" fill="none" aria-hidden="true">
+              <text x="8" y="30" class="ink-script" fill="currentColor">Why people</text>
+              <text x="34" y="64" class="ink-script" fill="currentColor">love it</text>
+            </svg>
+            <svg class="insider-signature-img is-wiggle" viewBox="0 0 200 80" fill="none" aria-hidden="true">
+              <text x="9" y="31" class="ink-script" fill="currentColor">Why people</text>
+              <text x="35" y="65" class="ink-script" fill="currentColor">love it</text>
+            </svg>
+
+            <div class="insider-signature-arrow">
+              <svg viewBox="0 0 60 110" fill="none" aria-hidden="true">
+                <path d="M50 6C22 20 8 52 12 92" stroke="currentColor" stroke-width="4" stroke-linecap="round" />
+                <path d="M4 74c4 10 7 16 8 19M26 82c-8 5-12 8-14 11" stroke="currentColor" stroke-width="4" stroke-linecap="round" />
+              </svg>
+            </div>
+          </div>
+        </div>
+      </section>
+
+      <!-- ================================================================
+           Sequence — sticky 720lvh scrub
+           ================================================================ -->
+      <section class="sequence-section" data-sequence>
+        <div class="sequence-signature">
+          <div class="sequence-signature-text">
+            <svg class="sequence-signature-text-img" viewBox="0 0 220 80" fill="none" aria-hidden="true"><text x="8" y="30" class="ink-script" fill="currentColor">Four reasons</text><text x="30" y="64" class="ink-script" fill="currentColor">to switch</text></svg><svg class="sequence-signature-text-img is-wiggle" viewBox="0 0 220 80" fill="none" aria-hidden="true"><text x="9" y="31" class="ink-script" fill="currentColor">Four reasons</text><text x="31" y="65" class="ink-script" fill="currentColor">to switch</text></svg>
+          </div>
+          <div class="sequence-signature-arrow">
+            <svg class="sequence-signature-arrow-img" viewBox="0 0 80 110" fill="none" aria-hidden="true">
+              <path d="M10 6c20 12 38 36 42 60 1 8 0 17-2 24" stroke="currentColor" stroke-width="4.5" stroke-linecap="round" />
+              <path d="M38 80c6 7 11 13 14 16M68 88c-7 4-12 7-15 9" stroke="currentColor" stroke-width="4.5" stroke-linecap="round" />
+            </svg>
+            <svg class="sequence-signature-arrow-img is-wiggle" viewBox="0 0 80 110" fill="none" aria-hidden="true">
+              <path d="M11 7c20 13 38 37 42 61 1 8 0 16-2 23" stroke="currentColor" stroke-width="4.5" stroke-linecap="round" />
+              <path d="M39 81c6 7 11 12 14 15M69 89c-7 4-12 6-15 8" stroke="currentColor" stroke-width="4.5" stroke-linecap="round" />
+            </svg>
+          </div>
+        </div>
+
+        <div class="sequence-scroll-wrap" data-sequence-trigger>
+          <div class="sequence-sticky" data-sequence-stage>
+            <canvas
+              class="sequence-canvas"
+              data-sequence-canvas
+              data-sequence-canvas-img-path="/img/seq/"
+            ></canvas>
+
+            <div class="sequence-cards">
+              <article class="statement-card is-first" data-sequence-card>
+                <div class="statement-card-wrapper">
+                  <div class="top-smiley is-card" data-sequence-smiley>
+                    <svg viewBox="0 0 60 60" fill="none" aria-hidden="true">
+                      <circle cx="30" cy="30" r="27" stroke="currentColor" stroke-width="5" />
+                      <circle cx="21" cy="24" r="3.4" fill="currentColor" />
+                      <circle cx="39" cy="24" r="3.4" fill="currentColor" />
+                      <path d="M18 36c3.6 5.4 8 8.1 12 8.1s8.4-2.7 12-8.1" stroke="currentColor" stroke-width="5" stroke-linecap="round" />
+                    </svg>
+                  </div>
+                  <h2 class="statement-heading">More Taste</h2>
+                  <div class="statement-card-paragraph-wrap">
+                    <div class="statement-icon">
+                      <svg class="statement-icon-img" viewBox="0 0 64 64" fill="none" aria-hidden="true">
+                        <path d="M32 54c-12 0-20-9-20-21 0-9 6-15 12-15 4 0 6 2 8 2s4-2 8-2c6 0 12 6 12 15 0 12-8 21-20 21Z" stroke="currentColor" stroke-width="4" stroke-linejoin="round" />
+                        <path d="M32 20c0-7 4-12 10-13" stroke="currentColor" stroke-width="4" stroke-linecap="round" />
+                      </svg>
+                      <svg class="statement-icon-img is-wiggle" viewBox="0 0 64 64" fill="none" aria-hidden="true">
+                        <path d="M32 55c-12 0-20-10-20-22 0-9 6-14 12-14 4 0 6 2 8 2s4-2 8-2c6 0 12 5 12 14 0 12-8 22-20 22Z" stroke="currentColor" stroke-width="4" stroke-linejoin="round" />
+                        <path d="M32 21c0-7 4-13 10-14" stroke="currentColor" stroke-width="4" stroke-linecap="round" />
+                      </svg>
+                    </div>
+                    <p class="paragraph center-align">
+                      Stone-ground ceremonial matcha. Smooth &amp; creamy. 22g of complete plant protein per
+                      serving, for your greenest power drink.
+                    </p>
+                  </div>
+                </div>
+              </article>
+
+              <article class="statement-card is-second" data-sequence-card data-sequence-card-left>
+                <div class="statement-card-wrapper left">
+                  <div class="top-smiley is-card" data-sequence-smiley data-sequence-smiley-left>
+                    <svg viewBox="0 0 60 60" fill="none" aria-hidden="true">
+                      <circle cx="30" cy="30" r="27" stroke="currentColor" stroke-width="5" />
+                      <circle cx="21" cy="24" r="3.4" fill="currentColor" />
+                      <circle cx="39" cy="24" r="3.4" fill="currentColor" />
+                      <path d="M18 36c3.6 5.4 8 8.1 12 8.1s8.4-2.7 12-8.1" stroke="currentColor" stroke-width="5" stroke-linecap="round" />
+                    </svg>
+                  </div>
+                  <h2 class="statement-heading">More Energy</h2>
+                  <div class="statement-card-paragraph-wrap">
+                    <div class="statement-icon">
+                      <svg class="statement-icon-img" viewBox="0 0 64 64" fill="none" aria-hidden="true">
+                        <path d="M35 6 16 36h13l-4 22 20-31H32l3-21Z" stroke="currentColor" stroke-width="4" stroke-linejoin="round" />
+                      </svg>
+                      <svg class="statement-icon-img is-wiggle" viewBox="0 0 64 64" fill="none" aria-hidden="true">
+                        <path d="M36 7 17 37h13l-4 21 20-30H33l3-21Z" stroke="currentColor" stroke-width="4" stroke-linejoin="round" />
+                      </svg>
+                    </div>
+                    <p class="paragraph center-align">
+                      85mg of caffeine per serving, about the same as a cappuccino — but released slowly, so
+                      there's no crash at three.
+                    </p>
+                  </div>
+                </div>
+              </article>
+
+              <article class="statement-card is-third" data-sequence-card>
+                <div class="statement-card-wrapper">
+                  <div class="top-smiley is-card" data-sequence-smiley>
+                    <svg viewBox="0 0 60 60" fill="none" aria-hidden="true">
+                      <circle cx="30" cy="30" r="27" stroke="currentColor" stroke-width="5" />
+                      <circle cx="21" cy="24" r="3.4" fill="currentColor" />
+                      <circle cx="39" cy="24" r="3.4" fill="currentColor" />
+                      <path d="M18 36c3.6 5.4 8 8.1 12 8.1s8.4-2.7 12-8.1" stroke="currentColor" stroke-width="5" stroke-linecap="round" />
+                    </svg>
+                  </div>
+                  <h2 class="statement-heading">100% Plants</h2>
+                  <div class="statement-card-paragraph-wrap">
+                    <div class="statement-icon">
+                      <svg class="statement-icon-img" viewBox="0 0 64 64" fill="none" aria-hidden="true">
+                        <path d="M32 56c0-16 4-28 12-34" stroke="currentColor" stroke-width="4" stroke-linecap="round" />
+                        <path d="M44 22c8-2 12-8 12-14-10 0-18 4-20 12-1 5 2 8 8 2Z" stroke="currentColor" stroke-width="4" stroke-linejoin="round" />
+                        <path d="M30 40c-8-2-14-8-14-16 10 0 18 6 18 14 0 4-2 4-4 2Z" stroke="currentColor" stroke-width="4" stroke-linejoin="round" />
+                      </svg>
+                      <svg class="statement-icon-img is-wiggle" viewBox="0 0 64 64" fill="none" aria-hidden="true">
+                        <path d="M32 57c0-17 4-29 12-35" stroke="currentColor" stroke-width="4" stroke-linecap="round" />
+                        <path d="M45 23c8-2 12-9 12-15-10 0-19 4-21 12-1 5 3 8 9 3Z" stroke="currentColor" stroke-width="4" stroke-linejoin="round" />
+                        <path d="M30 41c-8-2-14-9-14-17 10 0 19 6 19 14 0 4-3 4-5 3Z" stroke="currentColor" stroke-width="4" stroke-linejoin="round" />
+                      </svg>
+                    </div>
+                    <p class="paragraph center-align">
+                      Pea and rice protein in a complete amino profile, plus glucomannan — clinically studied
+                      for satiety. Nothing from an animal, ever.
+                    </p>
+                  </div>
+                </div>
+              </article>
+
+              <article class="statement-card is-fourth" data-sequence-card data-sequence-card-left>
+                <div class="statement-card-wrapper left">
+                  <div class="top-smiley is-card" data-sequence-smiley data-sequence-smiley-left>
+                    <svg viewBox="0 0 60 60" fill="none" aria-hidden="true">
+                      <circle cx="30" cy="30" r="27" stroke="currentColor" stroke-width="5" />
+                      <circle cx="21" cy="24" r="3.4" fill="currentColor" />
+                      <circle cx="39" cy="24" r="3.4" fill="currentColor" />
+                      <path d="M18 36c3.6 5.4 8 8.1 12 8.1s8.4-2.7 12-8.1" stroke="currentColor" stroke-width="5" stroke-linecap="round" />
+                    </svg>
+                  </div>
+                  <h2 class="statement-heading">No added sugar</h2>
+                  <div class="statement-card-paragraph-wrap">
+                    <div class="statement-icon">
+                      <svg class="statement-icon-img" viewBox="0 0 64 64" fill="none" aria-hidden="true">
+                        <circle cx="32" cy="32" r="24" stroke="currentColor" stroke-width="4" />
+                        <path d="M15 15 49 49" stroke="currentColor" stroke-width="4" stroke-linecap="round" />
+                      </svg>
+                      <svg class="statement-icon-img is-wiggle" viewBox="0 0 64 64" fill="none" aria-hidden="true">
+                        <circle cx="32" cy="32" r="24" stroke="currentColor" stroke-width="4" />
+                        <path d="M16 16 48 48" stroke="currentColor" stroke-width="4" stroke-linecap="round" />
+                      </svg>
+                    </div>
+                    <p class="paragraph center-align">
+                      Only the sugar that occurs naturally — 95% less than a typical instant matcha latte, and
+                      none of it added by us.
+                    </p>
+                  </div>
+                </div>
+              </article>
+            </div>
+
+            <div class="sequence-final">
+              <h2 class="sequence-title" data-sequence-title>
+                Cold-pressed, just the way you like it.
+                <span class="light-green-span" data-sequence-title-split>What's your flavour?</span>
+              </h2>
+
+              <div class="sequence-final-signature" data-sequence-final-signature>
+                <svg class="sequence-final-signature-img" viewBox="0 0 220 80" fill="none" aria-hidden="true"><text x="8" y="34" class="ink-script" fill="currentColor">Six flavours,</text><text x="26" y="68" class="ink-script" fill="currentColor">one habit</text></svg>
+                <svg class="sequence-final-signature-img is-wiggle" viewBox="0 0 220 80" fill="none" aria-hidden="true"><text x="9" y="35" class="ink-script" fill="currentColor">Six flavours,</text><text x="27" y="69" class="ink-script" fill="currentColor">one habit</text></svg>
+              </div>
+              <div class="sequence-final-signature is-first-arrow" data-sequence-final-signature>
+                <svg class="sequence-final-signature-img" viewBox="0 0 70 90" fill="none" aria-hidden="true">
+                  <path d="M8 5c17 10 32 30 35 50 1 7 0 14-2 19" stroke="currentColor" stroke-width="4" stroke-linecap="round" />
+                  <path d="M32 66c5 6 9 11 12 13M58 73c-6 3-10 6-13 7" stroke="currentColor" stroke-width="4" stroke-linecap="round" />
+                </svg>
+                <svg class="sequence-final-signature-img is-wiggle" viewBox="0 0 70 90" fill="none" aria-hidden="true">
+                  <path d="M9 6c17 11 32 31 35 51 1 7 0 13-2 18" stroke="currentColor" stroke-width="4" stroke-linecap="round" />
+                  <path d="M33 67c5 6 9 10 12 12M59 74c-6 3-10 5-13 6" stroke="currentColor" stroke-width="4" stroke-linecap="round" />
+                </svg>
+              </div>
+              <div class="sequence-final-signature is-second" data-sequence-final-signature>
+                <svg class="sequence-final-signature-img" viewBox="0 0 200 60" fill="none" aria-hidden="true"><text x="8" y="42" class="ink-script" fill="currentColor">pick yours</text></svg><svg class="sequence-final-signature-img is-wiggle" viewBox="0 0 200 60" fill="none" aria-hidden="true"><text x="9" y="43" class="ink-script" fill="currentColor">pick yours</text></svg>
+              </div>
+              <div class="sequence-final-signature is-second-arrow" data-sequence-final-signature>
+                <svg class="sequence-final-signature-img" viewBox="0 0 70 90" fill="none" aria-hidden="true">
+                  <path d="M62 5C45 15 30 35 27 55c-1 7 0 14 2 19" stroke="currentColor" stroke-width="4" stroke-linecap="round" />
+                  <path d="M38 66c-5 6-9 11-12 13M12 73c6 3 10 6 13 7" stroke="currentColor" stroke-width="4" stroke-linecap="round" />
+                </svg>
+                <svg class="sequence-final-signature-img is-wiggle" viewBox="0 0 70 90" fill="none" aria-hidden="true">
+                  <path d="M61 6C44 16 29 36 26 56c-1 7 0 13 2 18" stroke="currentColor" stroke-width="4" stroke-linecap="round" />
+                  <path d="M37 67c-5 6-9 10-12 12M11 74c6 3 10 5 13 6" stroke="currentColor" stroke-width="4" stroke-linecap="round" />
+                </svg>
+              </div>
+
+              <!-- The line-up. Each bottle carries its own place on the arc:
+                   --x across, --lift up from the baseline, --depth for size and
+                   how far back it reads. `tilt` and `blur` are the landing state
+                   the finale timeline animates to. -->
+              <div class="sequence-final-bottles">
+                <img class="sequence-final-bottle" src="/img/bottles/classic-beet.webp" alt="Classic Beet"
+                     data-sequence-bottle data-tilt="-19" data-blur="2"
+                     style="--x: 7%; --lift: 7%; --depth: 0.8" width="248" height="700" />
+                <img class="sequence-final-bottle" src="/img/bottles/golden-hour.webp" alt="Golden Hour"
+                     data-sequence-bottle data-tilt="-9" data-blur="0"
+                     style="--x: 18%; --lift: 15%; --depth: 0.95" width="248" height="700" />
+                <img class="sequence-final-bottle" src="/img/bottles/hydrator.webp" alt="The Hydrator"
+                     data-sequence-bottle data-tilt="9" data-blur="0"
+                     style="--x: 69%; --lift: 15%; --depth: 0.95" width="248" height="700" />
+                <img class="sequence-final-bottle" src="/img/bottles/charcoal.webp" alt="Charcoal Lemonade"
+                     data-sequence-bottle data-tilt="19" data-blur="2"
+                     style="--x: 79%; --lift: 7%; --depth: 0.8" width="248" height="700" />
+              </div>
+            </div>
+
+            <!-- The signature strokes. Each draws head-first then erases
+                 tail-first, staggered behind the cards. -->
+            <div class="sequence-lines">
+              <svg class="sequence-line-svg is-first" viewBox="0 0 1440 691" fill="none" data-sequence-svg style="overflow: visible" aria-hidden="true">
+                <path
+                  d="M-11 627.781C31.2318 652.606 151.814 698.642 199.05 645.884C264.5 572.781 199.05 472.107 47.547 363.054C-103.956 254 -52.529 150.083 24.5115 108.595C210.583 8.39218 434.763 502.251 720.049 329.362C981.436 170.957 1134 -69.7188 1490 2.78121"
+                  stroke="currentColor"
+                  stroke-width="40"
+                />
+              </svg>
+              <svg class="sequence-line-svg is-second" viewBox="0 0 1440 682" fill="none" data-sequence-svg style="overflow: visible" aria-hidden="true">
+                <path
+                  d="M1442.05 19.9995C1346.05 34.4995 1170.99 110.452 1098.05 191.999C975.047 329.499 1257.15 515.709 1159 626.498C1027 775.498 571.87 408.445 484.498 347.293C244.047 178.999 15 -12.5016 -102 87.9984"
+                  stroke="currentColor"
+                  stroke-width="40"
+                />
+              </svg>
+              <svg class="sequence-line-svg is-third" viewBox="0 0 1440 750" fill="none" data-sequence-svg style="overflow: visible" aria-hidden="true">
+                <path
+                  d="M-918.224 5.00043C-948.225 142 -730.728 264 -473.726 252.501C-271.374 243.446 29.7721 170.716 170.275 135.501C1143.77 -108.499 460.741 462.659 570.773 634.5C651.773 761 1056.77 396 1392.27 396C1513.27 396 1835.87 454.857 2022.77 607.501C2178.27 734.5 2312.44 743.001 2363.77 718.001"
+                  stroke="currentColor"
+                  stroke-width="40"
+                />
+              </svg>
+
+              <div class="sequence-inner-signature" data-sequence-signature>
+                <svg class="sequence-inner-signature-img" viewBox="0 0 220 80" fill="none" aria-hidden="true"><text x="8" y="30" class="ink-script" fill="currentColor">keep</text><text x="30" y="64" class="ink-script" fill="currentColor">scrolling</text></svg><svg class="sequence-inner-signature-img is-wiggle" viewBox="0 0 220 80" fill="none" aria-hidden="true"><text x="9" y="31" class="ink-script" fill="currentColor">keep</text><text x="31" y="65" class="ink-script" fill="currentColor">scrolling</text></svg>
+              </div>
+            </div>
+          </div>
+
+          <!-- Below 992px the sticky scrub is replaced by a plain stack. -->
+          <div class="sequence-cards-mobile">
+            <article class="statement-card is-first">
+              <div class="statement-card-wrapper">
+                <h2 class="statement-heading">More Taste</h2>
+                <p class="paragraph center-align">
+                  Stone-ground ceremonial matcha. Smooth &amp; creamy. 22g of complete plant protein per serving.
+                </p>
+              </div>
+            </article>
+            <article class="statement-card is-second">
+              <div class="statement-card-wrapper left">
+                <h2 class="statement-heading">More Energy</h2>
+                <p class="paragraph center-align">
+                  85mg of caffeine per serving, about the same as a cappuccino — released slowly, so there's no crash.
+                </p>
+              </div>
+            </article>
+            <article class="statement-card is-third">
+              <div class="statement-card-wrapper">
+                <h2 class="statement-heading">100% Plants</h2>
+                <p class="paragraph center-align">
+                  Pea and rice protein in a complete amino profile, plus glucomannan for satiety.
+                </p>
+              </div>
+            </article>
+            <article class="statement-card is-fourth">
+              <div class="statement-card-wrapper left">
+                <h2 class="statement-heading">No added sugar</h2>
+                <p class="paragraph center-align">
+                  Only naturally occurring sugar — 95% less than a typical instant matcha latte.
+                </p>
+              </div>
+            </article>
+            <div class="sequence-final-mobile">
+              <h2 class="sequence-title">
+                Cold-pressed, just the way you like it.
+                <span class="light-green-span">What's your flavour?</span>
+              </h2>
+            </div>
+          </div>
+        </div>
+      </section>
+
+      <!-- ================================================================
+           Benefits
+           ================================================================ -->
+      <section class="benefit-section" id="benefits">
+        <div class="top-smiley is-benefit" data-smiley>
+          <svg viewBox="0 0 60 60" fill="none" aria-hidden="true">
+            <circle cx="30" cy="30" r="27" stroke="currentColor" stroke-width="5" />
+            <circle cx="21" cy="24" r="3.4" fill="currentColor" />
+            <circle cx="39" cy="24" r="3.4" fill="currentColor" />
+            <path d="M18 36c3.6 5.4 8 8.1 12 8.1s8.4-2.7 12-8.1" stroke="currentColor" stroke-width="5" stroke-linecap="round" />
+          </svg>
+        </div>
+
+        <div class="container smaller">
+          <div class="grid-layout">
+            <div class="img-wrapper">
+              <div class="benefit-visual"></div>
+              <svg class="benefit-svg" viewBox="0 0 575 559" fill="none" data-fill-line aria-hidden="true">
+                <path
+                  stroke="currentColor"
+                  stroke-width="27"
+                  d="M-56.447 495.508C-26.61 513.052 53.628 569.352 87 532.069c46.24-51.66 4.952-146.571-102.084-223.636-107.035-77.065-70.703-150.5-16.274-179.818C100.1 57.804 196.947 412.744 398.5 290.569 583.168 178.628 665-36.931 945 24.953"
+                />
+              </svg>
+            </div>
+
+            <div class="benefit-wrapper">
+              <h2 class="benefit-heading section-heading">
+                <span class="light-green-span" data-highlight-text>More for you.</span>
+                See the difference.
+              </h2>
+
+              <div class="benefit-table" data-benefit-table>
+                <div class="benefit-table-title-wrapper">
+                  <div class="benefit-table-title">Benefits</div>
+                  <div class="benefit-table-brand">Veegan</div>
+                  <div class="benefit-table-title">Regular whey</div>
+                </div>
+                <div class="sub-line" data-benefit-table-line></div>
+
+                <div class="benefit-item-wrapper">
+                  <div class="benefit-table-item">
+                    <div class="benefit-item-title">Dairy free</div>
+                    <div class="benefit-checker-inner">
+                      <span class="benefit-item-check" data-benefit-table-check>
+                        <svg viewBox="0 0 24 24" fill="none" aria-hidden="true"><path d="m4 12 5.5 6L20 6" stroke="currentColor" stroke-width="3" stroke-linecap="round" stroke-linejoin="round"/></svg>
+                      </span>
+                      <span class="benefit-item-x">
+                        <svg viewBox="0 0 24 24" fill="none" aria-hidden="true"><path d="M6 6l12 12M18 6 6 18" stroke="currentColor" stroke-width="3" stroke-linecap="round"/></svg>
+                      </span>
+                    </div>
+                  </div>
+                  <div class="line" data-benefit-table-line></div>
+
+                  <div class="benefit-table-item">
+                    <div class="benefit-item-title">Low in sugar</div>
+                    <div class="benefit-checker-inner">
+                      <span class="benefit-item-check" data-benefit-table-check>
+                        <svg viewBox="0 0 24 24" fill="none" aria-hidden="true"><path d="m4 12 5.5 6L20 6" stroke="currentColor" stroke-width="3" stroke-linecap="round" stroke-linejoin="round"/></svg>
+                      </span>
+                      <span class="benefit-item-x">
+                        <svg viewBox="0 0 24 24" fill="none" aria-hidden="true"><path d="M6 6l12 12M18 6 6 18" stroke="currentColor" stroke-width="3" stroke-linecap="round"/></svg>
+                      </span>
+                    </div>
+                  </div>
+                  <div class="line" data-benefit-table-line></div>
+
+                  <div class="benefit-table-item">
+                    <div class="benefit-item-title">Complete amino profile</div>
+                    <div class="benefit-checker-inner">
+                      <span class="benefit-item-check" data-benefit-table-check>
+                        <svg viewBox="0 0 24 24" fill="none" aria-hidden="true"><path d="m4 12 5.5 6L20 6" stroke="currentColor" stroke-width="3" stroke-linecap="round" stroke-linejoin="round"/></svg>
+                      </span>
+                      <span class="benefit-item-x is-muted">
+                        <svg viewBox="0 0 24 24" fill="none" aria-hidden="true"><path d="m4 12 5.5 6L20 6" stroke="currentColor" stroke-width="3" stroke-linecap="round" stroke-linejoin="round"/></svg>
+                      </span>
+                    </div>
+                  </div>
+                  <div class="line" data-benefit-table-line></div>
+
+                  <div class="benefit-table-item">
+                    <div class="benefit-item-title">Supports satiety</div>
+                    <div class="benefit-checker-inner">
+                      <span class="benefit-item-check" data-benefit-table-check>
+                        <svg viewBox="0 0 24 24" fill="none" aria-hidden="true"><path d="m4 12 5.5 6L20 6" stroke="currentColor" stroke-width="3" stroke-linecap="round" stroke-linejoin="round"/></svg>
+                      </span>
+                      <span class="benefit-item-x">
+                        <svg viewBox="0 0 24 24" fill="none" aria-hidden="true"><path d="M6 6l12 12M18 6 6 18" stroke="currentColor" stroke-width="3" stroke-linecap="round"/></svg>
+                      </span>
+                    </div>
+                  </div>
+                  <div class="line" data-benefit-table-line></div>
+
+                  <div class="benefit-table-item">
+                    <div class="benefit-item-title">Slow-release caffeine</div>
+                    <div class="benefit-checker-inner">
+                      <span class="benefit-item-check" data-benefit-table-check>
+                        <svg viewBox="0 0 24 24" fill="none" aria-hidden="true"><path d="m4 12 5.5 6L20 6" stroke="currentColor" stroke-width="3" stroke-linecap="round" stroke-linejoin="round"/></svg>
+                      </span>
+                      <span class="benefit-item-x">
+                        <svg viewBox="0 0 24 24" fill="none" aria-hidden="true"><path d="M6 6l12 12M18 6 6 18" stroke="currentColor" stroke-width="3" stroke-linecap="round"/></svg>
+                      </span>
+                    </div>
+                  </div>
+                  <div class="line" data-benefit-table-line></div>
+
+                  <div class="benefit-table-item">
+                    <div class="benefit-item-title">Zero animal products</div>
+                    <div class="benefit-checker-inner">
+                      <span class="benefit-item-check" data-benefit-table-check>
+                        <svg viewBox="0 0 24 24" fill="none" aria-hidden="true"><path d="m4 12 5.5 6L20 6" stroke="currentColor" stroke-width="3" stroke-linecap="round" stroke-linejoin="round"/></svg>
+                      </span>
+                      <span class="benefit-item-x">
+                        <svg viewBox="0 0 24 24" fill="none" aria-hidden="true"><path d="M6 6l12 12M18 6 6 18" stroke="currentColor" stroke-width="3" stroke-linecap="round"/></svg>
+                      </span>
+                    </div>
+                  </div>
+                  <div class="line" data-benefit-table-line></div>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </section>
+
+      <!-- ================================================================
+           Testimonials
+           ================================================================ -->
+      <section class="testimonial-section" id="reviews" data-testimonial-parallax>
+        <div class="bg-img-wrapper" data-testimonial-parallax-item></div>
+
+        <div class="testimonial-container">
+          <div class="big-title-wrapper">
+            <h2 class="testimonial-big-heading">Clean. Green. Goodness.</h2>
+          </div>
+
+          <div class="testimonial-slider">
+            <h3 class="testimonial-heading">don't take our word for it</h3>
+
+            <div class="testimonial-slider-wrapper" data-testimonial-inview>
+              <div class="testimonial-slider-interface" data-slider-interface>
+                <div class="testimonial-slider-button-wrapper" data-slider-arrows>
+                  <button class="testimonial-slider-button is-left" data-slider-left-button aria-label="Previous review">
+                    <svg viewBox="0 0 24 24" fill="none" aria-hidden="true"><path d="M15 5 8 12l7 7" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"/></svg>
+                  </button>
+                  <button class="testimonial-slider-button is-right" data-slider-right-button aria-label="Next review">
+                    <svg viewBox="0 0 24 24" fill="none" aria-hidden="true"><path d="m9 5 7 7-7 7" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"/></svg>
+                  </button>
+                </div>
+              </div>
+
+              <div class="testimonial-slider-inner" data-slider>
+                <div class="testimonial-slider-item-wrap">
+                  <div class="testimonial-slider-item" data-slider-item-inner>
+                    <div class="testimonial-star-wrap">
+                      <svg class="rating-star" viewBox="0 0 20 20" aria-hidden="true"><path fill="currentColor" d="m10 1 2.6 5.6 6 .8-4.4 4.2 1.1 6.1L10 14.8 4.7 17.7l1.1-6.1L1.4 7.4l6-.8L10 1Z"/></svg>
+                      <svg class="rating-star" viewBox="0 0 20 20" aria-hidden="true"><path fill="currentColor" d="m10 1 2.6 5.6 6 .8-4.4 4.2 1.1 6.1L10 14.8 4.7 17.7l1.1-6.1L1.4 7.4l6-.8L10 1Z"/></svg>
+                      <svg class="rating-star" viewBox="0 0 20 20" aria-hidden="true"><path fill="currentColor" d="m10 1 2.6 5.6 6 .8-4.4 4.2 1.1 6.1L10 14.8 4.7 17.7l1.1-6.1L1.4 7.4l6-.8L10 1Z"/></svg>
+                      <svg class="rating-star" viewBox="0 0 20 20" aria-hidden="true"><path fill="currentColor" d="m10 1 2.6 5.6 6 .8-4.4 4.2 1.1 6.1L10 14.8 4.7 17.7l1.1-6.1L1.4 7.4l6-.8L10 1Z"/></svg>
+                      <svg class="rating-star" viewBox="0 0 20 20" aria-hidden="true"><path fill="currentColor" d="m10 1 2.6 5.6 6 .8-4.4 4.2 1.1 6.1L10 14.8 4.7 17.7l1.1-6.1L1.4 7.4l6-.8L10 1Z"/></svg>
+                    </div>
+                    <div class="testimonial-item-inner-text">
+                      <h3 class="testimonial-item-heading">Best matcha I've had.</h3>
+                      <p class="testimonial-item-text">
+                        I'd basically given up on plant protein tasting good. This one changed my mind in one sip.
+                      </p>
+                    </div>
+                    <div class="testimonial-line"></div>
+                    <div class="testimonial-item-bottom">
+                      <div class="testimonial-client-name">Daniela A.</div>
+                      <div class="testimonial-verified-wrap">
+                        <svg viewBox="0 0 16 16" fill="none" aria-hidden="true"><circle cx="8" cy="8" r="7" stroke="currentColor" stroke-width="1.6"/><path d="m5 8 2 2 4-4" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"/></svg>
+                        <span class="testimonial-verified-text">Verified</span>
+                      </div>
+                    </div>
+                  </div>
+                </div>
+
+                <div class="testimonial-slider-item-wrap">
+                  <div class="testimonial-slider-item" data-slider-item-inner>
+                    <div class="testimonial-star-wrap">
+                      <svg class="rating-star" viewBox="0 0 20 20" aria-hidden="true"><path fill="currentColor" d="m10 1 2.6 5.6 6 .8-4.4 4.2 1.1 6.1L10 14.8 4.7 17.7l1.1-6.1L1.4 7.4l6-.8L10 1Z"/></svg>
+                      <svg class="rating-star" viewBox="0 0 20 20" aria-hidden="true"><path fill="currentColor" d="m10 1 2.6 5.6 6 .8-4.4 4.2 1.1 6.1L10 14.8 4.7 17.7l1.1-6.1L1.4 7.4l6-.8L10 1Z"/></svg>
+                      <svg class="rating-star" viewBox="0 0 20 20" aria-hidden="true"><path fill="currentColor" d="m10 1 2.6 5.6 6 .8-4.4 4.2 1.1 6.1L10 14.8 4.7 17.7l1.1-6.1L1.4 7.4l6-.8L10 1Z"/></svg>
+                      <svg class="rating-star" viewBox="0 0 20 20" aria-hidden="true"><path fill="currentColor" d="m10 1 2.6 5.6 6 .8-4.4 4.2 1.1 6.1L10 14.8 4.7 17.7l1.1-6.1L1.4 7.4l6-.8L10 1Z"/></svg>
+                      <svg class="rating-star" viewBox="0 0 20 20" aria-hidden="true"><path fill="currentColor" d="m10 1 2.6 5.6 6 .8-4.4 4.2 1.1 6.1L10 14.8 4.7 17.7l1.1-6.1L1.4 7.4l6-.8L10 1Z"/></svg>
+                    </div>
+                    <div class="testimonial-item-inner-text">
+                      <h3 class="testimonial-item-heading">Genuinely creamy.</h3>
+                      <p class="testimonial-item-text">
+                        Ice cubes, water, splash of oat milk. Dissolves completely — not a single clump.
+                      </p>
+                    </div>
+                    <div class="testimonial-line"></div>
+                    <div class="testimonial-item-bottom">
+                      <div class="testimonial-client-name">Tina H.</div>
+                      <div class="testimonial-verified-wrap">
+                        <svg viewBox="0 0 16 16" fill="none" aria-hidden="true"><circle cx="8" cy="8" r="7" stroke="currentColor" stroke-width="1.6"/><path d="m5 8 2 2 4-4" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"/></svg>
+                        <span class="testimonial-verified-text">Verified</span>
+                      </div>
+                    </div>
+                  </div>
+                </div>
+
+                <div class="testimonial-slider-item-wrap">
+                  <div class="testimonial-slider-item" data-slider-item-inner>
+                    <div class="testimonial-star-wrap">
+                      <svg class="rating-star" viewBox="0 0 20 20" aria-hidden="true"><path fill="currentColor" d="m10 1 2.6 5.6 6 .8-4.4 4.2 1.1 6.1L10 14.8 4.7 17.7l1.1-6.1L1.4 7.4l6-.8L10 1Z"/></svg>
+                      <svg class="rating-star" viewBox="0 0 20 20" aria-hidden="true"><path fill="currentColor" d="m10 1 2.6 5.6 6 .8-4.4 4.2 1.1 6.1L10 14.8 4.7 17.7l1.1-6.1L1.4 7.4l6-.8L10 1Z"/></svg>
+                      <svg class="rating-star" viewBox="0 0 20 20" aria-hidden="true"><path fill="currentColor" d="m10 1 2.6 5.6 6 .8-4.4 4.2 1.1 6.1L10 14.8 4.7 17.7l1.1-6.1L1.4 7.4l6-.8L10 1Z"/></svg>
+                      <svg class="rating-star" viewBox="0 0 20 20" aria-hidden="true"><path fill="currentColor" d="m10 1 2.6 5.6 6 .8-4.4 4.2 1.1 6.1L10 14.8 4.7 17.7l1.1-6.1L1.4 7.4l6-.8L10 1Z"/></svg>
+                      <svg class="rating-star" viewBox="0 0 20 20" aria-hidden="true"><path fill="currentColor" d="m10 1 2.6 5.6 6 .8-4.4 4.2 1.1 6.1L10 14.8 4.7 17.7l1.1-6.1L1.4 7.4l6-.8L10 1Z"/></svg>
+                    </div>
+                    <div class="testimonial-item-inner-text">
+                      <h3 class="testimonial-item-heading">Mild risk of addiction 🙈</h3>
+                      <p class="testimonial-item-text">
+                        Three weeks in and it's replaced my morning flat white entirely. No 3pm slump either.
+                      </p>
+                    </div>
+                    <div class="testimonial-line"></div>
+                    <div class="testimonial-item-bottom">
+                      <div class="testimonial-client-name">Sandra D.</div>
+                      <div class="testimonial-verified-wrap">
+                        <svg viewBox="0 0 16 16" fill="none" aria-hidden="true"><circle cx="8" cy="8" r="7" stroke="currentColor" stroke-width="1.6"/><path d="m5 8 2 2 4-4" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"/></svg>
+                        <span class="testimonial-verified-text">Verified</span>
+                      </div>
+                    </div>
+                  </div>
+                </div>
+
+                <div class="testimonial-slider-item-wrap">
+                  <div class="testimonial-slider-item" data-slider-item-inner>
+                    <div class="testimonial-star-wrap">
+                      <svg class="rating-star" viewBox="0 0 20 20" aria-hidden="true"><path fill="currentColor" d="m10 1 2.6 5.6 6 .8-4.4 4.2 1.1 6.1L10 14.8 4.7 17.7l1.1-6.1L1.4 7.4l6-.8L10 1Z"/></svg>
+                      <svg class="rating-star" viewBox="0 0 20 20" aria-hidden="true"><path fill="currentColor" d="m10 1 2.6 5.6 6 .8-4.4 4.2 1.1 6.1L10 14.8 4.7 17.7l1.1-6.1L1.4 7.4l6-.8L10 1Z"/></svg>
+                      <svg class="rating-star" viewBox="0 0 20 20" aria-hidden="true"><path fill="currentColor" d="m10 1 2.6 5.6 6 .8-4.4 4.2 1.1 6.1L10 14.8 4.7 17.7l1.1-6.1L1.4 7.4l6-.8L10 1Z"/></svg>
+                      <svg class="rating-star" viewBox="0 0 20 20" aria-hidden="true"><path fill="currentColor" d="m10 1 2.6 5.6 6 .8-4.4 4.2 1.1 6.1L10 14.8 4.7 17.7l1.1-6.1L1.4 7.4l6-.8L10 1Z"/></svg>
+                      <svg class="rating-star" viewBox="0 0 20 20" aria-hidden="true"><path fill="currentColor" d="m10 1 2.6 5.6 6 .8-4.4 4.2 1.1 6.1L10 14.8 4.7 17.7l1.1-6.1L1.4 7.4l6-.8L10 1Z"/></svg>
+                    </div>
+                    <div class="testimonial-item-inner-text">
+                      <h3 class="testimonial-item-heading">Perfect for breakfast.</h3>
+                      <p class="testimonial-item-text">
+                        The strawberry one is sweet and a bit tart. Keeps me full until lunch, which nothing else did.
+                      </p>
+                    </div>
+                    <div class="testimonial-line"></div>
+                    <div class="testimonial-item-bottom">
+                      <div class="testimonial-client-name">Sandra W.</div>
+                      <div class="testimonial-verified-wrap">
+                        <svg viewBox="0 0 16 16" fill="none" aria-hidden="true"><circle cx="8" cy="8" r="7" stroke="currentColor" stroke-width="1.6"/><path d="m5 8 2 2 4-4" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"/></svg>
+                        <span class="testimonial-verified-text">Verified</span>
+                      </div>
+                    </div>
+                  </div>
+                </div>
+
+                <div class="testimonial-slider-item-wrap">
+                  <div class="testimonial-slider-item" data-slider-item-inner>
+                    <div class="testimonial-star-wrap">
+                      <svg class="rating-star" viewBox="0 0 20 20" aria-hidden="true"><path fill="currentColor" d="m10 1 2.6 5.6 6 .8-4.4 4.2 1.1 6.1L10 14.8 4.7 17.7l1.1-6.1L1.4 7.4l6-.8L10 1Z"/></svg>
+                      <svg class="rating-star" viewBox="0 0 20 20" aria-hidden="true"><path fill="currentColor" d="m10 1 2.6 5.6 6 .8-4.4 4.2 1.1 6.1L10 14.8 4.7 17.7l1.1-6.1L1.4 7.4l6-.8L10 1Z"/></svg>
+                      <svg class="rating-star" viewBox="0 0 20 20" aria-hidden="true"><path fill="currentColor" d="m10 1 2.6 5.6 6 .8-4.4 4.2 1.1 6.1L10 14.8 4.7 17.7l1.1-6.1L1.4 7.4l6-.8L10 1Z"/></svg>
+                      <svg class="rating-star" viewBox="0 0 20 20" aria-hidden="true"><path fill="currentColor" d="m10 1 2.6 5.6 6 .8-4.4 4.2 1.1 6.1L10 14.8 4.7 17.7l1.1-6.1L1.4 7.4l6-.8L10 1Z"/></svg>
+                      <svg class="rating-star" viewBox="0 0 20 20" aria-hidden="true"><path fill="currentColor" d="m10 1 2.6 5.6 6 .8-4.4 4.2 1.1 6.1L10 14.8 4.7 17.7l1.1-6.1L1.4 7.4l6-.8L10 1Z"/></svg>
+                    </div>
+                    <div class="testimonial-item-inner-text">
+                      <h3 class="testimonial-item-heading">Highly recommended.</h3>
+                      <p class="testimonial-item-text">
+                        Proper grassy matcha flavour, not the sweet powder stuff. You can taste that it's real.
+                      </p>
+                    </div>
+                    <div class="testimonial-line"></div>
+                    <div class="testimonial-item-bottom">
+                      <div class="testimonial-client-name">Carolin S.</div>
+                      <div class="testimonial-verified-wrap">
+                        <svg viewBox="0 0 16 16" fill="none" aria-hidden="true"><circle cx="8" cy="8" r="7" stroke="currentColor" stroke-width="1.6"/><path d="m5 8 2 2 4-4" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"/></svg>
+                        <span class="testimonial-verified-text">Verified</span>
+                      </div>
+                    </div>
+                  </div>
+                </div>
+
+                <div class="testimonial-slider-item-wrap">
+                  <div class="testimonial-slider-item" data-slider-item-inner>
+                    <div class="testimonial-star-wrap">
+                      <svg class="rating-star" viewBox="0 0 20 20" aria-hidden="true"><path fill="currentColor" d="m10 1 2.6 5.6 6 .8-4.4 4.2 1.1 6.1L10 14.8 4.7 17.7l1.1-6.1L1.4 7.4l6-.8L10 1Z"/></svg>
+                      <svg class="rating-star" viewBox="0 0 20 20" aria-hidden="true"><path fill="currentColor" d="m10 1 2.6 5.6 6 .8-4.4 4.2 1.1 6.1L10 14.8 4.7 17.7l1.1-6.1L1.4 7.4l6-.8L10 1Z"/></svg>
+                      <svg class="rating-star" viewBox="0 0 20 20" aria-hidden="true"><path fill="currentColor" d="m10 1 2.6 5.6 6 .8-4.4 4.2 1.1 6.1L10 14.8 4.7 17.7l1.1-6.1L1.4 7.4l6-.8L10 1Z"/></svg>
+                      <svg class="rating-star" viewBox="0 0 20 20" aria-hidden="true"><path fill="currentColor" d="m10 1 2.6 5.6 6 .8-4.4 4.2 1.1 6.1L10 14.8 4.7 17.7l1.1-6.1L1.4 7.4l6-.8L10 1Z"/></svg>
+                      <svg class="rating-star" viewBox="0 0 20 20" aria-hidden="true"><path fill="currentColor" d="m10 1 2.6 5.6 6 .8-4.4 4.2 1.1 6.1L10 14.8 4.7 17.7l1.1-6.1L1.4 7.4l6-.8L10 1Z"/></svg>
+                    </div>
+                    <div class="testimonial-item-inner-text">
+                      <h3 class="testimonial-item-heading">My favourite.</h3>
+                      <p class="testimonial-item-text">
+                        I rotate the flavours depending on my mood. The salted caramel one is dangerous.
+                      </p>
+                    </div>
+                    <div class="testimonial-line"></div>
+                    <div class="testimonial-item-bottom">
+                      <div class="testimonial-client-name">Farah M.</div>
+                      <div class="testimonial-verified-wrap">
+                        <svg viewBox="0 0 16 16" fill="none" aria-hidden="true"><circle cx="8" cy="8" r="7" stroke="currentColor" stroke-width="1.6"/><path d="m5 8 2 2 4-4" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"/></svg>
+                        <span class="testimonial-verified-text">Verified</span>
+                      </div>
+                    </div>
+                  </div>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </section>
+
+      <!-- ================================================================
+           Flavours
+           ================================================================ -->
+      <section class="flavour" id="shop" data-inertia>
+        <div class="flavour-container">
+          <div class="flavour-header">
+            <div class="flavour-heading-wrap">
+              <h2 class="flavour-title section-heading">Chunky Flavour</h2>
+              <h3 class="flavour-subline" data-highlight-text>New taste, low sugar</h3>
+            </div>
+            <p class="flavour-paragraph">
+              Stir 3g of Chunky Flavour into your 300g Iced Matcha Latte and it becomes something else
+              entirely. Five to pick from, none of them boring.
+            </p>
+          </div>
+
+          <div class="flavour-content" data-flavour-content>
+            <div class="flavour-left">
+              <div class="flavour-left-dose" data-inertia-item>
+                <div class="flavour-pack-visual is-dose" data-inertia-item-child></div>
+              </div>
+              <div class="flavour-left-pack is-first" data-inertia-item>
+                <div class="flavour-pack-visual" data-inertia-item-child></div>
+              </div>
+            </div>
+
+            <div class="flavour-plus">+</div>
+
+            <div class="flavour-right">
+              <div class="flavour-swiper swiper" data-flavour-slider>
+                <div class="flavour-swiper-wrapper swiper-wrapper">
+                  <div class="flavour-slide swiper-slide"><div class="flavour-slide-inner is-strawberry"></div></div>
+                  <div class="flavour-slide swiper-slide"><div class="flavour-slide-inner is-brownie"></div></div>
+                  <div class="flavour-slide swiper-slide"><div class="flavour-slide-inner is-cookie"></div></div>
+                  <div class="flavour-slide swiper-slide"><div class="flavour-slide-inner is-caramel"></div></div>
+                  <div class="flavour-slide swiper-slide"><div class="flavour-slide-inner is-pistachio"></div></div>
+                </div>
+              </div>
+              <div class="flavour-right-bg">
+                <svg class="flavour-right-bg-svg" viewBox="0 0 769 691" fill="none" data-flavour-content-svg aria-hidden="true">
+                  <path
+                    d="M245.813 59.5015C54.1619 152.668 -34.1186 356.234 41.6525 512.101C117.424 667.969 332.042 724.289 523.692 631.123C715.343 537.957 803.624 334.39 727.852 178.522C652.081 22.6546 437.463 -33.6648 245.813 59.5015Z"
+                    stroke="currentColor"
+                    stroke-width="28"
+                  />
+                </svg>
+              </div>
+            </div>
+
+            <div class="flavour-navigation">
+              <button class="flavour-slider-button is-left" data-flavour-slider-left-button aria-label="Previous flavour">
+                <svg viewBox="0 0 24 24" fill="none" aria-hidden="true"><path d="M15 5 8 12l7 7" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"/></svg>
+              </button>
+              <button class="flavour-slider-button is-right" data-flavour-slider-right-button aria-label="Next flavour">
+                <svg viewBox="0 0 24 24" fill="none" aria-hidden="true"><path d="m9 5 7 7-7 7" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"/></svg>
+              </button>
+            </div>
+
+            <div class="flavour-center">
+              <div class="flavour-content-swiper swiper" data-flavour-content-slider>
+                <div class="flavour-content-swiper-wrapper swiper-wrapper">
+                  <div class="flavour-content-slide swiper-slide">
+                    <div class="flavour-content-slide-inner">
+                      <h3 class="flavour-content-slider-title">Strawberry Perfection</h3>
+                      <p class="flavour-content-slider-subline">Chunky Flavour®</p>
+                      <a class="button" href="#"><span class="button-icon"><svg class="button-arrow" viewBox="0 0 10 10" fill="none" aria-hidden="true"><path d="M1 9 9 1M3 1h6v6" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" /></svg></span><span class="button-bg"><span class="button-cycle is-first"><span class="button-cycle-bg"></span></span><span class="button-text">Buy now</span><span class="button-cycle is-second"><span class="button-cycle-bg"></span></span></span></a>
+                    </div>
+                  </div>
+                  <div class="flavour-content-slide swiper-slide">
+                    <div class="flavour-content-slide-inner">
+                      <h3 class="flavour-content-slider-title">Fudge Brownie</h3>
+                      <p class="flavour-content-slider-subline">Chunky Flavour®</p>
+                      <a class="button" href="#"><span class="button-icon"><svg class="button-arrow" viewBox="0 0 10 10" fill="none" aria-hidden="true"><path d="M1 9 9 1M3 1h6v6" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" /></svg></span><span class="button-bg"><span class="button-cycle is-first"><span class="button-cycle-bg"></span></span><span class="button-text">Buy now</span><span class="button-cycle is-second"><span class="button-cycle-bg"></span></span></span></a>
+                    </div>
+                  </div>
+                  <div class="flavour-content-slide swiper-slide">
+                    <div class="flavour-content-slide-inner">
+                      <h3 class="flavour-content-slider-title">Vanilla Choc Chip Cookie</h3>
+                      <p class="flavour-content-slider-subline">Chunky Flavour®</p>
+                      <a class="button" href="#"><span class="button-icon"><svg class="button-arrow" viewBox="0 0 10 10" fill="none" aria-hidden="true"><path d="M1 9 9 1M3 1h6v6" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" /></svg></span><span class="button-bg"><span class="button-cycle is-first"><span class="button-cycle-bg"></span></span><span class="button-text">Buy now</span><span class="button-cycle is-second"><span class="button-cycle-bg"></span></span></span></a>
+                    </div>
+                  </div>
+                  <div class="flavour-content-slide swiper-slide">
+                    <div class="flavour-content-slide-inner">
+                      <h3 class="flavour-content-slider-title">Salted Caramel</h3>
+                      <p class="flavour-content-slider-subline">Chunky Flavour®</p>
+                      <a class="button" href="#"><span class="button-icon"><svg class="button-arrow" viewBox="0 0 10 10" fill="none" aria-hidden="true"><path d="M1 9 9 1M3 1h6v6" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" /></svg></span><span class="button-bg"><span class="button-cycle is-first"><span class="button-cycle-bg"></span></span><span class="button-text">Buy now</span><span class="button-cycle is-second"><span class="button-cycle-bg"></span></span></span></a>
+                    </div>
+                  </div>
+                  <div class="flavour-content-slide swiper-slide">
+                    <div class="flavour-content-slide-inner">
+                      <h3 class="flavour-content-slider-title">Pistachio Cream</h3>
+                      <p class="flavour-content-slider-subline">Chunky Flavour®</p>
+                      <a class="button" href="#"><span class="button-icon"><svg class="button-arrow" viewBox="0 0 10 10" fill="none" aria-hidden="true"><path d="M1 9 9 1M3 1h6v6" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" /></svg></span><span class="button-bg"><span class="button-cycle is-first"><span class="button-cycle-bg"></span></span><span class="button-text">Buy now</span><span class="button-cycle is-second"><span class="button-cycle-bg"></span></span></span></a>
+                    </div>
+                  </div>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </section>
+
+      <!-- ================================================================
+           Payment / reassurance
+           ================================================================ -->
+      <section class="payment-section" data-payment>
+        <div class="payment-inner">
+          <div class="payment-item" data-payment-item>
+            <svg viewBox="0 0 32 32" fill="none" aria-hidden="true"><path d="M3 11h18v12H3zM21 15h5l3 4v4h-8z" stroke="currentColor" stroke-width="2.2" stroke-linejoin="round"/><circle cx="9" cy="24" r="2.5" stroke="currentColor" stroke-width="2.2"/><circle cx="23" cy="24" r="2.5" stroke="currentColor" stroke-width="2.2"/></svg>
+            <span>Free shipping over €39</span>
+          </div>
+          <div class="payment-item" data-payment-item>
+            <svg viewBox="0 0 32 32" fill="none" aria-hidden="true"><circle cx="16" cy="16" r="12" stroke="currentColor" stroke-width="2.2"/><path d="M16 9v7l5 3" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"/></svg>
+            <span>Delivered in 3–5 days</span>
+          </div>
+          <div class="payment-item" data-payment-item>
+            <svg viewBox="0 0 32 32" fill="none" aria-hidden="true"><path d="M16 4l10 4v8c0 6-4 10-10 12C10 26 6 22 6 16V8l10-4Z" stroke="currentColor" stroke-width="2.2" stroke-linejoin="round"/><path d="m11 16 3.5 3.5L21 13" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"/></svg>
+            <span>60-day money back</span>
+          </div>
+          <div class="payment-item" data-payment-item>
+            <svg viewBox="0 0 32 32" fill="none" aria-hidden="true"><rect x="3" y="7" width="26" height="18" rx="3" stroke="currentColor" stroke-width="2.2"/><path d="M3 13h26" stroke="currentColor" stroke-width="2.2"/></svg>
+            <span>Klarna &amp; PayPal</span>
+          </div>
+        </div>
+      </section>
+
+      <!-- ================================================================
+           Footer
+           ================================================================ -->
+      <footer class="footer">
+        <svg class="footer-line" viewBox="0 0 1440 362" fill="none" data-fill-line aria-hidden="true">
+          <path
+            stroke="currentColor"
+            stroke-width="40"
+            d="M-18.71 5c-13.946 63.747 87.162 120.514 206.635 115.163 94.068-4.213 234.063-38.055 299.378-54.44C939.856-47.813 622.333 217.95 673.484 297.908c37.655 58.861 225.928-110.975 381.896-110.975 56.25 0 206.21 27.386 293.1 98.412 72.29 59.093 134.66 63.049 158.52 51.416"
+          />
+        </svg>
+
+        <div class="footer-inner">
+          <div class="footer-brand">
+            <div class="footer-logo">VEEGAN</div>
+            <p class="paragraph">Plant protein that doesn't taste like a compromise.</p>
+          </div>
+          <nav class="footer-links">
+            <a href="#nutrition">Nutrition</a>
+            <a href="#benefits">Benefits</a>
+            <a href="#reviews">Reviews</a>
+            <a href="#shop">Shop</a>
+          </nav>
+          <div class="footer-legal">
+            <span>© 2026 Veegan</span>
+            <a href="#">Imprint</a>
+            <a href="#">Privacy</a>
+          </div>
+        </div>
+      </footer>
+    </div>
+  </body>
+</html>

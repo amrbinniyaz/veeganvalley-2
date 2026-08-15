@@ -1,0 +1,315 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="utf-8" />
+    <title>Bottle turntable — offline render rig</title>
+    <style>
+      html, body { margin: 0; height: 100%; background: transparent; }
+      canvas { display: block; }
+    </style>
+  </head>
+  <body>
+    <!--
+      Offline render rig. Not part of the site — Vite only bundles index.html, so
+      this never ships. scripts/render_turntable.py drives it headlessly and
+      saves each frame; nothing here runs in a visitor's browser.
+
+      The bottle is modelled rather than photographed because a real 360° needs
+      geometry: sides, a back, an edge that catches light. The label artwork and
+      the juice colours are lifted from the real photos by
+      scripts/extract_labels.py, so what turns is the actual product design.
+    -->
+    <script type="module">
+      import * as THREE from "three";
+      import { RoomEnvironment } from "three/examples/jsm/environments/RoomEnvironment.js";
+
+      const SIZE = Number(new URLSearchParams(location.search).get("size") || 1440);
+
+      // --- Bottle profile ----------------------------------------------------
+      // [heightFraction, halfWidth, superellipseExponent]. The exponent is what
+      // carries the bottle from a rounded square at the body to a true circle at
+      // the neck: 8 is nearly a square with soft corners, 2 is a circle.
+      const PROFILE = [
+        [0.000, 0.250, 6.0],
+        [0.010, 0.286, 6.5],
+        [0.028, 0.296, 7.5],
+        [0.055, 0.300, 8.0],
+        [0.700, 0.300, 8.0],
+        [0.735, 0.297, 7.8],
+        [0.762, 0.291, 7.0],
+        [0.790, 0.276, 5.6],
+        [0.818, 0.252, 4.2],
+        [0.845, 0.222, 3.0],
+        [0.866, 0.196, 2.4],
+        [0.879, 0.180, 2.1],
+        [0.888, 0.174, 2.0],
+        [0.900, 0.172, 2.0],
+        [0.906, 0.188, 2.0],  // the collar ring under the cap
+        [0.914, 0.188, 2.0],
+        [0.920, 0.170, 2.0],
+        [0.930, 0.170, 2.0],
+        [0.936, 0.207, 2.0],  // cap flares out
+        [0.994, 0.207, 2.0],
+        [1.000, 0.196, 2.0],
+      ];
+
+      const SEG = 128;          // points around each ring
+      const HEIGHT = 2.0;       // world height of the bottle
+      const CAP_FROM = 0.930;   // everything above this is cap, not glass
+
+      // Where the label sits, measured up from the base. Mirrors the crop box in
+      // scripts/extract_labels.py (which measures down from the top).
+      const LABEL_V0 = 1 - 0.925;
+      const LABEL_V1 = 1 - 0.385;
+      // Fraction of the circumference the label covers. The front face of the
+      // rounded square is a shade over a quarter of the way round.
+      const LABEL_ARC = 0.193;
+
+      function superellipse(n, halfW) {
+        const pts = [];
+        for (let i = 0; i <= SEG; i++) {
+          const t = (i / SEG) * Math.PI * 2;
+          const c = Math.cos(t), s = Math.sin(t);
+          pts.push([
+            Math.sign(c) * Math.pow(Math.abs(c), 2 / n) * halfW,
+            Math.sign(s) * Math.pow(Math.abs(s), 2 / n) * halfW,
+          ]);
+        }
+        return pts;
+      }
+
+      /** Loft the profile into a mesh, UV-mapped by arc length so the label
+          wraps at a constant width instead of bunching at the corners. */
+      function buildBody(fromV, toV) {
+        const rings = PROFILE.filter(([v]) => v >= fromV - 1e-6 && v <= toV + 1e-6);
+        const pos = [], nor = [], uv = [], idx = [];
+
+        const shells = rings.map(([v, halfW, n]) => {
+          const ring = superellipse(n, halfW);
+          // Cumulative arc length -> u, so texture spacing follows the surface.
+          const us = [0];
+          let total = 0;
+          for (let i = 1; i <= SEG; i++) {
+            total += Math.hypot(ring[i][0] - ring[i - 1][0], ring[i][1] - ring[i - 1][1]);
+            us.push(total);
+          }
+          return { v, ring, us: us.map((s) => s / total) };
+        });
+
+        shells.forEach(({ v, ring, us }) => {
+          for (let i = 0; i <= SEG; i++) {
+            const [x, z] = ring[i];
+            pos.push(x, v * HEIGHT, z);
+            const len = Math.hypot(x, z) || 1;
+            nor.push(x / len, 0, z / len);
+            // Rotate u so u=0.5 lands on the front face (+Z), where the label is
+            // drawn, and flip it: arc length runs anticlockwise around the ring,
+            // which is right-to-left on screen, so an unflipped u mirrors the text.
+            uv.push(1 - ((us[i] + 0.25) % 1), v);
+          }
+        });
+
+        const stride = SEG + 1;
+        for (let r = 0; r < shells.length - 1; r++) {
+          for (let i = 0; i < SEG; i++) {
+            const a = r * stride + i, b = a + 1, c = a + stride, d = c + 1;
+            idx.push(a, c, b, b, c, d);
+          }
+        }
+
+        const g = new THREE.BufferGeometry();
+        g.setAttribute("position", new THREE.Float32BufferAttribute(pos, 3));
+        g.setAttribute("normal", new THREE.Float32BufferAttribute(nor, 3));
+        g.setAttribute("uv", new THREE.Float32BufferAttribute(uv, 2));
+        g.setIndex(idx);
+        g.computeVertexNormals();
+        return g;
+      }
+
+      // --- Textures ----------------------------------------------------------
+      function juiceTexture(label, juiceHex) {
+        const W = 1024, H = 2048;
+        const cv = document.createElement("canvas");
+        cv.width = W; cv.height = H;
+        const ctx = cv.getContext("2d");
+        const toY = (v) => (1 - v) * H;   // texture v=0 is the bottom of the image
+
+        ctx.fillStyle = juiceHex;
+        ctx.fillRect(0, 0, W, H);
+
+        // Headspace: juice stops short of the shoulder and foams a little.
+        const foam = ctx.createLinearGradient(0, toY(0.78), 0, toY(0.66));
+        foam.addColorStop(0, "rgba(255,255,255,0.55)");
+        foam.addColorStop(0.45, "rgba(255,255,255,0.28)");
+        foam.addColorStop(1, "rgba(255,255,255,0)");
+        ctx.fillStyle = foam;
+        ctx.fillRect(0, toY(0.80), W, toY(0.64) - toY(0.80));
+
+        // Vertical shading so the barrel reads round even before lighting.
+        const barrel = ctx.createLinearGradient(0, 0, W, 0);
+        barrel.addColorStop(0.00, "rgba(0,0,0,0.34)");
+        barrel.addColorStop(0.22, "rgba(0,0,0,0.06)");
+        barrel.addColorStop(0.50, "rgba(255,255,255,0.05)");
+        barrel.addColorStop(0.78, "rgba(0,0,0,0.06)");
+        barrel.addColorStop(1.00, "rgba(0,0,0,0.34)");
+        ctx.fillStyle = barrel;
+        ctx.fillRect(0, 0, W, H);
+
+        // The label, centred on the front face.
+        const lw = LABEL_ARC * W;
+        const lx = W * 0.5 - lw / 2;
+        const ly = toY(LABEL_V1);
+        ctx.drawImage(label, lx, ly, lw, toY(LABEL_V0) - ly);
+
+        const tex = new THREE.CanvasTexture(cv);
+        tex.colorSpace = THREE.SRGBColorSpace;
+        tex.wrapS = THREE.RepeatWrapping;
+        tex.anisotropy = 8;
+        return tex;
+      }
+
+      function capTexture(capHex) {
+        const W = 1024, H = 128;
+        const cv = document.createElement("canvas");
+        cv.width = W; cv.height = H;
+        const ctx = cv.getContext("2d");
+        ctx.fillStyle = capHex;
+        ctx.fillRect(0, 0, W, H);
+        // Moulded ribs: a fine light/dark alternation around the circumference.
+        for (let i = 0; i < 96; i++) {
+          const x = (i / 96) * W;
+          ctx.fillStyle = i % 2 ? "rgba(255,255,255,0.13)" : "rgba(0,0,0,0.30)";
+          ctx.fillRect(x, 0, W / 96 / 2, H);
+        }
+        const tex = new THREE.CanvasTexture(cv);
+        tex.colorSpace = THREE.SRGBColorSpace;
+        tex.wrapS = THREE.RepeatWrapping;
+        tex.anisotropy = 8;
+        return tex;
+      }
+
+      // --- Scene -------------------------------------------------------------
+      const renderer = new THREE.WebGLRenderer({ antialias: true, alpha: true });
+      renderer.setPixelRatio(1);
+      renderer.setSize(SIZE, SIZE);
+      renderer.toneMapping = THREE.ACESFilmicToneMapping;
+      renderer.toneMappingExposure = 0.92;
+      document.body.appendChild(renderer.domElement);
+
+      const scene = new THREE.Scene();
+      const pmrem = new THREE.PMREMGenerator(renderer);
+      scene.environment = pmrem.fromScene(new RoomEnvironment(), 0.04).texture;
+
+      const camera = new THREE.PerspectiveCamera(26, 1, 0.1, 100);
+      camera.position.set(0, HEIGHT * 0.52, 7.4);
+      camera.lookAt(0, HEIGHT * 0.5, 0);
+
+      const key = new THREE.DirectionalLight(0xffffff, 1.7);
+      key.position.set(2.4, 4.2, 3.4);
+      scene.add(key);
+      const fill = new THREE.DirectionalLight(0xffffff, 0.5);
+      fill.position.set(-3.2, 1.6, 2.0);
+      scene.add(fill);
+      // Rim from behind: this is the light that draws the bright vertical edge
+      // as a corner turns through, and it is most of what sells the form.
+      const rim = new THREE.DirectionalLight(0xffffff, 1.5);
+      rim.position.set(-1.8, 2.4, -3.6);
+      scene.add(rim);
+      scene.add(new THREE.AmbientLight(0xffffff, 0.22));
+
+      const pivot = new THREE.Group();
+      scene.add(pivot);
+
+      const glassMat = new THREE.MeshPhysicalMaterial({
+        roughness: 0.22,
+        metalness: 0.0,
+        clearcoat: 1.0,
+        clearcoatRoughness: 0.06,
+        envMapIntensity: 0.75,
+      });
+      const capMat = new THREE.MeshPhysicalMaterial({
+        roughness: 0.42,
+        metalness: 0.15,
+        clearcoat: 0.6,
+        clearcoatRoughness: 0.3,
+      });
+
+      const bodyMesh = new THREE.Mesh(buildBody(0, CAP_FROM), glassMat);
+      pivot.add(bodyMesh);
+
+      const capMesh = new THREE.Mesh(buildBody(CAP_FROM, 1.0), capMat);
+      pivot.add(capMesh);
+
+      const capTop = new THREE.Mesh(
+        new THREE.CircleGeometry(0.196, SEG).rotateX(-Math.PI / 2).translate(0, HEIGHT, 0),
+        capMat
+      );
+      pivot.add(capTop);
+
+      const base = new THREE.Mesh(
+        new THREE.CircleGeometry(0.25, SEG).rotateX(Math.PI / 2),
+        glassMat
+      );
+      pivot.add(base);
+
+      // --- Flavours ----------------------------------------------------------
+      const loadImage = (src) =>
+        new Promise((res, rej) => {
+          const im = new Image();
+          im.onload = () => res(im);
+          im.onerror = () => rej(new Error("label failed: " + src));
+          im.src = src;
+        });
+
+      /** Push juice colours towards what they look like in a lit glass rather
+          than what they average to in a flat photograph. */
+      function vivid(hex, sat = 1.85, lift = 0.9) {
+        const c = new THREE.Color(hex);
+        const hsl = {};
+        c.getHSL(hsl);
+        c.setHSL(hsl.h, Math.min(1, hsl.s * sat), Math.min(0.85, hsl.l * lift));
+        return c;
+      }
+
+      const state = { flavours: {}, order: [] };
+
+      async function boot() {
+        const meta = await (await fetch("/art/labels/flavours.json")).json();
+        state.order = Object.keys(meta);
+        for (const [name, m] of Object.entries(meta)) {
+          const img = await loadImage(m.label);
+          state.flavours[name] = {
+            map: juiceTexture(img, "#" + vivid(m.juice).getHexString()),
+            cap: capTexture(m.cap),
+          };
+        }
+        setFlavour(state.order[0]);
+        renderer.render(scene, camera);
+        window.__ready = true;
+      }
+
+      function setFlavour(name) {
+        const f = state.flavours[name];
+        if (!f) throw new Error("unknown flavour " + name);
+        glassMat.map = f.map;
+        glassMat.needsUpdate = true;
+        capMat.map = f.cap;
+        capMat.needsUpdate = true;
+      }
+
+      // Driven from Playwright, one frame at a time.
+      window.renderFrame = (flavour, degrees) => {
+        setFlavour(flavour);
+        pivot.rotation.y = THREE.MathUtils.degToRad(degrees);
+        renderer.render(scene, camera);
+        return true;
+      };
+      window.__flavours = () => state.order;
+
+      boot().catch((e) => {
+        window.__error = String(e);
+        console.error(e);
+      });
+    </script>
+  </body>
+</html>

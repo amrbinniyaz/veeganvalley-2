@@ -1,0 +1,1519 @@
+/* ============================================================================
+   Sections
+   ========================================================================== */
+
+.page-wrapper {
+  position: relative;
+}
+
+/* --- Stage / hero --------------------------------------------------------
+   The hero is deliberately taller than the viewport (~1440px at 1440 wide):
+   the wordmark and CTA own the first screen, the product and headline sit at
+   the fold, and the marquee arc closes it below. Sizing it to 100vh would
+   compress all three into one crowded screen.
+   ------------------------------------------------------------------------ */
+
+.stage {
+  position: relative;
+  overflow: clip;
+  background-color: var(--bg-light);
+}
+
+.stage-container {
+  max-width: var(--size-container);
+  margin-inline: auto;
+  padding: 4.625em 2.5em 0;
+}
+
+.stage-content {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 2.5em;
+}
+
+.stage-logo {
+  display: flex;
+  align-items: flex-end;
+  justify-content: center;
+  /* Scales with the viewport but never collapses on short windows. */
+  height: max(12.5em, 34svh);
+  width: calc((var(--grid-column-width) * 8) + (var(--grid-gutter) * 7));
+  color: var(--dark-green);
+}
+
+.stage-logo-svg {
+  width: 100%;
+}
+
+.stage-cta {
+  flex: none;
+}
+
+.stage-wrap {
+  display: grid;
+  grid-template-columns: repeat(var(--grid-columns), 1fr);
+  gap: var(--grid-gutter);
+  width: 100%;
+  padding-top: 1.25em;
+}
+
+/* Every layer of the product lockup shares one grid cell. */
+.stage-left {
+  position: relative;
+  grid-column: span 7;
+  display: grid;
+}
+
+/* Top-aligned with the product column, not centred — the headline should
+   start level with the top of the ring. */
+.stage-right {
+  grid-column: span 5;
+  align-self: start;
+}
+
+.stage-bg {
+  grid-area: 1 / 1;
+  padding: 1.875em 1.75em 0;
+  color: var(--white);
+}
+
+/* Wider than its cell and pulled left, so the ring runs off the edges
+   instead of reading as a contained badge. */
+.stage-bg-svg {
+  width: 120%;
+  margin-left: -10%;
+  overflow: visible;
+}
+
+.stage-visual {
+  z-index: 1;
+  grid-area: 1 / 1;
+  display: flex;
+  justify-content: center;
+  align-items: flex-start;
+  margin-left: auto;
+  pointer-events: none;
+}
+
+.stage-canvas {
+  aspect-ratio: 1 / 1;
+  width: 100%;
+  max-width: 37em;
+  height: auto;
+}
+
+/* --- Fact badges ---------------------------------------------------------
+   Three circles chained diagonally down the left of the product. They
+   overlap deliberately — the stack reads as one object you can knock apart,
+   which is what the inertia throw is for.
+   ------------------------------------------------------------------------ */
+
+.stage-facts {
+  grid-area: 1 / 1;
+  position: relative;
+  z-index: 2;
+}
+
+.stage-fact-outer {
+  position: absolute;
+  width: 8.75em;
+  height: 8.75em;
+}
+
+.stage-fact-outer.is-first {
+  z-index: 3;
+  top: 4%;
+  left: 24%;
+}
+.stage-fact-outer.is-second {
+  z-index: 2;
+  top: 15.5%;
+  left: 9%;
+}
+.stage-fact-outer.is-third {
+  z-index: 1;
+  top: 31.5%;
+  left: 0;
+}
+
+.stage-fact {
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+  gap: 0.3125em;
+  width: 100%;
+  height: 100%;
+  border: 0.0625em solid var(--bg-light);
+  border-radius: 50%;
+  background-color: var(--bg-pale);
+  color: var(--dark-green);
+  cursor: default;
+  will-change: transform;
+}
+
+.stage-fact-wrap {
+  display: flex;
+  align-items: baseline;
+  line-height: 1;
+}
+
+.stage-fact-number {
+  font-size: 2.25em;
+  font-weight: 600;
+}
+
+.stage-fact-unit {
+  font-size: 1.125em;
+  font-weight: 500;
+  text-transform: uppercase;
+}
+
+.stage-fact-text {
+  font-size: 0.9375em;
+  font-weight: 300;
+}
+
+/* --- Doodles ------------------------------------------------------------- */
+
+.stage-deco {
+  grid-area: 1 / 1;
+  position: relative;
+  z-index: 3;
+  color: var(--dark-green);
+  pointer-events: none;
+}
+
+.stage-deco-text-wrap {
+  position: absolute;
+  top: 3%;
+  left: -2%;
+  width: 11em;
+}
+
+.stage-deco-arrow-wrap {
+  position: absolute;
+  top: 15%;
+  left: 2%;
+  width: 3em;
+}
+
+/* --- Headline ------------------------------------------------------------ */
+
+.stage-text-wrap {
+  display: flex;
+  flex-direction: column;
+  gap: 1.875em;
+  padding-top: 0.625em;
+  text-align: center;
+  color: var(--dark-green);
+}
+
+.hero-heading {
+  font-size: 7em;
+}
+
+.stage-paragraph-wrap {
+  position: relative;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+}
+
+.is-stage-paragraph {
+  max-width: 22em;
+  font-size: 1.125em;
+}
+
+.stage-subline-wrap {
+  width: 12em;
+  margin-top: 0.35em;
+  color: var(--white);
+}
+
+/* --- Marquee -------------------------------------------------------------
+   Three layers in one grid cell:
+     overlay  — a clipped pale wedge, sitting behind, that carries the next
+                section's colour up under the arc. This is what makes the
+                band read as a section transition and not a stripe.
+     bg-svg   — the arc itself: one path with a 160-unit stroke.
+     text-svg — huge type on a matching curve, offset down onto the band.
+   ------------------------------------------------------------------------ */
+
+.marquee {
+  position: absolute;
+  inset: auto 0 0;
+  z-index: 2;
+  width: 100%;
+  overflow-x: clip;
+  pointer-events: none;
+}
+
+.marquee-inner {
+  display: grid;
+}
+
+.marquee-overlay {
+  position: relative;
+  bottom: -1px; /* closes the hairline against the next section */
+  z-index: -1;
+  grid-area: 1 / 1;
+  background-color: var(--bg-pale);
+  clip-path: polygon(66% 10%, 100% 53%, 100% 100%, 0 100%, 0 79%);
+}
+
+.marquee-bg-svg {
+  grid-area: 1 / 1;
+  width: 100%;
+  color: #214a1e;
+}
+
+/* Pushed down so the type sits on the band rather than above it. The two
+   curves are different paths, so this offset is the tuning that lands one
+   on the other. */
+.marquee-text-svg {
+  z-index: 1;
+  grid-area: 1 / 1;
+  width: 100%;
+  margin-top: 8.5em;
+}
+
+.marquee-text-svg text {
+  fill: var(--bg-light);
+  font-size: 11em;
+  font-weight: 500;
+  text-transform: uppercase;
+  letter-spacing: 0.01em;
+}
+
+/* --- Insider -------------------------------------------------------------
+   Pulled up under the marquee arc so the pale wedge and this section read as
+   one continuous ground.
+   ------------------------------------------------------------------------ */
+
+.insider-section {
+  position: relative;
+  z-index: 2;
+  width: 100%;
+  margin-top: -3.75em;
+  padding-bottom: 10em;
+}
+
+.insider-container {
+  position: relative;
+  max-width: var(--size-container);
+  margin-inline: auto;
+  padding: 0 2.5em 2em;
+}
+
+.insider-heading {
+  grid-column: 1 / -1;
+  font-size: 6.25em;
+  font-weight: 500;
+  line-height: 0.8;
+  letter-spacing: -0.03em;
+  text-align: center;
+  text-transform: none;
+  color: var(--dark-green);
+}
+
+.insider-wrapper {
+  grid-column: 1 / -1;
+  display: grid;
+  grid-template-columns: repeat(var(--grid-columns), 1fr);
+  gap: var(--grid-gutter);
+  margin-top: 7.5em;
+}
+
+/* --- Scattered media -----------------------------------------------------
+   Three cards on a three-column grid, then each shoved out of its cell and
+   rotated. They overlap heavily and lean at different angles, so the group
+   reads as a handful of photos dropped on a table — and each one is an
+   inertia target you can knock further out of place.
+   ------------------------------------------------------------------------ */
+
+.testimonial-wrapper {
+  position: relative;
+  z-index: 1;
+  grid-column: span 7;
+  display: grid;
+  grid-template-columns: repeat(3, 1fr);
+  align-items: center;
+  width: 100%;
+}
+
+.testimonial-inner-wrap {
+  position: relative;
+}
+
+.testimonial-inner-wrap.is-first {
+  top: 3.75em;
+  left: -8.5625em;
+  rotate: -12deg;
+}
+
+.testimonial-inner-wrap.is-second {
+  top: 11.875em;
+  left: -13.9375em;
+  rotate: -2.5deg;
+}
+
+.testimonial-inner-wrap.is-third {
+  top: -2.6875em;
+  left: -25em;
+  rotate: 5.5deg;
+}
+
+/* The white padding is the point — it's a print border, not a card. */
+.testimonial-inner {
+  position: relative;
+  display: flex;
+  flex-direction: column;
+  width: 23.4375em;
+  padding: 0.875em;
+  border-radius: 0.375em;
+  background-color: var(--white);
+  box-shadow: 0 0.75em 2em rgb(47 90 44 / 0.12);
+  will-change: transform;
+}
+
+.testimonial-media {
+  aspect-ratio: 9 / 16;
+  width: 100%;
+  border-radius: 0.375em;
+  background: linear-gradient(150deg, var(--bg-light), var(--light-green));
+}
+
+/* --- Insider copy -------------------------------------------------------- */
+
+.insider-text-inner {
+  position: relative;
+  z-index: 0;
+  /* Column 8–11, not 8–12: the gutter on the right keeps the copy from
+     running to the container edge under the scattered cards. */
+  grid-column: 8 / 12;
+  display: flex;
+  flex-direction: column;
+  align-items: flex-start;
+  gap: 1.25em;
+  padding-top: 1.25em;
+}
+
+.insider-subheading {
+  font-size: 2.5em;
+  font-weight: 500;
+  line-height: 0.8;
+  letter-spacing: -0.03em;
+  color: var(--dark-green);
+}
+
+.insider-text-inner .paragraph {
+  max-width: 26em;
+}
+
+.insider-cta {
+  display: flex;
+  align-items: flex-start;
+  gap: 1.875em;
+  padding-top: 1.25em;
+}
+
+/* Hand-lettered aside, tucked below the copy. */
+.insider-signature {
+  position: absolute;
+  right: 12%;
+  bottom: 2em;
+  width: 12em;
+  color: var(--dark-green);
+  pointer-events: none;
+}
+
+.insider-signature-arrow {
+  position: absolute;
+  right: 24%;
+  bottom: -3.5em;
+  width: 3em;
+}
+
+/* --- Sequence ------------------------------------------------------------
+   720lvh of scroll driving a 100lvh sticky stage. All stage children share
+   one grid cell so they stack without absolute positioning fighting the
+   canvas's own transforms.
+   ------------------------------------------------------------------------ */
+
+.sequence-section {
+  position: relative;
+  width: 100%;
+  background-color: var(--bg-pale);
+}
+
+.sequence-signature {
+  position: relative;
+  z-index: 3;
+  display: flex;
+  align-items: flex-start;
+  gap: 0.5em;
+  max-width: var(--size-container);
+  margin-inline: auto;
+  padding: 0 2.5em 2em;
+  color: var(--dark-green);
+}
+
+.sequence-signature-text {
+  width: 11em;
+}
+.sequence-signature-arrow {
+  width: 3em;
+}
+
+.sequence-scroll-wrap {
+  position: relative;
+  height: 720lvh;
+}
+
+/* z-index:0 is load-bearing: it makes the sticky stage a stacking context so
+   the strokes' z-index:-2 is clamped inside it. Without it they paint behind
+   the section's own background and disappear entirely. */
+.sequence-sticky {
+  position: sticky;
+  top: 0;
+  z-index: 0;
+  display: grid;
+  height: 100lvh;
+  overflow: clip;
+}
+
+.sequence-canvas {
+  grid-area: 1 / 1;
+  width: 100%;
+  height: 100%;
+  pointer-events: none;
+}
+
+.sequence-cards {
+  position: relative;
+  grid-area: 1 / 1;
+  display: flex;
+  justify-content: center;
+  max-width: var(--size-container);
+  width: 100%;
+  margin-inline: auto;
+  padding-inline: 2.5em;
+}
+
+/* All four cards share one vertical origin: top 50%, then the timeline holds
+   them at yPercent 50 (fully below the midline) and carries them to
+   yPercent -50 (fully above it), passing through centred.
+   Anchoring them to the container's top and bottom edges instead — which
+   looks equivalent — makes the top-anchored pair start already on screen,
+   so cards 1 and 4 appear together. */
+.statement-card {
+  position: absolute;
+  top: 50%;
+  width: calc((var(--grid-column-width) * 5) + (var(--grid-gutter) * 4));
+  will-change: transform;
+}
+
+.statement-card.is-first,
+.statement-card.is-third {
+  right: 8%;
+}
+
+.statement-card.is-second,
+.statement-card.is-fourth {
+  left: 8%;
+}
+
+.statement-card-wrapper {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 0.75em;
+  padding: 2em 1.75em 2.25em;
+  border-radius: 1.5em;
+  background-color: var(--white);
+  color: var(--dark-green);
+  text-align: center;
+  box-shadow: 0 1em 3em rgb(47 90 44 / 0.12);
+}
+
+.statement-card-paragraph-wrap {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 0.75em;
+}
+
+.statement-icon {
+  width: 2.75em;
+  color: var(--light-green);
+}
+
+/* --- Sequence: the strokes ---------------------------------------------
+   Behind everything, oversized and rotated so only a fragment of each curve
+   crosses the viewport. The paths are drawn at 1440 wide but displayed at
+   250% — the visible arc is a slice of a much larger gesture, which is why
+   it never reads as "a shape on screen".
+   ---------------------------------------------------------------------- */
+
+.sequence-lines {
+  position: relative;
+  z-index: var(--z-lines);
+  grid-area: 1 / 1;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  overflow-x: clip;
+  color: var(--white);
+}
+
+.sequence-line-svg {
+  position: absolute;
+  width: 250%;
+}
+
+.sequence-line-svg.is-first {
+  rotate: -40deg;
+}
+.sequence-line-svg.is-second {
+  rotate: 70deg;
+}
+.sequence-line-svg.is-third {
+  rotate: -20deg;
+}
+
+.sequence-inner-signature {
+  position: absolute;
+  bottom: 12%;
+  left: 8%;
+  width: 10em;
+  color: var(--dark-green);
+}
+
+/* --- Sequence: finale ---------------------------------------------------- */
+
+.sequence-final {
+  position: relative;
+  grid-area: 1 / 1;
+  display: grid;
+  place-content: center;
+  place-items: center;
+  padding-inline: 2.5em;
+  pointer-events: none;
+}
+
+.sequence-title {
+  position: relative;
+  /* Above the line-up: the bottles arc behind the headline, never over it. */
+  z-index: 1;
+  max-width: 8.5em;
+  font-size: 5.25em;
+  font-weight: 500;
+  line-height: 0.9;
+  letter-spacing: -0.02em;
+  text-align: center;
+  text-transform: uppercase;
+  color: var(--dark-green);
+  will-change: transform;
+}
+
+.sequence-title .light-green-span {
+  display: block;
+  margin-top: 0.15em;
+}
+
+.sequence-final-signature {
+  position: absolute;
+  z-index: 1;
+  color: var(--dark-green);
+}
+
+.sequence-final-signature:not([class*="is-"]) {
+  top: 8%;
+  left: 12%;
+  width: 9em;
+}
+.sequence-final-signature.is-first-arrow {
+  top: 20%;
+  left: 22%;
+  width: 3.25em;
+}
+.sequence-final-signature.is-second {
+  bottom: 14%;
+  right: 13%;
+  width: 8em;
+}
+.sequence-final-signature.is-second-arrow {
+  bottom: 26%;
+  right: 22%;
+  width: 3.25em;
+}
+
+/* The finale line-up: the six flavours fanned in an arc behind the headline.
+   Where each bottle sits comes from its own custom properties in the markup
+   (--x across, --lift up from the baseline, --depth for size), so the shape of
+   the arc is tunable without touching this rule. Rotation and blur belong to
+   the timeline — see modules/sequence.js. */
+.sequence-final-bottles {
+  position: absolute;
+  inset: 0;
+  z-index: 0;
+  overflow: hidden;
+}
+
+.sequence-final-bottle {
+  position: absolute;
+  left: var(--x);
+  bottom: var(--lift);
+  /* Accents flanking the headline, not a second hero — the scrub canvas is
+     still the largest thing on screen at this point. */
+  width: calc(5em * var(--depth));
+  height: auto;
+  /* Bottom origin so a tilted bottle pivots on its base like a real one being
+     set down, rather than swinging around its middle. */
+  transform-origin: center bottom;
+  will-change: transform;
+}
+
+.sequence-cards-mobile {
+  display: none;
+}
+
+/* --- Benefits ------------------------------------------------------------ */
+
+.benefit-section {
+  position: relative;
+  padding: 7.5em 0;
+}
+
+.benefit-section .top-smiley.is-benefit {
+  max-width: var(--size-container);
+  margin-inline: auto;
+  padding-inline: 2.5em;
+  color: var(--dark-green);
+}
+
+.benefit-section .container.smaller {
+  padding-inline: 2.5em;
+}
+
+.img-wrapper {
+  position: relative;
+  grid-column: span 5;
+  display: grid;
+  place-items: center;
+}
+
+.benefit-visual {
+  width: 100%;
+  aspect-ratio: 4 / 5;
+  border-radius: 1.5em;
+  background: linear-gradient(160deg, var(--bg-light), var(--light-green));
+}
+
+/* Anchored right so it bleeds off the left edge of the page rather than
+   running into the table column — the stroke should read as crossing the
+   image, not as crossing the copy. */
+.benefit-svg {
+  position: absolute;
+  right: 6%;
+  width: 118%;
+  color: var(--white);
+  overflow: visible;
+  pointer-events: none;
+}
+
+.benefit-wrapper {
+  position: relative;
+  z-index: 1;
+  grid-column: span 7;
+  align-self: center;
+  padding-left: 2em;
+}
+
+.benefit-table {
+  margin-top: 3.5em;
+}
+
+.benefit-table-title-wrapper,
+.benefit-table-item {
+  display: grid;
+  grid-template-columns: 1fr 7em 7em;
+  align-items: center;
+  gap: 1em;
+}
+
+.benefit-table-title,
+.benefit-table-brand {
+  font-size: 1em;
+  font-weight: 500;
+  text-transform: uppercase;
+  letter-spacing: 0.04em;
+  text-align: center;
+}
+
+.benefit-table-title:first-child {
+  text-align: left;
+}
+
+.benefit-table-brand {
+  color: var(--light-green);
+  font-weight: 600;
+}
+
+.sub-line,
+.line {
+  height: 0.09em;
+  margin: 0.9em 0;
+  background-color: currentColor;
+  opacity: 0.35;
+}
+
+.benefit-item-title {
+  font-size: 1.125em;
+  font-weight: 300;
+}
+
+.benefit-checker-inner {
+  display: contents;
+}
+
+.benefit-item-check,
+.benefit-item-x {
+  display: grid;
+  place-items: center;
+}
+
+.benefit-item-check svg,
+.benefit-item-x svg {
+  width: 1.5em;
+}
+
+.benefit-item-check {
+  color: var(--light-green);
+  will-change: transform;
+}
+
+.benefit-item-x {
+  color: var(--dark-green);
+  opacity: 0.45;
+}
+
+.benefit-item-x.is-muted {
+  opacity: 0.3;
+}
+
+/* --- Testimonials -------------------------------------------------------- */
+
+.testimonial-section {
+  position: relative;
+  overflow: clip;
+  padding: 7.5em 0 5em;
+  background-color: var(--dark-green);
+  color: var(--bg-pale);
+}
+
+.bg-img-wrapper {
+  position: absolute;
+  inset: -10% 0;
+  background:
+    radial-gradient(60% 50% at 20% 20%, rgb(141 187 99 / 0.35), transparent 70%),
+    radial-gradient(50% 45% at 85% 75%, rgb(185 207 159 / 0.28), transparent 70%);
+  pointer-events: none;
+}
+
+.testimonial-container {
+  position: relative;
+  max-width: var(--size-container);
+  margin-inline: auto;
+  padding-inline: 2.5em;
+}
+
+.testimonial-big-heading {
+  max-width: 7em;
+  font-size: 7em;
+  font-weight: 500;
+  line-height: 0.86;
+  letter-spacing: -0.025em;
+  text-transform: uppercase;
+}
+
+.testimonial-slider {
+  margin-top: 3.5em;
+}
+
+.testimonial-heading {
+  font-size: 1.5em;
+  font-weight: 400;
+  text-transform: uppercase;
+  letter-spacing: 0.02em;
+}
+
+.testimonial-slider-wrapper {
+  position: relative;
+  margin-top: 1.5em;
+}
+
+.testimonial-slider-interface {
+  display: flex;
+  justify-content: flex-end;
+  margin-bottom: 1em;
+}
+
+.testimonial-slider-button-wrapper {
+  display: flex;
+  gap: 0.5em;
+}
+
+.testimonial-slider-button {
+  display: grid;
+  place-items: center;
+  width: 2.75em;
+  height: 2.75em;
+  border: 0.09em solid currentColor;
+  border-radius: 50%;
+  transition: background-color var(--dur-fast) var(--ease-out), color var(--dur-fast) var(--ease-out);
+}
+
+.testimonial-slider-button svg {
+  width: 1.2em;
+}
+
+.testimonial-slider-button:hover {
+  background-color: var(--bg-pale);
+  color: var(--dark-green);
+}
+
+/* The track is a single row; items are placed by transform, so the row itself
+   never scrolls and there is no scrollbar or overscroll to manage. */
+.testimonial-slider-inner {
+  position: relative;
+  display: flex;
+  gap: 1.25em;
+  height: 19em;
+  cursor: grab;
+  touch-action: pan-y;
+  user-select: none;
+}
+
+.testimonial-slider-inner.is-dragging {
+  cursor: grabbing;
+}
+
+.testimonial-slider-item-wrap {
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 21em;
+  height: 100%;
+  will-change: transform;
+}
+
+.testimonial-slider-item {
+  display: flex;
+  flex-direction: column;
+  height: 100%;
+  padding: 1.75em;
+  border-radius: 1.25em;
+  background-color: var(--bg-pale);
+  color: var(--dark-green);
+  will-change: transform;
+}
+
+.testimonial-slider-item-wrap.is-active .testimonial-slider-item {
+  background-color: var(--bg-light);
+}
+
+.testimonial-item-inner-text {
+  margin-top: 1em;
+}
+
+.testimonial-item-heading {
+  font-size: 1.5em;
+  font-weight: 500;
+  text-transform: uppercase;
+  letter-spacing: -0.01em;
+}
+
+.testimonial-item-text {
+  margin-top: 0.5em;
+  font-size: 1.0625em;
+  font-weight: 300;
+  line-height: 1.4;
+}
+
+.testimonial-line {
+  height: 0.09em;
+  margin-top: auto;
+  background-color: currentColor;
+  opacity: 0.3;
+}
+
+.testimonial-item-bottom {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  margin-top: 0.9em;
+}
+
+.testimonial-client-name {
+  font-weight: 500;
+  text-transform: uppercase;
+  letter-spacing: 0.02em;
+}
+
+.testimonial-verified-wrap {
+  display: flex;
+  align-items: center;
+  gap: 0.35em;
+  font-size: 0.875em;
+  font-weight: 300;
+  text-transform: uppercase;
+}
+
+.testimonial-verified-wrap svg {
+  width: 1em;
+}
+
+/* --- Flavours ------------------------------------------------------------ */
+
+.flavour {
+  position: relative;
+  overflow: clip;
+  padding: 7.5em 0;
+}
+
+.flavour-container {
+  max-width: var(--size-container);
+  margin-inline: auto;
+  padding-inline: 2.5em;
+}
+
+.flavour-header {
+  display: grid;
+  grid-template-columns: 1.2fr 1fr;
+  align-items: end;
+  gap: 2.5em;
+}
+
+.flavour-subline {
+  margin-top: 0.4em;
+  font-size: 1.75em;
+  font-weight: 400;
+  text-transform: uppercase;
+}
+
+.flavour-paragraph {
+  font-size: 1.125em;
+  font-weight: 300;
+  line-height: 1.45;
+  max-width: 28em;
+}
+
+.flavour-content {
+  position: relative;
+  display: grid;
+  grid-template-columns: 1fr auto 1fr;
+  align-items: center;
+  gap: 2em;
+  margin-top: 3em;
+}
+
+.flavour-left {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 1em;
+}
+
+.flavour-pack-visual {
+  width: 9em;
+  aspect-ratio: 3 / 4;
+  border-radius: 1em;
+  background: linear-gradient(160deg, var(--bg-light), var(--light-green));
+  will-change: transform;
+}
+
+.flavour-pack-visual.is-dose {
+  width: 5em;
+  aspect-ratio: 1;
+  border-radius: 50%;
+}
+
+.flavour-plus {
+  font-size: 3em;
+  font-weight: 300;
+  color: var(--light-green);
+}
+
+.flavour-right {
+  position: relative;
+  display: grid;
+  place-items: center;
+  justify-self: center;
+  width: 100%;
+  max-width: 28em;
+  min-height: 26em;
+}
+
+.flavour-right-bg {
+  position: absolute;
+  inset: 0;
+  display: grid;
+  place-items: center;
+  z-index: 0;
+  color: var(--light-green);
+  pointer-events: none;
+}
+
+/* Sized off the pack, not the column — the ring should frame the product,
+   and a fluid width lets it balloon on wide screens. */
+.flavour-right-bg-svg {
+  width: 28em;
+  overflow: visible;
+}
+
+.flavour-swiper {
+  position: relative;
+  z-index: 1;
+  width: 100%;
+  max-width: 13.5em;
+}
+
+.flavour-slide-inner {
+  width: 100%;
+  aspect-ratio: 3 / 4;
+  border-radius: 1.25em;
+}
+
+.flavour-slide-inner.is-strawberry {
+  background: linear-gradient(160deg, #f6a8b4, #c8324a);
+}
+.flavour-slide-inner.is-brownie {
+  background: linear-gradient(160deg, #b98a63, #5e3a20);
+}
+.flavour-slide-inner.is-cookie {
+  background: linear-gradient(160deg, #eddab4, #b3894f);
+}
+.flavour-slide-inner.is-caramel {
+  background: linear-gradient(160deg, #e8b878, #a26423);
+}
+.flavour-slide-inner.is-pistachio {
+  background: linear-gradient(160deg, #cfe0a4, #7d9a4a);
+}
+
+.flavour-navigation {
+  position: absolute;
+  bottom: -3.5em;
+  right: 0;
+  display: flex;
+  gap: 0.5em;
+}
+
+.flavour-slider-button {
+  display: grid;
+  place-items: center;
+  width: 2.75em;
+  height: 2.75em;
+  border: 0.09em solid currentColor;
+  border-radius: 50%;
+  transition: background-color var(--dur-fast) var(--ease-out), color var(--dur-fast) var(--ease-out);
+}
+
+.flavour-slider-button svg {
+  width: 1.2em;
+}
+
+.flavour-slider-button:hover {
+  background-color: var(--dark-green);
+  color: var(--bg-pale);
+}
+
+.flavour-center {
+  order: -1;
+  grid-column: 1 / -1;
+  grid-row: 2;
+  margin-top: 2.5em;
+}
+
+.flavour-content-swiper {
+  width: 100%;
+  max-width: 26em;
+  margin-inline: auto;
+}
+
+.flavour-content-slide-inner {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 0.75em;
+  text-align: center;
+}
+
+.flavour-content-slider-title {
+  font-size: 2.5em;
+  font-weight: 500;
+  line-height: 0.95;
+  text-transform: uppercase;
+  letter-spacing: -0.015em;
+}
+
+.flavour-content-slider-subline {
+  font-size: 1em;
+  font-weight: 300;
+  text-transform: uppercase;
+  letter-spacing: 0.04em;
+}
+
+/* --- Payment ------------------------------------------------------------- */
+
+.payment-section {
+  padding: 3.5em 0;
+  background-color: var(--bg-light);
+}
+
+.payment-inner {
+  display: flex;
+  flex-wrap: wrap;
+  justify-content: space-between;
+  gap: 2em;
+  max-width: var(--size-container);
+  margin-inline: auto;
+  padding-inline: 2.5em;
+}
+
+.payment-item {
+  display: flex;
+  align-items: center;
+  gap: 0.6em;
+  font-size: 1.0625em;
+  font-weight: 400;
+  text-transform: uppercase;
+  letter-spacing: 0.02em;
+}
+
+.payment-item svg {
+  width: 1.6em;
+  flex: none;
+  color: var(--dark-green);
+}
+
+/* --- Footer -------------------------------------------------------------- */
+
+.footer {
+  position: relative;
+  overflow: clip;
+  padding: 8em 0 3em;
+  background-color: var(--dark-green);
+  color: var(--bg-pale);
+}
+
+.footer-line {
+  position: absolute;
+  inset: 0 0 auto;
+  width: 100%;
+  color: var(--light-green);
+  opacity: 0.35;
+  pointer-events: none;
+}
+
+.footer-inner {
+  position: relative;
+  display: grid;
+  grid-template-columns: 1.5fr 1fr 1fr;
+  gap: 2.5em;
+  max-width: var(--size-container);
+  margin-inline: auto;
+  padding-inline: 2.5em;
+}
+
+.footer-logo {
+  font-size: 2.75em;
+  font-weight: 600;
+  letter-spacing: 0.04em;
+}
+
+.footer-brand .paragraph {
+  margin-top: 0.5em;
+  max-width: 20em;
+}
+
+.footer-links,
+.footer-legal {
+  display: flex;
+  flex-direction: column;
+  gap: 0.5em;
+  font-size: 1.0625em;
+  font-weight: 300;
+  text-transform: uppercase;
+  letter-spacing: 0.02em;
+}
+
+.footer-links a:hover,
+.footer-legal a:hover {
+  color: var(--light-green);
+}
+
+/* ============================================================================
+   Below 992px — the sticky scrub has no mobile equivalent, so the sequence
+   becomes an ordinary stack with the product scrubbing behind it.
+   ========================================================================== */
+
+@media screen and (max-width: 991px) {
+  .navbar {
+    padding: 1em 1.25em;
+  }
+
+  .nav-link-inner {
+    display: none;
+  }
+
+  .stage-container {
+    padding: 6em 1.25em 0;
+  }
+
+  .stage-wrap {
+    grid-template-columns: 1fr;
+    gap: 1.5em;
+  }
+
+  .stage-left {
+    min-height: 26em;
+    order: 2;
+  }
+
+  .stage-canvas {
+    left: -2%;
+    width: 100%;
+  }
+
+  /* Badges go bottom-anchored and spread horizontally: stacked diagonally
+     they collide with each other and with the doodle in a narrow column. */
+  .stage-fact-outer {
+    width: 6.5em;
+    height: 6.5em;
+  }
+
+  .stage-fact-outer.is-first {
+    top: auto;
+    bottom: 0;
+    left: 64%;
+  }
+  .stage-fact-outer.is-second {
+    top: auto;
+    bottom: -4%;
+    left: 2%;
+  }
+  .stage-fact-outer.is-third {
+    top: auto;
+    bottom: -2%;
+    left: 33%;
+  }
+
+  .stage-fact-number {
+    font-size: 1.75em;
+  }
+
+  .stage-fact-text {
+    font-size: 0.8125em;
+  }
+
+  .stage-deco-text-wrap {
+    top: -12%;
+    left: 0;
+    width: 9em;
+  }
+
+  .stage-deco-arrow-wrap {
+    top: 2%;
+    left: 4%;
+    width: 2.25em;
+  }
+
+  .stage-bg-svg {
+    width: 135%;
+    margin-left: -17.5%;
+  }
+
+  .hero-heading {
+    font-size: 4em;
+  }
+
+  .insider-heading {
+    font-size: 3.375em;
+  }
+
+  .insider-wrapper {
+    margin-top: 3.125em;
+  }
+
+  /* The scattered cards depend on a wide left column to bleed into; in one
+     column they just fall off the screen. Stack them upright instead. */
+  .testimonial-wrapper {
+    grid-column: 1 / -1;
+    grid-template-columns: 1fr;
+    gap: 1.25em;
+    justify-items: center;
+  }
+
+  .testimonial-inner-wrap.is-first,
+  .testimonial-inner-wrap.is-second,
+  .testimonial-inner-wrap.is-third {
+    top: 0;
+    left: 0;
+    rotate: 0deg;
+  }
+
+  .testimonial-inner {
+    width: 100%;
+    max-width: 20em;
+  }
+
+  .insider-text-inner {
+    grid-column: 1 / -1;
+    margin-top: 2.5em;
+  }
+
+  .insider-signature {
+    display: none;
+  }
+
+  .marquee {
+    position: relative;
+  }
+
+  .marquee-text-svg text {
+    font-size: 52px;
+  }
+
+  .insider-container,
+  .testimonial-container,
+  .flavour-container,
+  .payment-inner,
+  .footer-inner,
+  .benefit-section .container.smaller,
+  .benefit-section .top-smiley.is-benefit,
+  .sequence-signature {
+    padding-inline: 1.25em;
+  }
+
+  .insider-wrapper {
+    grid-template-columns: 1fr;
+    gap: 2em;
+  }
+
+  .sequence-scroll-wrap {
+    height: auto;
+  }
+
+  .sequence-sticky {
+    height: 70lvh;
+    position: sticky;
+  }
+
+  .sequence-cards,
+  .sequence-final,
+  .sequence-lines {
+    display: none;
+  }
+
+  .sequence-cards-mobile {
+    display: flex;
+    flex-direction: column;
+    gap: 1.25em;
+    padding: 2.5em 1.25em 0;
+  }
+
+  .sequence-cards-mobile .statement-card {
+    position: relative;
+    width: 100%;
+    right: auto;
+    left: auto;
+  }
+
+  .sequence-final-mobile {
+    padding: 2em 0 1em;
+  }
+
+  .sequence-title {
+    font-size: 3.25em;
+    max-width: none;
+  }
+
+  .img-wrapper,
+  .benefit-wrapper {
+    grid-column: span 6;
+  }
+
+  .benefit-wrapper {
+    padding-left: 0;
+    margin-top: 2.5em;
+  }
+
+  .benefit-table-title-wrapper,
+  .benefit-table-item {
+    grid-template-columns: 1fr 4.5em 4.5em;
+  }
+
+  .testimonial-big-heading {
+    font-size: 4em;
+  }
+
+  .testimonial-slider-item-wrap {
+    width: 17em;
+  }
+
+  .testimonial-slider-inner {
+    height: 20em;
+  }
+
+  .flavour-header,
+  .flavour-content {
+    grid-template-columns: 1fr;
+  }
+
+  .flavour-left,
+  .flavour-plus {
+    display: none;
+  }
+
+  .flavour-center {
+    grid-row: auto;
+    order: 1;
+  }
+
+  .flavour-navigation {
+    position: relative;
+    bottom: auto;
+    justify-content: center;
+    margin-top: 1.5em;
+  }
+
+  .section-heading {
+    font-size: 3em;
+  }
+
+  .footer-inner {
+    grid-template-columns: 1fr;
+  }
+}
+
+@media screen and (max-width: 479px) {
+  .hero-heading {
+    font-size: 3.25em;
+  }
+
+  .testimonial-slider-item-wrap {
+    width: 15em;
+  }
+
+  .payment-inner {
+    gap: 1.25em;
+  }
+
+  .payment-item {
+    flex: 1 1 45%;
+    font-size: 0.9375em;
+  }
+}
