@@ -4,7 +4,7 @@ import SplitText from "gsap/SplitText";
 import { FrameSequence } from "../lib/frameSequence.js";
 import { desktop, mobile } from "../lib/mq.js";
 
-const FRAME_COUNT = 200;
+const FRAME_COUNT = 240;
 
 /* The finale plays as a real timeline, not a scrubbed one — it has elastic
    overshoot, which scrubbing would destroy. So it's gated on scroll progress
@@ -41,6 +41,9 @@ export function initSequence() {
     basePath: canvas.dataset.sequenceCanvasImgPath,
     prefix: "seq_0",
     count: FRAME_COUNT,
+    // Measured off the alpha channel: the bottle spans ~60.5% of the frame
+    // height, the rest is transparent margin.
+    contentHeight: 0.605,
     fit: window.matchMedia("(min-width: 992px)").matches ? "height" : "bottom",
   })
     .setSizeSource(stage)

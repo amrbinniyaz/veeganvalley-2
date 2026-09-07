@@ -3,18 +3,57 @@
   <head>
     <meta charset="utf-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1" />
-    <title>Veegan — Plant Protein Iced Matcha</title>
+    <title>Vegan Valley — Plant Protein Iced Matcha</title>
     <meta
       name="description"
       content="Ceremonial-grade matcha blended with 22g of plant protein and glucomannan. No dairy, no added sugar, all day energy."
     />
     <link rel="preconnect" href="https://fonts.googleapis.com" />
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+
+    <!-- Critical CSS, inline and deliberately duplicated from base.css.
+         The stylesheet cannot cover this window: in dev it is injected by JS,
+         and in any build it is a separate request. Until it lands the document
+         renders unstyled — and an inline <svg> with no width/height falls back
+         to the replaced-element default of 300x150, so the nav's icons briefly
+         paint as enormous glyphs.
+
+         Two rules close that window. The loader is painted opaque from the
+         first frame so nothing behind it is ever visible, and any SVG without
+         explicit dimensions is held to 1em instead of 300x150. Keep the loader
+         values in step with base.css. -->
+    <style>
+      .loader {
+        position: fixed;
+        inset: 0;
+        z-index: 9999;
+        display: grid;
+        place-items: center;
+        background-color: #b9cf9f;
+      }
+      /* :where() contributes no specificity, so this whole selector weighs the
+         same as a bare `svg` — below any class rule in the stylesheet. Written
+         as a plain :not() chain it scores (0,2,1) and beats things like
+         `.marquee-text-svg { width: 100% }`, which collapses every large SVG
+         on the page to 16px once the stylesheet arrives. */
+      svg:where(:not([width]):not([height])) {
+        width: 1em;
+        /* Height is left to derive from the viewBox. Clamping it too would
+           override the aspect-ratio sizing the stylesheet depends on, and
+           flatten every full-width SVG to 16px tall. */
+        height: auto;
+      }
+    </style>
+
     <script type="module" src="/src/main.js"></script>
   </head>
 
   <body class="body">
-    <div class="loader"></div>
+    <!-- The mark is painted with a CSS mask rather than dropped in as an <img>,
+         so its colour comes from the design token and not from the file. -->
+    <div class="loader">
+      <span class="loader-logo" role="img" aria-label="Vegan Valley"></span>
+    </div>
 
     <!-- ==================================================================
          Nav
@@ -22,6 +61,7 @@
     <nav data-load-nav class="navbar">
       <div class="nav-container">
         <div class="nav-social-media-inner">
+          <a class="nav-logo" href="#" aria-label="Vegan Valley — home"></a>
           <a class="social-media-link" href="#" aria-label="Instagram">
             <span class="social-media-circle">
               <svg viewBox="0 0 24 24" fill="none" aria-hidden="true">
@@ -65,60 +105,46 @@
       <section class="stage" data-load-stage data-inertia>
         <div class="stage-container">
           <div class="stage-content">
-            <div class="stage-logo" data-load-stage-logo>
-              <svg class="stage-logo-svg" viewBox="0 0 720 200" fill="none" aria-label="Veegan">
-                <text
-                  x="360"
-                  y="160"
-                  text-anchor="middle"
-                  font-family="Oswald, sans-serif"
-                  font-size="190"
-                  font-weight="600"
-                  letter-spacing="-4"
-                  fill="currentColor"
-                >
-                  Veegan
-                </text>
-              </svg>
-            </div>
-
-            <div class="stage-cta" data-load-stage-cta>
-              <a class="button" href="#shop">
-                <span class="button-icon">
-                  <svg class="button-arrow" viewBox="0 0 10 10" fill="none" aria-hidden="true">
-                    <path d="M1 9 9 1M3 1h6v6" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" />
-                  </svg>
-                </span>
-                <span class="button-bg">
-                  <span class="button-cycle is-first"><span class="button-cycle-bg"></span></span>
-                  <span class="button-text">Buy now</span>
-                  <span class="button-cycle is-second"><span class="button-cycle-bg"></span></span>
-                </span>
-              </a>
-            </div>
-
             <div class="stage-wrap">
               <div class="stage-left" data-load-stage-visual>
                 <!-- Ring, product, badges and doodles all occupy the same
                      grid cell so they stack without absolute positioning
                      fighting the canvas's own transforms. -->
-                <div class="stage-bg">
-                  <svg
-                    class="stage-bg-svg"
-                    viewBox="0 0 731 818"
-                    fill="none"
-                    data-load-stage-svg
-                    aria-hidden="true"
-                  >
-                    <path
-                      d="M542.941 42.7702C707.951 122.986 766.918 351.375 667.592 555.698C568.265 760.021 352.233 854.727 187.223 774.512C22.2122 694.296 -36.7556 465.905 62.5711 261.582C161.898 57.2593 377.93 -37.4456 542.941 42.7702Z"
-                      stroke="currentColor"
-                      stroke-width="28"
-                    />
-                  </svg>
-                </div>
-
                 <div class="stage-visual">
+                  <div class="stage-backdrop">
+                    <div class="stage-rays">
+                      <svg class="stage-rays-svg" viewBox="0 0 1000 1000" fill="currentColor" data-load-stage-rays aria-hidden="true">
+                        <path d="M355.2 539.2L30.2 639.2L19.8 597.7L353.8 533.4Z"/>
+                        <path d="M350.0 500.8L88.6 511.8L89.1 475.9L350.1 494.7Z"/>
+                        <path d="M354.8 462.3L23.0 388.0L34.6 346.8L356.5 456.5Z"/>
+                        <path d="M369.3 426.3L136.8 306.3L155.1 275.4L372.4 421.1Z"/>
+                        <path d="M392.6 395.3L141.2 166.3L171.7 136.3L396.9 391.1Z"/>
+                        <path d="M423.0 371.2L280.6 151.8L311.8 134.0L428.3 368.3Z"/>
+                        <path d="M458.6 355.8L353.8 32.3L395.1 21.4L464.5 354.3Z"/>
+                        <path d="M497.0 350.0L482.0 88.8L518.0 88.8L503.0 350.0Z"/>
+                        <path d="M535.5 354.3L604.9 21.4L646.2 32.3L541.4 355.8Z"/>
+                        <path d="M571.7 368.3L688.2 134.0L719.4 151.8L577.0 371.2Z"/>
+                        <path d="M603.1 391.1L828.3 136.3L858.8 166.3L607.4 395.3Z"/>
+                        <path d="M627.6 421.1L844.9 275.4L863.2 306.3L630.7 426.3Z"/>
+                        <path d="M643.5 456.5L965.4 346.8L977.0 388.0L645.2 462.3Z"/>
+                        <path d="M649.9 494.7L910.9 475.9L911.4 511.8L650.0 500.8Z"/>
+                        <path d="M646.2 533.4L980.2 597.7L969.8 639.2L644.8 539.2Z"/>
+                      </svg>
+                    </div>
+                    <svg
+                      class="stage-bg-svg"
+                      viewBox="0 0 731 818"
+                      fill="none"
+                      data-load-stage-svg
+                      aria-hidden="true"
+                    >
+                      <path
+                        d="M542.941 42.7702C707.951 122.986 766.918 351.375 667.592 555.698C568.265 760.021 352.233 854.727 187.223 774.512C22.2122 694.296 -36.7556 465.905 62.5711 261.582C161.898 57.2593 377.93 -37.4456 542.941 42.7702Z"
+                        stroke="currentColor"
+                        stroke-width="28"
+                      />
+                    </svg>
+                  </div>
                   <canvas
                     class="stage-canvas"
                     data-load-stage-canvas
@@ -207,6 +233,20 @@
                       </svg>
                     </div>
                   </div>
+                  <div class="stage-cta" data-load-stage-cta>
+                    <a class="button" href="#shop">
+                      <span class="button-icon">
+                        <svg class="button-arrow" viewBox="0 0 10 10" fill="none" aria-hidden="true">
+                          <path d="M1 9 9 1M3 1h6v6" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" />
+                        </svg>
+                      </span>
+                      <span class="button-bg">
+                        <span class="button-cycle is-first"><span class="button-cycle-bg"></span></span>
+                        <span class="button-text">Buy now</span>
+                        <span class="button-cycle is-second"><span class="button-cycle-bg"></span></span>
+                      </span>
+                    </a>
+                  </div>
                 </div>
               </div>
             </div>
@@ -253,7 +293,7 @@
         <div class="insider-container">
           <div class="grid-layout">
             <h2 class="insider-heading">
-              You deserve better. You deserve Veegan:
+              You deserve better. You deserve Vegan Valley:
               <span class="light-green-span">Iced Matcha Latte.</span>
             </h2>
 
@@ -261,31 +301,88 @@
               <div class="testimonial-wrapper">
                 <div class="testimonial-inner-wrap is-first" data-inertia-item>
                   <div class="testimonial-inner _1" data-inertia-item-child>
-                    <!-- Placeholder panels. Swap for <video> and the sound
-                         toggle from the reference layout when footage exists. -->
-                    <div class="testimonial-media"></div>
+                    <video
+                      class="testimonial-media"
+                      data-video
+                      src="/video/insider-1.mp4"
+                      poster="/video/insider-1.jpg"
+                      muted
+                      loop
+                      playsinline
+                      preload="metadata"
+                      disablepictureinpicture
+                    ></video>
+                    <button class="testimonial-sound-btn" data-video-button aria-label="Toggle sound">
+                      <svg class="icon-muted" viewBox="0 0 16 16" fill="none" aria-hidden="true">
+                        <path d="M8 2 4.5 5H2v6h2.5L8 14V2Z" stroke="currentColor" stroke-width="1.5" stroke-linejoin="round" />
+                        <path d="m11 6 3 4M14 6l-3 4" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" />
+                      </svg>
+                      <svg class="icon-unmuted" viewBox="0 0 16 16" fill="none" aria-hidden="true">
+                        <path d="M8 2 4.5 5H2v6h2.5L8 14V2Z" stroke="currentColor" stroke-width="1.5" stroke-linejoin="round" />
+                        <path d="M11 6c.8.8.8 3.2 0 4M13 4c1.7 1.7 1.7 6.3 0 8" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" />
+                      </svg>
+                    </button>
                   </div>
                 </div>
                 <div class="testimonial-inner-wrap is-second" data-inertia-item>
                   <div class="testimonial-inner _2" data-inertia-item-child>
-                    <div class="testimonial-media"></div>
+                    <video
+                      class="testimonial-media"
+                      data-video
+                      src="/video/insider-2.mp4"
+                      poster="/video/insider-2.jpg"
+                      muted
+                      loop
+                      playsinline
+                      preload="metadata"
+                      disablepictureinpicture
+                    ></video>
+                    <button class="testimonial-sound-btn" data-video-button aria-label="Toggle sound">
+                      <svg class="icon-muted" viewBox="0 0 16 16" fill="none" aria-hidden="true">
+                        <path d="M8 2 4.5 5H2v6h2.5L8 14V2Z" stroke="currentColor" stroke-width="1.5" stroke-linejoin="round" />
+                        <path d="m11 6 3 4M14 6l-3 4" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" />
+                      </svg>
+                      <svg class="icon-unmuted" viewBox="0 0 16 16" fill="none" aria-hidden="true">
+                        <path d="M8 2 4.5 5H2v6h2.5L8 14V2Z" stroke="currentColor" stroke-width="1.5" stroke-linejoin="round" />
+                        <path d="M11 6c.8.8.8 3.2 0 4M13 4c1.7 1.7 1.7 6.3 0 8" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" />
+                      </svg>
+                    </button>
                   </div>
                 </div>
                 <div class="testimonial-inner-wrap is-third" data-inertia-item>
                   <div class="testimonial-inner _3" data-inertia-item-child>
-                    <div class="testimonial-media"></div>
+                    <video
+                      class="testimonial-media"
+                      data-video
+                      src="/video/insider-3.mp4"
+                      poster="/video/insider-3.jpg"
+                      muted
+                      loop
+                      playsinline
+                      preload="metadata"
+                      disablepictureinpicture
+                    ></video>
+                    <button class="testimonial-sound-btn" data-video-button aria-label="Toggle sound">
+                      <svg class="icon-muted" viewBox="0 0 16 16" fill="none" aria-hidden="true">
+                        <path d="M8 2 4.5 5H2v6h2.5L8 14V2Z" stroke="currentColor" stroke-width="1.5" stroke-linejoin="round" />
+                        <path d="m11 6 3 4M14 6l-3 4" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" />
+                      </svg>
+                      <svg class="icon-unmuted" viewBox="0 0 16 16" fill="none" aria-hidden="true">
+                        <path d="M8 2 4.5 5H2v6h2.5L8 14V2Z" stroke="currentColor" stroke-width="1.5" stroke-linejoin="round" />
+                        <path d="M11 6c.8.8.8 3.2 0 4M13 4c1.7 1.7 1.7 6.3 0 8" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" />
+                      </svg>
+                    </button>
                   </div>
                 </div>
               </div>
 
               <div class="insider-text-inner">
                 <h3 class="insider-subheading">
-                  We want to make plant-based nutrition simple, honest and genuinely good — so you
-                  never have to choose between what works and what you actually enjoy.
+                  We make plant-based nutrition simple, honest and genuinely good.
                 </h3>
                 <p class="paragraph">
-                  Loved by thousands, this blend contains real stone-ground green tea, a complete pea and
-                  rice protein, and nothing you'd need a chemistry degree to pronounce.
+                  Real stone-ground green tea, a complete pea and rice protein, and nothing you'd
+                  need a chemistry degree to pronounce.
                 </p>
                 <div class="insider-cta">
                   <a class="button" href="#shop">
@@ -524,7 +621,9 @@
                 <img class="sequence-final-bottle" src="/img/bottles/hydrator.webp" alt="The Hydrator"
                      data-sequence-bottle data-tilt="9" data-blur="0"
                      style="--x: 69%; --lift: 15%; --depth: 0.95" width="248" height="700" />
-                <img class="sequence-final-bottle" src="/img/bottles/charcoal.webp" alt="Charcoal Lemonade"
+                <!-- Green House, not Charcoal: the scrub ends on Charcoal, so
+                     using it here too would put the same bottle on screen twice. -->
+                <img class="sequence-final-bottle" src="/img/bottles/green-house.webp" alt="Green House"
                      data-sequence-bottle data-tilt="19" data-blur="2"
                      style="--x: 79%; --lift: 7%; --depth: 0.8" width="248" height="700" />
               </div>
@@ -640,7 +739,7 @@
               <div class="benefit-table" data-benefit-table>
                 <div class="benefit-table-title-wrapper">
                   <div class="benefit-table-title">Benefits</div>
-                  <div class="benefit-table-brand">Veegan</div>
+                  <div class="benefit-table-brand">Vegan Valley</div>
                   <div class="benefit-table-title">Regular whey</div>
                 </div>
                 <div class="sub-line" data-benefit-table-line></div>
@@ -919,45 +1018,71 @@
       </section>
 
       <!-- ================================================================
-           Flavours
+           Bowls — the paired-slider mechanic from the flavour section, now
+           carrying the real menu. Two sliders move as one: the dish and its
+           copy, each with its own creative transform.
            ================================================================ -->
-      <section class="flavour" id="shop" data-inertia>
-        <div class="flavour-container">
-          <div class="flavour-header">
-            <div class="flavour-heading-wrap">
-              <h2 class="flavour-title section-heading">Chunky Flavour</h2>
-              <h3 class="flavour-subline" data-highlight-text>New taste, low sugar</h3>
+      <section class="bowls" id="shop" data-inertia>
+        <div class="bowls-container">
+          <div class="bowls-header">
+            <div class="bowls-heading-wrap">
+              <h2 class="bowls-title section-heading">Bowl'd with love</h2>
+              <h3 class="bowls-subline" data-highlight-text>Pressed to perfection</h3>
             </div>
-            <p class="flavour-paragraph">
-              Stir 3g of Chunky Flavour into your 300g Iced Matcha Latte and it becomes something else
-              entirely. Five to pick from, none of them boring.
+            <p class="bowls-paragraph">
+              Made fresh each morning from whole, organic ingredients — no additives, no
+              preservatives, nothing you can't pronounce. Eat in, or we deliver.
             </p>
           </div>
 
-          <div class="flavour-content" data-flavour-content>
-            <div class="flavour-left">
-              <div class="flavour-left-dose" data-inertia-item>
-                <div class="flavour-pack-visual is-dose" data-inertia-item-child></div>
-              </div>
-              <div class="flavour-left-pack is-first" data-inertia-item>
-                <div class="flavour-pack-visual" data-inertia-item-child></div>
-              </div>
-            </div>
-
-            <div class="flavour-plus">+</div>
-
-            <div class="flavour-right">
-              <div class="flavour-swiper swiper" data-flavour-slider>
-                <div class="flavour-swiper-wrapper swiper-wrapper">
-                  <div class="flavour-slide swiper-slide"><div class="flavour-slide-inner is-strawberry"></div></div>
-                  <div class="flavour-slide swiper-slide"><div class="flavour-slide-inner is-brownie"></div></div>
-                  <div class="flavour-slide swiper-slide"><div class="flavour-slide-inner is-cookie"></div></div>
-                  <div class="flavour-slide swiper-slide"><div class="flavour-slide-inner is-caramel"></div></div>
-                  <div class="flavour-slide swiper-slide"><div class="flavour-slide-inner is-pistachio"></div></div>
+          <div class="bowls-content" data-bowls-content>
+            <div class="bowls-stage">
+              <div class="bowls-swiper swiper" data-bowls-slider>
+                <div class="bowls-swiper-wrapper swiper-wrapper">
+                  <div class="bowls-slide swiper-slide">
+                    <img
+                      class="bowls-photo"
+                      src="/img/bowls/acai-bowl.webp"
+                      alt="Acai bowl topped with granola, coconut and fresh raspberries"
+                      width="1100"
+                      height="810"
+                      loading="lazy"
+                      decoding="async"
+                    />
+                  </div>
+                  <div class="bowls-slide swiper-slide">
+                    <img
+                      class="bowls-photo"
+                      src="/img/bowls/oat-meal.webp"
+                      alt="Oat meal bowl with mango, strawberry, kiwi and chia seeds"
+                      width="1012"
+                      height="1100"
+                      loading="lazy"
+                      decoding="async"
+                    />
+                  </div>
+                  <div class="bowls-slide swiper-slide">
+                    <img
+                      class="bowls-photo"
+                      src="/img/bowls/vegan-bowl.webp"
+                      alt="Vegan grain bowl with edamame, avocado, peppers and cucumber"
+                      width="1100"
+                      height="874"
+                      loading="lazy"
+                      decoding="async"
+                    />
+                  </div>
                 </div>
               </div>
-              <div class="flavour-right-bg">
-                <svg class="flavour-right-bg-svg" viewBox="0 0 769 691" fill="none" data-flavour-content-svg aria-hidden="true">
+
+              <div class="bowls-ring">
+                <svg
+                  class="bowls-ring-svg"
+                  viewBox="0 0 769 691"
+                  fill="none"
+                  data-bowls-ring
+                  aria-hidden="true"
+                >
                   <path
                     d="M245.813 59.5015C54.1619 152.668 -34.1186 356.234 41.6525 512.101C117.424 667.969 332.042 724.289 523.692 631.123C715.343 537.957 803.624 334.39 727.852 178.522C652.081 22.6546 437.463 -33.6648 245.813 59.5015Z"
                     stroke="currentColor"
@@ -967,54 +1092,87 @@
               </div>
             </div>
 
-            <div class="flavour-navigation">
-              <button class="flavour-slider-button is-left" data-flavour-slider-left-button aria-label="Previous flavour">
-                <svg viewBox="0 0 24 24" fill="none" aria-hidden="true"><path d="M15 5 8 12l7 7" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"/></svg>
-              </button>
-              <button class="flavour-slider-button is-right" data-flavour-slider-right-button aria-label="Next flavour">
-                <svg viewBox="0 0 24 24" fill="none" aria-hidden="true"><path d="m9 5 7 7-7 7" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"/></svg>
-              </button>
-            </div>
+            <div class="bowls-copy">
+              <div class="bowls-content-swiper swiper" data-bowls-copy-slider>
+                <div class="bowls-content-swiper-wrapper swiper-wrapper">
+                  <div class="bowls-content-slide swiper-slide">
+                    <div class="bowls-content-slide-inner">
+                      <p class="bowls-eyebrow">Breakfast</p>
+                      <h3 class="bowls-name">Acai Bowl</h3>
+                      <p class="bowls-desc">
+                        Pure acai blended thick and cold, under a heap of granola, toasted coconut
+                        and fresh berries. Antioxidants by the spoonful.
+                      </p>
+                      <a class="button" href="#">
+                        <span class="button-icon">
+                          <svg class="button-arrow" viewBox="0 0 10 10" fill="none" aria-hidden="true">
+                            <path d="M1 9 9 1M3 1h6v6" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" />
+                          </svg>
+                        </span>
+                        <span class="button-bg">
+                          <span class="button-cycle is-first"><span class="button-cycle-bg"></span></span>
+                          <span class="button-text">Order now</span>
+                          <span class="button-cycle is-second"><span class="button-cycle-bg"></span></span>
+                        </span>
+                      </a>
+                    </div>
+                  </div>
 
-            <div class="flavour-center">
-              <div class="flavour-content-swiper swiper" data-flavour-content-slider>
-                <div class="flavour-content-swiper-wrapper swiper-wrapper">
-                  <div class="flavour-content-slide swiper-slide">
-                    <div class="flavour-content-slide-inner">
-                      <h3 class="flavour-content-slider-title">Strawberry Perfection</h3>
-                      <p class="flavour-content-slider-subline">Chunky Flavour®</p>
-                      <a class="button" href="#"><span class="button-icon"><svg class="button-arrow" viewBox="0 0 10 10" fill="none" aria-hidden="true"><path d="M1 9 9 1M3 1h6v6" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" /></svg></span><span class="button-bg"><span class="button-cycle is-first"><span class="button-cycle-bg"></span></span><span class="button-text">Buy now</span><span class="button-cycle is-second"><span class="button-cycle-bg"></span></span></span></a>
+                  <div class="bowls-content-slide swiper-slide">
+                    <div class="bowls-content-slide-inner">
+                      <p class="bowls-eyebrow">Breakfast</p>
+                      <h3 class="bowls-name">Oat Meal</h3>
+                      <p class="bowls-desc">
+                        Whole-grain oats cooked slow and creamy, finished with mango, strawberry,
+                        kiwi and chia. Fibre, protein and lasting energy.
+                      </p>
+                      <a class="button" href="#">
+                        <span class="button-icon">
+                          <svg class="button-arrow" viewBox="0 0 10 10" fill="none" aria-hidden="true">
+                            <path d="M1 9 9 1M3 1h6v6" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" />
+                          </svg>
+                        </span>
+                        <span class="button-bg">
+                          <span class="button-cycle is-first"><span class="button-cycle-bg"></span></span>
+                          <span class="button-text">Order now</span>
+                          <span class="button-cycle is-second"><span class="button-cycle-bg"></span></span>
+                        </span>
+                      </a>
                     </div>
                   </div>
-                  <div class="flavour-content-slide swiper-slide">
-                    <div class="flavour-content-slide-inner">
-                      <h3 class="flavour-content-slider-title">Fudge Brownie</h3>
-                      <p class="flavour-content-slider-subline">Chunky Flavour®</p>
-                      <a class="button" href="#"><span class="button-icon"><svg class="button-arrow" viewBox="0 0 10 10" fill="none" aria-hidden="true"><path d="M1 9 9 1M3 1h6v6" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" /></svg></span><span class="button-bg"><span class="button-cycle is-first"><span class="button-cycle-bg"></span></span><span class="button-text">Buy now</span><span class="button-cycle is-second"><span class="button-cycle-bg"></span></span></span></a>
-                    </div>
-                  </div>
-                  <div class="flavour-content-slide swiper-slide">
-                    <div class="flavour-content-slide-inner">
-                      <h3 class="flavour-content-slider-title">Vanilla Choc Chip Cookie</h3>
-                      <p class="flavour-content-slider-subline">Chunky Flavour®</p>
-                      <a class="button" href="#"><span class="button-icon"><svg class="button-arrow" viewBox="0 0 10 10" fill="none" aria-hidden="true"><path d="M1 9 9 1M3 1h6v6" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" /></svg></span><span class="button-bg"><span class="button-cycle is-first"><span class="button-cycle-bg"></span></span><span class="button-text">Buy now</span><span class="button-cycle is-second"><span class="button-cycle-bg"></span></span></span></a>
-                    </div>
-                  </div>
-                  <div class="flavour-content-slide swiper-slide">
-                    <div class="flavour-content-slide-inner">
-                      <h3 class="flavour-content-slider-title">Salted Caramel</h3>
-                      <p class="flavour-content-slider-subline">Chunky Flavour®</p>
-                      <a class="button" href="#"><span class="button-icon"><svg class="button-arrow" viewBox="0 0 10 10" fill="none" aria-hidden="true"><path d="M1 9 9 1M3 1h6v6" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" /></svg></span><span class="button-bg"><span class="button-cycle is-first"><span class="button-cycle-bg"></span></span><span class="button-text">Buy now</span><span class="button-cycle is-second"><span class="button-cycle-bg"></span></span></span></a>
-                    </div>
-                  </div>
-                  <div class="flavour-content-slide swiper-slide">
-                    <div class="flavour-content-slide-inner">
-                      <h3 class="flavour-content-slider-title">Pistachio Cream</h3>
-                      <p class="flavour-content-slider-subline">Chunky Flavour®</p>
-                      <a class="button" href="#"><span class="button-icon"><svg class="button-arrow" viewBox="0 0 10 10" fill="none" aria-hidden="true"><path d="M1 9 9 1M3 1h6v6" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" /></svg></span><span class="button-bg"><span class="button-cycle is-first"><span class="button-cycle-bg"></span></span><span class="button-text">Buy now</span><span class="button-cycle is-second"><span class="button-cycle-bg"></span></span></span></a>
+
+                  <div class="bowls-content-slide swiper-slide">
+                    <div class="bowls-content-slide-inner">
+                      <p class="bowls-eyebrow">Lunch</p>
+                      <h3 class="bowls-name">Vegan Bowl</h3>
+                      <p class="bowls-desc">
+                        Brown rice, edamame, avocado and crisp peppers, dressed and stacked.
+                        A full plant-based meal that actually fills you up.
+                      </p>
+                      <a class="button" href="#">
+                        <span class="button-icon">
+                          <svg class="button-arrow" viewBox="0 0 10 10" fill="none" aria-hidden="true">
+                            <path d="M1 9 9 1M3 1h6v6" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" />
+                          </svg>
+                        </span>
+                        <span class="button-bg">
+                          <span class="button-cycle is-first"><span class="button-cycle-bg"></span></span>
+                          <span class="button-text">Order now</span>
+                          <span class="button-cycle is-second"><span class="button-cycle-bg"></span></span>
+                        </span>
+                      </a>
                     </div>
                   </div>
                 </div>
+              </div>
+
+              <div class="bowls-navigation">
+                <button class="bowls-button is-left" data-bowls-prev aria-label="Previous bowl">
+                  <svg viewBox="0 0 24 24" fill="none" aria-hidden="true"><path d="M15 5 8 12l7 7" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"/></svg>
+                </button>
+                <button class="bowls-button is-right" data-bowls-next aria-label="Next bowl">
+                  <svg viewBox="0 0 24 24" fill="none" aria-hidden="true"><path d="m9 5 7 7-7 7" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"/></svg>
+                </button>
               </div>
             </div>
           </div>
@@ -1059,7 +1217,7 @@
 
         <div class="footer-inner">
           <div class="footer-brand">
-            <div class="footer-logo">VEEGAN</div>
+            <div class="footer-logo">Vegan Valley</div>
             <p class="paragraph">Plant protein that doesn't taste like a compromise.</p>
           </div>
           <nav class="footer-links">
@@ -1069,7 +1227,7 @@
             <a href="#shop">Shop</a>
           </nav>
           <div class="footer-legal">
-            <span>© 2026 Veegan</span>
+            <span>© 2026 Vegan Valley</span>
             <a href="#">Imprint</a>
             <a href="#">Privacy</a>
           </div>

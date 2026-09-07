@@ -23,12 +23,25 @@ const dpr = () => Math.min(window.devicePixelRatio || 1, MAX_DPR);
  *              loader is holding the page anyway, so blocking is free.
  */
 export class FrameSequence {
-  constructor(canvas, { basePath, prefix, count, fit = "height", strategy = "eager" }) {
+  constructor(canvas, {
+    basePath,
+    prefix,
+    count,
+    fit = "height",
+    strategy = "eager",
+    contentHeight = 1,
+  }) {
     this.canvas = canvas;
     this.ctx = canvas.getContext("2d", { alpha: true });
     this.count = count;
     this.fit = fit;
     this.strategy = strategy;
+    /* Fraction of the frame's height the subject actually occupies. The
+       renders carry ~20% transparent margin top and bottom, so fitting the
+       *frame* to the box leaves the product rendering 40% smaller than the
+       space allows. Dividing through by this fits the subject instead; the
+       empty margin simply overflows and is clipped. */
+    this.contentHeight = contentHeight;
     this.frames = new Array(count);
     this.ready = false;
     this.src = (i) => `${basePath}${prefix}_${i}.webp`;
@@ -119,23 +132,26 @@ export class FrameSequence {
     const fh = frame.naturalHeight || frame.height;
     const aspect = fw / fh;
 
+    const boost = 1 / (this.contentHeight || 1);
+
     let h, w, x, y;
     if (this.fit === "contain") {
-      const scale = Math.min(cw / fw, ch / fh);
+      const scale = Math.min(cw / fw, ch / fh) * boost;
       w = fw * scale;
       h = fh * scale;
       x = (cw - w) / 2;
       y = (ch - h) / 2;
     } else if (this.fit === "bottom") {
-      h = ch * 0.8;
+      h = ch * 0.8 * boost;
       w = aspect * h;
       x = Math.round((cw - w) / 2);
-      y = Math.round(ch - h);
+      // Anchor the subject's foot to the bottom, not the frame's.
+      y = Math.round(ch - h + (h - h / boost) / 2);
     } else {
-      h = ch;
+      h = ch * boost;
       w = aspect * h;
       x = Math.round((cw - w) / 2);
-      y = 0;
+      y = Math.round((ch - h) / 2);
     }
 
     ctx.drawImage(frame, Math.round(x), Math.round(y), Math.round(w), Math.round(h));

@@ -1,36 +1,36 @@
 {
   "classic-beet": {
-    "juice": "#724d53",
+    "juice": "#3c2022",
     "cap": "#27262c",
     "label": "/art/labels/classic-beet.png",
     "labelAspect": 0.4013
   },
   "morning-sunshine": {
-    "juice": "#d59b50",
+    "juice": "#c4822c",
     "cap": "#2c2825",
     "label": "/art/labels/morning-sunshine.png",
     "labelAspect": 0.4079
   },
   "golden-hour": {
-    "juice": "#ef8848",
+    "juice": "#e56319",
     "cap": "#2d2b30",
     "label": "/art/labels/golden-hour.png",
     "labelAspect": 0.4069
   },
   "green-house": {
-    "juice": "#726e3d",
+    "juice": "#6d6b33",
     "cap": "#443f3e",
     "label": "/art/labels/green-house.png",
     "labelAspect": 0.4066
   },
   "hydrator": {
-    "juice": "#919045",
+    "juice": "#8d8d38",
     "cap": "#1b1a1d",
     "label": "/art/labels/hydrator.png",
     "labelAspect": 0.4157
   },
   "charcoal": {
-    "juice": "#685c4e",
+    "juice": "#302d27",
     "cap": "#3d3a39",
     "label": "/art/labels/charcoal.png",
     "labelAspect": 0.4158

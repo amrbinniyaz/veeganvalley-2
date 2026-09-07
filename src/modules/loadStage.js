@@ -9,6 +9,29 @@ const FRAME_COUNT = 23;
 const IDLE_DURATION = 1.38;
 
 /**
+ * Pick which bottle greets this visit.
+ *
+ * The renderer produces one idle sequence per flavour and lists them in
+ * hero.json, so the page chooses from what actually exists on disk rather
+ * than carrying a duplicate of the flavour list that can drift out of step
+ * with the render script. Only the chosen set is ever fetched, so six
+ * flavours cost disk but not bandwidth or memory.
+ *
+ * Falls back to the unsuffixed sequence, which is what older renders emit.
+ */
+async function pickHeroFlavour() {
+  try {
+    const res = await fetch("/img/seq/hero.json");
+    if (!res.ok) return "seq_1";
+    const { flavours } = await res.json();
+    if (!flavours?.length) return "seq_1";
+    return `seq_1_${flavours[Math.floor(Math.random() * flavours.length)]}`;
+  } catch {
+    return "seq_1";
+  }
+}
+
+/**
  * The page intro.
  *
  * Scroll is locked for the whole thing and released one second before the
@@ -31,11 +54,15 @@ export async function initLoadStage() {
   const decoText = stage.querySelector("[data-load-stage-deco-text]");
   const decoArrow = stage.querySelector("[data-load-stage-deco-arrow]");
   const ring = stage.querySelector("[data-load-stage-svg] path");
+  const rays = stage.querySelectorAll("[data-load-stage-rays] path");
 
-  /* The logo starts at the vertical centre of the viewport and rises into
+  /* The hero mark is optional — the layout can run without one. When it is
+     present it starts at the vertical centre of the viewport and rises into
      place, so measure the offset before anything else moves. */
-  const logoBox = logo.getBoundingClientRect();
-  const logoTravel = window.innerHeight / 2 - (logoBox.top + logoBox.height / 2);
+  const logoTravel = logo
+    ? window.innerHeight / 2 -
+      (logo.getBoundingClientRect().top + logo.getBoundingClientRect().height / 2)
+    : 0;
 
   const titleLines = SplitText.create(title, { type: "lines", linesClass: "split-line" });
   const textLines = SplitText.create(text, { type: "lines", linesClass: "split-line" });
@@ -44,8 +71,11 @@ export async function initLoadStage() {
 
   const sequence = new FrameSequence(canvas, {
     basePath: canvas.dataset.loadStageCanvasImgPath,
-    prefix: "seq_1",
+    prefix: await pickHeroFlavour(),
     count: FRAME_COUNT,
+    // Measured off the alpha channel: the bottle spans ~60.5% of the frame
+    // height, the rest is transparent margin.
+    contentHeight: 0.605,
     fit: "contain",
     strategy: "decoded",
   }).observeResize();
@@ -107,10 +137,13 @@ export async function initLoadStage() {
 
   /* --- Shared start state ------------------------------------------- */
   gsap.set(nav, { opacity: 0 });
-  gsap.set(logo, { y: logoTravel });
+  if (logo) gsap.set(logo, { y: logoTravel });
   gsap.set(cta, { opacity: 0, y: 60 });
   // A zero-length segment at the ring's midpoint — it grows both ways at once.
   gsap.set(ring, { drawSVG: "50% 50%" });
+  /* Rays grow outward from the sun's centre. transformOrigin is the middle of
+     the viewBox, which is where every wedge's inner edge meets. */
+  gsap.set(rays, { scale: 0, opacity: 0, transformOrigin: "500px 500px" });
   gsap.set(facts, { opacity: 0, y: 100, x: -40, rotate: -35, scale: 0.6 });
 
   desktop(() => {
@@ -152,12 +185,27 @@ export async function initLoadStage() {
   function build({ full }) {
     const tl = gsap.timeline();
 
-    tl.to(logo, { y: 0, duration: 0.6, delay: 1 })
+    // Without a mark to raise, the timeline still needs its opening beat so
+    // everything downstream keeps its relative timing.
+    tl.to(logo ?? {}, { y: 0, duration: 0.6, delay: 1 })
       .to(nav, { opacity: 1, duration: 0.25 }, "<+=.125")
       .to(cta, { y: 0, opacity: 1, duration: 0.5 }, "<+=.05")
       // Ring sweeps past a full turn (150%) so the join lands off-axis and
       // the stroke reads as drawn by hand rather than snapped shut.
       .to(ring, { drawSVG: "150% 50%", ease: "power2.out", duration: 1.4 }, "<+=.005")
+      // Fanning out from the centre rather than left-to-right, so the sun
+      // opens the way the ring does.
+      .to(
+        rays,
+        {
+          scale: 1,
+          opacity: 1,
+          duration: 0.9,
+          ease: "power3.out",
+          stagger: { each: 0.035, from: "center" },
+        },
+        "<+=.1"
+      )
       // Negative stagger: the last chip leads. The eye is already at the
       // bottom of the stack when the product arrives beneath it.
       .to(

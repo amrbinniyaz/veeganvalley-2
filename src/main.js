@@ -19,7 +19,8 @@ import { initLoadStage } from "./modules/loadStage.js";
 import { initSequence } from "./modules/sequence.js";
 import { initInertia } from "./modules/inertia.js";
 import { initTestimonialSlider } from "./modules/testimonialSlider.js";
-import { initFlavour } from "./modules/flavour.js";
+import { initBowls } from "./modules/bowls.js";
+import { initVideo } from "./modules/video.js";
 import {
   initMarquee,
   initFillLines,
@@ -69,7 +70,8 @@ async function boot() {
   initPayment();
   initParallax();
   initTestimonialSlider();
-  initFlavour();
+  initBowls();
+  initVideo();
 
   try {
     await initLoadStage();

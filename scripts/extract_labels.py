@@ -38,8 +38,9 @@ FLAVOURS = [
 # Label box as a fraction of the bottle's bounding box.
 LABEL = dict(u0=0.175, u1=0.805, v0=0.385, v1=0.925)
 
-# Clean juice, sampled from the body above the label and below the shoulder.
-JUICE = dict(u0=0.30, u1=0.70, v0=0.12, v1=0.32)
+# Clean juice: below the foam head, above the label. Sampling any higher picks
+# up the foam and every dark flavour comes back beige.
+JUICE = dict(u0=0.32, u1=0.68, v0=0.22, v1=0.36)
 
 # The cap, near the top of every bottle.
 CAP = dict(u0=0.35, u1=0.65, v0=0.015, v1=0.05)

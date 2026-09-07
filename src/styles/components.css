@@ -154,7 +154,24 @@
 
 .nav-social-media-inner {
   display: flex;
+  align-items: center;
   gap: 0.5em;
+}
+
+/* Sits inside the left cluster rather than as a fourth child of .nav-container,
+   which is space-between — a fourth item would drag the link group off centre.
+   currentColor, so it inverts with the nav exactly like the social icons do. */
+.nav-logo {
+  flex: none;
+  /* Noticeably taller than the 2.4em social circles. The mark is portrait, so
+     matching their height leaves it reading as the smallest thing in the nav —
+     it has to overshoot them to register as the brand rather than a third icon. */
+  width: calc(4.2em * 421 / 642);
+  height: 4.2em;
+  margin-right: 0.75em;
+  background-color: currentColor;
+  -webkit-mask: url("/img/logo/vegan-valley.png") center / contain no-repeat;
+  mask: url("/img/logo/vegan-valley.png") center / contain no-repeat;
 }
 
 .social-media-circle {
@@ -236,6 +253,7 @@
 .sequence-signature-arrow,
 .sequence-final-signature,
 .sequence-inner-signature,
+.insider-signature,
 .statement-icon {
   position: relative;
 }
@@ -247,9 +265,17 @@
 .sequence-signature-arrow > svg,
 .sequence-final-signature > svg,
 .sequence-inner-signature > svg,
+.insider-signature > svg,
 .statement-icon > svg {
   width: 100%;
   animation: ink-boil 0.36s steps(1) infinite;
+}
+
+/* Width only, no ink-boil: this arrow is drawn once with no wiggle twin, and
+   the boil cross-fades between a pair. Applied to a lone element it would
+   simply blink the arrow out half the time. */
+.insider-signature-arrow > svg {
+  width: 100%;
 }
 
 .is-wiggle {
@@ -275,6 +301,7 @@
   .sequence-signature-arrow > svg,
   .sequence-final-signature > svg,
   .sequence-inner-signature > svg,
+  .insider-signature > svg,
   .statement-icon > svg {
     animation: none;
   }

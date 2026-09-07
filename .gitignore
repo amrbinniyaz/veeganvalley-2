@@ -2,6 +2,8 @@ node_modules
 dist
 .DS_Store
 
-# Generated from art/bottles/ by scripts/build_frames.py — the source art is
-# committed, these are build output. Run `npm run frames` to regenerate.
+# Build output. art/bottles/ is the committed source art; everything below is
+# derived from it by `npm run frames`.
 public/img/seq/*.webp
+public/img/bottles/*.webp
+art/labels/

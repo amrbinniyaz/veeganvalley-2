@@ -217,8 +217,21 @@
       scene.add(rim);
       scene.add(new THREE.AmbientLight(0xffffff, 0.22));
 
+      /* Two nested groups, because lean and spin have to happen in that order.
+         `lean` tips the bottle off vertical; `pivot` turns it about its own
+         long axis inside that tip. Doing it the other way round would swing the
+         whole bottle around the world's vertical instead — an orbit, not a spin.
+
+         `lean` is lifted to the bottle's midpoint and the pivot pushed back down
+         by the same amount, so the tip happens about the middle of the bottle.
+         Leaning about the base would throw the cap right out of frame. */
+      const lean = new THREE.Group();
+      lean.position.y = HEIGHT / 2;
+      scene.add(lean);
+
       const pivot = new THREE.Group();
-      scene.add(pivot);
+      pivot.position.y = -HEIGHT / 2;
+      lean.add(pivot);
 
       const glassMat = new THREE.MeshPhysicalMaterial({
         roughness: 0.22,
@@ -263,7 +276,7 @@
 
       /** Push juice colours towards what they look like in a lit glass rather
           than what they average to in a flat photograph. */
-      function vivid(hex, sat = 1.85, lift = 0.9) {
+      function vivid(hex, sat = 1.5, lift = 1.08) {
         const c = new THREE.Color(hex);
         const hsl = {};
         c.getHSL(hsl);
@@ -298,9 +311,12 @@
       }
 
       // Driven from Playwright, one frame at a time.
-      window.renderFrame = (flavour, degrees) => {
+      // leanZ tips it left/right, leanX towards or away from camera.
+      window.renderFrame = (flavour, degrees, leanZ = 0, leanX = 0) => {
         setFlavour(flavour);
         pivot.rotation.y = THREE.MathUtils.degToRad(degrees);
+        lean.rotation.z = THREE.MathUtils.degToRad(leanZ);
+        lean.rotation.x = THREE.MathUtils.degToRad(leanX);
         renderer.render(scene, camera);
         return true;
       };

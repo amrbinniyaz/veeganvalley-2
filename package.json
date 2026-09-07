@@ -5,9 +5,14 @@
   "type": "module",
   "scripts": {
     "dev": "vite",
+    "dev:host": "vite --host",
     "build": "vite build",
     "preview": "vite preview",
-    "frames": "python3 scripts/build_frames.py"
+    "labels": "python3 scripts/extract_labels.py",
+    "turntable": "python3 scripts/render_turntable.py",
+    "frames": "npm run labels && npm run turntable",
+    "clips": "python3 scripts/render_clips.py",
+    "ingest": "python3 scripts/ingest_clips.py"
   },
   "dependencies": {
     "gsap": "^3.15.0",

@@ -16,38 +16,42 @@
 .stage {
   position: relative;
   overflow: clip;
+  /* The arc is pinned to the stage's bottom and is 442/1440 = 30.7% of the
+     viewport width tall. Making the stage a full screen taller than that
+     guarantees its top edge starts below the fold, so the hero is never
+     delivered with a band of type cutting across it.
+
+     The content is then centred in the screen-height remainder rather than
+     stacked from the top: the stage is far taller than its content, and
+     top-aligning left a dead band under the headline that grew with the
+     viewport. `align-content` centres the grid's rows within that box.
+     The reduced bottom padding lets the product's foot run behind the arc,
+     which is what ties the two together. */
+  display: grid;
+  align-content: center;
+  min-height: calc(100svh + 30.7vw);
+  padding-bottom: calc(30.7vw - 5em);
   background-color: var(--bg-light);
 }
 
 .stage-container {
   max-width: var(--size-container);
   margin-inline: auto;
-  padding: 4.625em 2.5em 0;
+  padding: 7.5em 2.5em 0;
 }
 
 .stage-content {
   display: flex;
   flex-direction: column;
   align-items: center;
-  gap: 2.5em;
+  gap: 1.75em;
 }
 
-.stage-logo {
-  display: flex;
-  align-items: flex-end;
-  justify-content: center;
-  /* Scales with the viewport but never collapses on short windows. */
-  height: max(12.5em, 34svh);
-  width: calc((var(--grid-column-width) * 8) + (var(--grid-gutter) * 7));
-  color: var(--dark-green);
-}
-
-.stage-logo-svg {
-  width: 100%;
-}
-
+/* Sits under the headline now that the centre mark is gone — a lone centred
+   button with nothing above it had nothing to belong to. */
 .stage-cta {
-  flex: none;
+  align-self: center;
+  margin-top: 0.5em;
 }
 
 .stage-wrap {
@@ -55,51 +59,101 @@
   grid-template-columns: repeat(var(--grid-columns), 1fr);
   gap: var(--grid-gutter);
   width: 100%;
-  padding-top: 1.25em;
 }
 
-/* Every layer of the product lockup shares one grid cell. */
+/* Every layer of the product lockup shares one grid cell. The explicit
+   min-height is what keeps the hero taller than the viewport, which is what
+   keeps the marquee arc below the fold instead of across the product. */
 .stage-left {
   position: relative;
   grid-column: span 7;
   display: grid;
+  min-height: min(42em, 70svh);
+  /* Children stay stretched to the cell — the badges and doodles position
+     themselves as percentages of it. Centring here would shrink every layer
+     to its own content and collapse them onto one point. */
 }
 
-/* Top-aligned with the product column, not centred — the headline should
-   start level with the top of the ring. */
 .stage-right {
   grid-column: span 5;
-  align-self: start;
+  align-self: center;
 }
 
-.stage-bg {
-  grid-area: 1 / 1;
-  padding: 1.875em 1.75em 0;
+/* Sits inside .stage-visual and is sized off the canvas, not the column, so
+   the sun and the ring stay concentric with the bottle wherever the layout
+   moves it. */
+.stage-backdrop {
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  translate: -50% -50%;
+  z-index: 0;
+  display: grid;
+  place-items: center;
+  width: 100%;
+  aspect-ratio: 1;
   color: var(--white);
+  pointer-events: none;
+}
+
+/* The logo's sun, blown up so the bottle stands in the middle of it. Rays are
+   filled wedges rather than strokes: they taper the way the badge's do, and a
+   constant-width stroke would read as a spider instead of a sunburst. */
+.stage-rays {
+  grid-area: 1 / 1;
+  display: grid;
+  place-items: center;
+  width: 100%;
+}
+
+.stage-rays-svg {
+  width: 132%;
+  /* Faint enough to read as a ground the product stands on, not as a graphic
+     competing with it. */
+  opacity: 0.22;
+  overflow: visible;
 }
 
 /* Wider than its cell and pulled left, so the ring runs off the edges
    instead of reading as a contained badge. */
+/* 80%, not 100%: the ring's viewBox is taller than it is wide, so at full
+   width it overflows the square box top and bottom and only its lower arc
+   stays in view. */
 .stage-bg-svg {
-  width: 120%;
-  margin-left: -10%;
+  grid-area: 1 / 1;
+  width: 80%;
   overflow: visible;
 }
 
+/* A square stage for the product lockup. Everything else — sun, ring, badges —
+   is sized as a percentage of this one box, so the whole arrangement scales as
+   a unit and stays concentric. */
 .stage-visual {
+  position: relative;
   z-index: 1;
   grid-area: 1 / 1;
+  justify-self: end;
+  /* Sits high in the column rather than centred: the badge chain runs down
+     past it, and a centred product left the arrangement bottom-heavy. */
+  align-self: start;
   display: flex;
   justify-content: center;
-  align-items: flex-start;
-  margin-left: auto;
+  align-items: center;
+  width: 100%;
+  max-width: min(42em, 70svh);
+  aspect-ratio: 1;
   pointer-events: none;
 }
 
+/* Sits above the sun and ring, and now fills them: the frames carry ~20%
+   transparent margin, which FrameSequence divides out (contentHeight), so the
+   bottle itself spans this box rather than 60% of it. */
 .stage-canvas {
+  position: relative;
+  z-index: 1;
   aspect-ratio: 1 / 1;
-  width: 100%;
-  max-width: 37em;
+  width: 84%;
+  max-width: none;
   height: auto;
 }
 
@@ -113,6 +167,8 @@
   grid-area: 1 / 1;
   position: relative;
   z-index: 2;
+  width: 100%;
+  height: 100%;
 }
 
 .stage-fact-outer {
@@ -123,17 +179,17 @@
 
 .stage-fact-outer.is-first {
   z-index: 3;
-  top: 4%;
-  left: 24%;
+  top: 14%;
+  left: 21%;
 }
 .stage-fact-outer.is-second {
   z-index: 2;
-  top: 15.5%;
-  left: 9%;
+  top: 33%;
+  left: 6%;
 }
 .stage-fact-outer.is-third {
   z-index: 1;
-  top: 31.5%;
+  top: 52%;
   left: 0;
 }
 
@@ -181,22 +237,28 @@
   grid-area: 1 / 1;
   position: relative;
   z-index: 3;
+  width: 100%;
+  height: 100%;
   color: var(--dark-green);
   pointer-events: none;
 }
 
+/* Sits above the badge chain and points down into it. Anywhere lower and it
+   lands on top of the first badge; anywhere further left and it collides with
+   the fixed nav's logo lockup. */
 .stage-deco-text-wrap {
   position: absolute;
-  top: 3%;
-  left: -2%;
-  width: 11em;
+  top: -2%;
+  left: 9%;
+  width: 9em;
 }
 
 .stage-deco-arrow-wrap {
   position: absolute;
-  top: 15%;
-  left: 2%;
-  width: 3em;
+  top: 8%;
+  left: 21%;
+  width: 2.6em;
+  rotate: 18deg;
 }
 
 /* --- Headline ------------------------------------------------------------ */
@@ -211,7 +273,7 @@
 }
 
 .hero-heading {
-  font-size: 7em;
+  font-size: 6.25em;
 }
 
 .stage-paragraph-wrap {
@@ -276,12 +338,30 @@
   z-index: 1;
   grid-area: 1 / 1;
   width: 100%;
+  /* em, so it tracks --size-font, which scales linearly with viewport width —
+     the same rate the SVG's viewBox scales. Anything fixed here would drift
+     off the band as the window grows.
+
+     8.5em centres Oswald's caps in the 160-unit stroke: measured by tinting
+     the glyphs and sampling pixels, it leaves 26px above and 27px below.
+     This pairs with the 9rem font-size — change one and the text stops
+     sitting centred in the band. */
   margin-top: 8.5em;
 }
 
+/* rem, not em. The SVG already scales with the viewport through its viewBox,
+   so an em size — which tracks body's fluid font-size — scales a second time
+   and the glyphs outgrow the band they are supposed to sit inside. rem is
+   pinned to the untouched root, giving a constant 176 user units at every
+   width, exactly as the reference does. */
 .marquee-text-svg text {
   fill: var(--bg-light);
-  font-size: 11em;
+  /* 9rem, not the reference's 11rem. Oswald sets a much larger cap height than
+     the Founders Grotesk Condensed this was drawn for, so at a matching
+     nominal size the caps overshoot the 160-unit band top and bottom. Measured
+     by tinting the glyphs and sampling pixels against the band edge: 9rem is
+     the largest that clears both. */
+  font-size: 9rem;
   font-weight: 500;
   text-transform: uppercase;
   letter-spacing: 0.01em;
@@ -307,11 +387,21 @@
   padding: 0 2.5em 2em;
 }
 
+/* Held to a ~6.5em measure so it stacks into three centred lines. Left to
+   run the full 12 columns it becomes two full-bleed lines that read as a
+   wall of text rather than a statement.
+
+   Leading is 0.88, not the 0.8 the reference uses: that value is tuned for
+   Founders Grotesk Condensed, whose descenders are much shorter than
+   Oswald's. At 0.8 the 'y' of "You" lands in the cap-height of the line
+   below. Same applies to every tight-leading heading here. */
 .insider-heading {
   grid-column: 1 / -1;
-  font-size: 6.25em;
+  max-width: 9em;
+  margin-inline: auto;
+  font-size: 5.5em;
   font-weight: 500;
-  line-height: 0.8;
+  line-height: 0.88;
   letter-spacing: -0.03em;
   text-align: center;
   text-transform: none;
@@ -379,10 +469,55 @@
 }
 
 .testimonial-media {
+  display: block;
   aspect-ratio: 9 / 16;
   width: 100%;
+  height: auto;
   border-radius: 0.375em;
+  /* Shows through while the poster loads, and behind the transparent edges
+     of the generated turntable clips. */
   background: linear-gradient(150deg, var(--bg-light), var(--light-green));
+  object-fit: cover;
+}
+
+/* Sits inside the white print border, over the footage. */
+.testimonial-sound-btn {
+  position: absolute;
+  right: 1.5em;
+  bottom: 1.5em;
+  z-index: 2;
+  display: grid;
+  place-items: center;
+  width: 2.4em;
+  height: 2.4em;
+  border-radius: 50%;
+  background-color: rgb(47 90 44 / 0.55);
+  color: var(--white);
+  backdrop-filter: blur(6px);
+  transition: background-color var(--dur-fast) var(--ease-out);
+}
+
+.testimonial-sound-btn[hidden] {
+  display: none;
+}
+
+.testimonial-sound-btn:hover {
+  background-color: rgb(47 90 44 / 0.8);
+}
+
+.testimonial-sound-btn svg {
+  grid-area: 1 / 1;
+  width: 1.1em;
+}
+
+/* Muted is the default state, so the crossed-out icon shows until un-muted. */
+.testimonial-sound-btn .icon-unmuted,
+.testimonial-sound-btn.is-unmuted .icon-muted {
+  opacity: 0;
+}
+
+.testimonial-sound-btn.is-unmuted .icon-unmuted {
+  opacity: 1;
 }
 
 /* --- Insider copy -------------------------------------------------------- */
@@ -401,15 +536,21 @@
 }
 
 .insider-subheading {
-  font-size: 2.5em;
+  font-size: 2.25em;
   font-weight: 500;
-  line-height: 0.8;
-  letter-spacing: -0.03em;
+  line-height: 0.95;
+  letter-spacing: -0.02em;
   color: var(--dark-green);
 }
 
+/* The reference runs this at 1.875em. Sized up from the 1.125em body default
+   so the paragraph holds its own next to the subheading — at 1.125em the
+   jump between the two was so steep the block read as one shouted line
+   followed by fine print. */
 .insider-text-inner .paragraph {
-  max-width: 26em;
+  max-width: 24em;
+  font-size: 1.375em;
+  line-height: 1.25;
 }
 
 .insider-cta {
@@ -976,88 +1117,73 @@
   width: 1em;
 }
 
-/* --- Flavours ------------------------------------------------------------ */
+/* --- Bowls -----------------------------------------------------------------
+   Two sliders driven as one (see modules/bowls.js): the dish and its copy.
+   The dish sits inside the brand ring, which draws itself on scroll-in.
+   -------------------------------------------------------------------------- */
 
-.flavour {
+.bowls {
   position: relative;
   overflow: clip;
   padding: 7.5em 0;
 }
 
-.flavour-container {
+.bowls-container {
   max-width: var(--size-container);
   margin-inline: auto;
   padding-inline: 2.5em;
 }
 
-.flavour-header {
+.bowls-header {
   display: grid;
   grid-template-columns: 1.2fr 1fr;
   align-items: end;
   gap: 2.5em;
 }
 
-.flavour-subline {
+.bowls-subline {
   margin-top: 0.4em;
   font-size: 1.75em;
   font-weight: 400;
   text-transform: uppercase;
 }
 
-.flavour-paragraph {
+.bowls-paragraph {
+  max-width: 28em;
   font-size: 1.125em;
   font-weight: 300;
   line-height: 1.45;
-  max-width: 28em;
 }
 
-.flavour-content {
-  position: relative;
+.bowls-content {
   display: grid;
-  grid-template-columns: 1fr auto 1fr;
+  grid-template-columns: 1.05fr 1fr;
   align-items: center;
-  gap: 2em;
-  margin-top: 3em;
+  gap: 4em;
+  margin-top: 4em;
 }
 
-.flavour-left {
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  gap: 1em;
+/* Grid items default to min-width:auto, which means they refuse to shrink
+   below their content. Swiper's looped creative effect reports a wrapper
+   millions of pixels wide, so without this the copy column starves the dish
+   column to zero and neither renders. */
+.bowls-content > * {
+  min-width: 0;
 }
 
-.flavour-pack-visual {
-  width: 9em;
-  aspect-ratio: 3 / 4;
-  border-radius: 1em;
-  background: linear-gradient(160deg, var(--bg-light), var(--light-green));
-  will-change: transform;
-}
+/* --- The dish ------------------------------------------------------------- */
 
-.flavour-pack-visual.is-dose {
-  width: 5em;
-  aspect-ratio: 1;
-  border-radius: 50%;
-}
-
-.flavour-plus {
-  font-size: 3em;
-  font-weight: 300;
-  color: var(--light-green);
-}
-
-.flavour-right {
+.bowls-stage {
   position: relative;
   display: grid;
   place-items: center;
   justify-self: center;
   width: 100%;
-  max-width: 28em;
-  min-height: 26em;
+  max-width: 34em;
+  aspect-ratio: 1;
 }
 
-.flavour-right-bg {
+.bowls-ring {
   position: absolute;
   inset: 0;
   display: grid;
@@ -1067,51 +1193,83 @@
   pointer-events: none;
 }
 
-/* Sized off the pack, not the column — the ring should frame the product,
-   and a fluid width lets it balloon on wide screens. */
-.flavour-right-bg-svg {
-  width: 28em;
+.bowls-ring-svg {
+  width: 96%;
   overflow: visible;
 }
 
-.flavour-swiper {
+.bowls-swiper {
   position: relative;
   z-index: 1;
   width: 100%;
-  max-width: 13.5em;
+  /* Wider than the ring: the photographs carry loose ingredients scattered
+     well outside the bowl, and cropping to the ring would slice them off. */
+  overflow: visible;
 }
 
-.flavour-slide-inner {
+.bowls-slide {
+  display: grid;
+  place-items: center;
+}
+
+.bowls-photo {
   width: 100%;
-  aspect-ratio: 3 / 4;
-  border-radius: 1.25em;
+  height: auto;
+  filter: drop-shadow(0 1.5em 2em rgb(47 90 44 / 0.18));
 }
 
-.flavour-slide-inner.is-strawberry {
-  background: linear-gradient(160deg, #f6a8b4, #c8324a);
-}
-.flavour-slide-inner.is-brownie {
-  background: linear-gradient(160deg, #b98a63, #5e3a20);
-}
-.flavour-slide-inner.is-cookie {
-  background: linear-gradient(160deg, #eddab4, #b3894f);
-}
-.flavour-slide-inner.is-caramel {
-  background: linear-gradient(160deg, #e8b878, #a26423);
-}
-.flavour-slide-inner.is-pistachio {
-  background: linear-gradient(160deg, #cfe0a4, #7d9a4a);
+/* --- The copy ------------------------------------------------------------- */
+
+.bowls-copy {
+  position: relative;
+  overflow: hidden;
 }
 
-.flavour-navigation {
-  position: absolute;
-  bottom: -3.5em;
-  right: 0;
+.bowls-content-swiper {
+  width: 100%;
+}
+
+.bowls-content-slide-inner {
+  display: flex;
+  flex-direction: column;
+  align-items: flex-start;
+  gap: 0.75em;
+}
+
+.bowls-eyebrow {
+  font-size: 1em;
+  font-weight: 500;
+  letter-spacing: 0.08em;
+  text-transform: uppercase;
+  color: var(--light-green);
+}
+
+.bowls-name {
+  font-size: 4em;
+  font-weight: 500;
+  line-height: 0.92;
+  letter-spacing: -0.02em;
+  text-transform: uppercase;
+}
+
+.bowls-desc {
+  max-width: 22em;
+  font-size: 1.25em;
+  font-weight: 300;
+  line-height: 1.35;
+}
+
+.bowls-content-slide-inner .button {
+  margin-top: 0.75em;
+}
+
+.bowls-navigation {
   display: flex;
   gap: 0.5em;
+  margin-top: 2.5em;
 }
 
-.flavour-slider-button {
+.bowls-button {
   display: grid;
   place-items: center;
   width: 2.75em;
@@ -1121,49 +1279,13 @@
   transition: background-color var(--dur-fast) var(--ease-out), color var(--dur-fast) var(--ease-out);
 }
 
-.flavour-slider-button svg {
+.bowls-button svg {
   width: 1.2em;
 }
 
-.flavour-slider-button:hover {
+.bowls-button:hover {
   background-color: var(--dark-green);
   color: var(--bg-pale);
-}
-
-.flavour-center {
-  order: -1;
-  grid-column: 1 / -1;
-  grid-row: 2;
-  margin-top: 2.5em;
-}
-
-.flavour-content-swiper {
-  width: 100%;
-  max-width: 26em;
-  margin-inline: auto;
-}
-
-.flavour-content-slide-inner {
-  display: flex;
-  flex-direction: column;
-  align-items: center;
-  gap: 0.75em;
-  text-align: center;
-}
-
-.flavour-content-slider-title {
-  font-size: 2.5em;
-  font-weight: 500;
-  line-height: 0.95;
-  text-transform: uppercase;
-  letter-spacing: -0.015em;
-}
-
-.flavour-content-slider-subline {
-  font-size: 1em;
-  font-weight: 300;
-  text-transform: uppercase;
-  letter-spacing: 0.04em;
 }
 
 /* --- Payment ------------------------------------------------------------- */
@@ -1383,13 +1505,9 @@
     position: relative;
   }
 
-  .marquee-text-svg text {
-    font-size: 52px;
-  }
-
   .insider-container,
   .testimonial-container,
-  .flavour-container,
+  .bowls-container,
   .payment-inner,
   .footer-inner,
   .benefit-section .container.smaller,
@@ -1468,26 +1586,27 @@
     height: 20em;
   }
 
-  .flavour-header,
-  .flavour-content {
+  .bowls-header,
+  .bowls-content {
     grid-template-columns: 1fr;
   }
 
-  .flavour-left,
-  .flavour-plus {
-    display: none;
+  .bowls-content {
+    gap: 2em;
   }
 
-  .flavour-center {
-    grid-row: auto;
-    order: 1;
+  .bowls-name {
+    font-size: 3em;
   }
 
-  .flavour-navigation {
-    position: relative;
-    bottom: auto;
+  .bowls-navigation {
     justify-content: center;
     margin-top: 1.5em;
+  }
+
+  .bowls-content-slide-inner {
+    align-items: center;
+    text-align: center;
   }
 
   .section-heading {
