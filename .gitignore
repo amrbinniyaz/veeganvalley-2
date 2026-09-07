@@ -1,6 +1,8 @@
 node_modules
 dist
 .DS_Store
+__pycache__/
+*.pyc
 
 # Build output. art/bottles/ is the committed source art; everything below is
 # derived from it by `npm run frames`.
