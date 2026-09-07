@@ -1,0 +1,229 @@
+/* Botanical notebook details: the product and its typography stay foremost. */
+:root {
+  --hand: 'Caveat', cursive;
+  --paper-edge: url('/img/botanical/torn-paper-mask.webp');
+}
+
+.field-note {
+  font-family: var(--hand);
+  font-size: clamp(25px, 2.2vw, 36px);
+  font-weight: 500;
+  line-height: .92;
+  letter-spacing: -.025em;
+  pointer-events: none;
+}
+
+.hero-field-note {
+  position: absolute;
+  right: 7%;
+  top: 44%;
+  width: 160px;
+  text-align: center;
+  transform: rotate(-9deg);
+}
+
+.hero-field-note svg {
+  display: block;
+  width: 112px;
+  height: 50px;
+  margin: 8px 0 0 -27px;
+}
+
+.hero-field-note path {
+  stroke: currentColor;
+  stroke-width: 1.15;
+  stroke-linecap: round;
+  stroke-linejoin: round;
+}
+
+.hero-botanical {
+  position: absolute;
+  right: -3%;
+  top: 10%;
+  width: 40%;
+  height: 80%;
+  opacity: .23;
+  pointer-events: none;
+}
+
+.hero-botanical img {
+  position: absolute;
+  inset: 0;
+  width: 100%;
+  height: 100%;
+  object-fit: contain;
+  opacity: 0;
+  transition: opacity .65s ease;
+}
+
+.hero-botanical[data-botanical-flavour='greens'] .botanical-greens,
+.hero-botanical[data-botanical-flavour='roots'] .botanical-roots {
+  opacity: 1;
+}
+
+.hero-orbit { opacity: .4; }
+
+/* Paper grain is procedural, non-representational texture with no network cost. */
+.journey-stage::after,
+.range::after,
+.bowls::after,
+.questions::after {
+  content: '';
+  position: absolute;
+  inset: 0;
+  z-index: 6;
+  pointer-events: none;
+  opacity: .065;
+  mix-blend-mode: multiply;
+  background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='180' height='180'%3E%3Cfilter id='paper'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='.8' numOctaves='3' stitchTiles='stitch'/%3E%3CfeColorMatrix type='saturate' values='0'/%3E%3C/filter%3E%3Cpath fill='%23000' filter='url(%23paper)' d='M0 0h180v180H0z'/%3E%3C/svg%3E");
+}
+
+.range,
+.bowls,
+.questions {
+  position: relative;
+  isolation: isolate;
+}
+
+.story-ingredients {
+  background: var(--pale);
+  padding: 24px 28px 27px;
+  box-shadow: 4px 10px 28px rgba(36, 60, 25, .07);
+  transform: rotate(1.5deg);
+}
+
+.story-ingredients > .eyebrow {
+  display: block;
+  padding-bottom: 10px;
+  border-bottom: 1px solid var(--line);
+}
+
+.story-ingredients ul { margin: 12px 0 20px; }
+.story-ingredients li { font-size: 19px; padding: 10px 0; }
+.story-ingredients p { font-family: var(--hand); font-size: 24px; line-height: 1.1; }
+
+.paper-divider {
+  position: relative;
+  height: 0;
+  z-index: 8;
+  pointer-events: none;
+  --paper-colour: var(--pale);
+}
+
+.paper-divider--sage { --paper-colour: var(--sage); }
+
+.paper-divider::before {
+  content: '';
+  display: block;
+  position: absolute;
+  left: 0;
+  right: 0;
+  top: -42px;
+  height: 76px;
+  background: var(--paper-colour);
+  mask-image: linear-gradient(to bottom, transparent 45%, #000 65%), var(--paper-edge);
+  mask-size: 100% 100%;
+  mask-repeat: no-repeat;
+}
+
+.story-ingredients::after {
+  content: '';
+  position: absolute;
+  left: 0;
+  right: 0;
+  top: calc(100% - 12px);
+  height: 38px;
+  background: var(--pale);
+  mask-image: linear-gradient(to bottom, transparent 45%, #000 65%), var(--paper-edge);
+  mask-size: 100% 100%;
+  mask-repeat: no-repeat;
+  transform: rotate(180deg);
+}
+
+.philosophy-copy { position: relative; }
+
+.roots-study {
+  position: absolute;
+  bottom: 12px;
+  left: -6%;
+  width: 27%;
+  opacity: .48;
+  pointer-events: none;
+  /* The same original pencil artwork takes the lighter green on the dark page. */
+  filter: grayscale(1) invert(1);
+  mix-blend-mode: screen;
+}
+
+.process-film {
+  border: 10px solid var(--pale);
+  border-bottom-width: 45px;
+  box-shadow: 9px 16px 0 rgba(19, 47, 18, .22);
+  transform: rotate(1.2deg);
+}
+
+.process-film::after {
+  content: 'a little look behind the bottle';
+  position: absolute;
+  bottom: -37px;
+  left: 15px;
+  color: var(--green);
+  font: 24px/1 var(--hand);
+}
+
+/* The caption sits in the photograph's mount, within its clipping boundary. */
+.process-film { overflow: visible; }
+.process-film video,
+.process-film .film-shade { overflow: hidden; }
+
+.bowl-note {
+  font-family: var(--hand);
+  font-size: 34px;
+}
+
+@media (max-width: 1100px) and (min-width: 768px) {
+  .hero-field-note { right: 4%; width: 140px; font-size: 27px; }
+  .story-ingredients { padding: 20px; width: 27%; }
+  .story-ingredients li { font-size: 17px; }
+  .story-ingredients p { font-size: 22px; }
+}
+
+@media (max-width: 767px) {
+  .hero-botanical { width: 80%; height: 470px; top: 300px; right: -14%; opacity: .20; }
+  .hero-field-note { right: 18px; top: 467px; width: 132px; font-size: 27px; }
+  .hero-field-note svg { width: 88px; height: 37px; margin-left: -5px; }
+  .story-panel { column-gap: 18px; }
+  .story-ingredients { padding: 18px 14px 20px; margin-right: -5px; transform: rotate(1deg); }
+  .story-ingredients li { font-size: 14px; padding: 9px 0; }
+  .story-ingredients p { font-size: 22px; }
+  .story-ingredients > .eyebrow { font-size: 10px; letter-spacing: .07em; }
+  .story-heading h2 { font-size: 11.5vw; }
+  .paper-divider::before { top: -25px; height: 48px; }
+  .roots-study { width: 25%; left: -5%; bottom: 25px; }
+  /* Let the portrait film set its own height. A minimum height combined with
+     the old 3:4 ratio forced this grid item wider than a phone's viewport. */
+  .philosophy-layout { grid-template-columns: minmax(0, 1fr); }
+  .philosophy-layout > * { min-width: 0; }
+  .process-film {
+    width: 100%;
+    min-height: 0;
+    max-height: none;
+    aspect-ratio: auto;
+    border-width: 7px;
+    border-bottom-width: 42px;
+    transform: rotate(1deg);
+    box-shadow: 6px 10px 0 rgba(19, 47, 18, .22);
+  }
+  .process-film video {
+    display: block;
+    position: relative;
+    height: auto;
+    aspect-ratio: 9 / 16;
+    object-fit: contain;
+  }
+  .process-film::after { font-size: 23px; bottom: -34px; left: 8px; }
+  .bowl-note { font-size: 30px; }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .hero-botanical img { transition: none; }
+}

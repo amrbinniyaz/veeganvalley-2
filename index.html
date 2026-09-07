@@ -7,30 +7,57 @@
     <title>Vegan Valley — Rooted in good.</title>
     <meta name="description" content="A little wild. Entirely plant-based. Discover Vegan Valley's cold-pressed juices and colourful bowls, made with nature's good stuff." />
     <link rel="icon" type="image/png" href="/img/logo/vegan-valley.png" />
+    <link rel="preload" as="image" href="/img/logo/vegan-valley.png" />
+    <script>
+      document.documentElement.classList.add('home-intro-pending');
+      window.veganHomeIntroWatchdog = setTimeout(() => {
+        document.documentElement.classList.remove('home-intro-pending');
+        window.dispatchEvent(new Event('vegan-home-intro-timeout'));
+      }, 8000);
+    </script>
     <link rel="preconnect" href="https://fonts.googleapis.com" />
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
-    <link href="https://fonts.googleapis.com/css2?family=DM+Sans:wght@400;450;500;550;600;650;700&family=Oswald:wght@400;500;600;700&family=Playfair+Display:ital,wght@1,500;1,600&display=swap" rel="stylesheet" />
+    <link href="https://fonts.googleapis.com/css2?family=Caveat:wght@500;600&family=DM+Sans:wght@400;450;500;550;600;650;700&family=Oswald:wght@400;500;600;700&family=Playfair+Display:ital,wght@1,500;1,600&display=swap" rel="stylesheet" />
     <link rel="stylesheet" href="/src/styles/redesign.css" />
+    <link rel="stylesheet" href="/src/styles/botanical.css" />
+    <link rel="stylesheet" href="/src/styles/home-intro.css" />
     <script type="module" src="/src/main.js"></script>
   </head>
   <body>
+    <div class="home-intro" role="dialog" aria-modal="true" aria-label="Welcome to Vegan Valley">
+      <div class="home-intro-curtain" aria-hidden="true"></div>
+      <div class="home-intro-centre">
+        <div class="home-intro-logo" aria-hidden="true"><span class="home-intro-mark"></span></div>
+        <p class="home-intro-tagline">Rooted in <em>good.</em></p>
+        <span class="home-intro-line" aria-hidden="true"></span>
+        <span class="sr-only" role="status">Preparing Vegan Valley</span>
+      </div>
+      <button class="home-intro-skip" type="button">Skip intro <span aria-hidden="true">↗</span></button>
+    </div>
     <a class="skip-link" href="#main">Skip to content</a>
     <header class="site-header">
       <a class="brand" href="#home" aria-label="Vegan Valley home"><span class="brand-mark" aria-hidden="true"></span><span>VEGAN<br />VALLEY</span></a>
-      <nav class="desktop-nav" aria-label="Main navigation"><a href="#range">The good stuff</a><a href="#philosophy">Our roots</a><a href="#bowls">Beyond the bottle</a></nav>
+      <nav class="desktop-nav" aria-label="Main navigation"><a href="#range">The good stuff</a><a href="#philosophy">Our roots</a><a href="/farm-to-bottle/">Farm to bottle</a><a href="#bowls">Beyond the bottle</a></nav>
       <a class="header-cta" href="#range">Find your flavour <span aria-hidden="true">↗</span></a>
       <button class="menu-toggle" aria-expanded="false" aria-controls="mobile-menu" aria-label="Open menu"><span></span><span></span></button>
     </header>
-    <nav class="mobile-menu" id="mobile-menu" aria-label="Mobile navigation" hidden><a href="#range">The good stuff <span>01</span></a><a href="#philosophy">Our roots <span>02</span></a><a href="#bowls">Beyond the bottle <span>03</span></a><a href="#questions">Good questions <span>04</span></a><p>A little wild. Entirely plant-based.</p></nav>
-    <main id="main">
+    <nav class="mobile-menu" id="mobile-menu" aria-label="Mobile navigation" hidden><a href="#range">The good stuff <span>01</span></a><a href="#philosophy">Our roots <span>02</span></a><a href="/farm-to-bottle/">Farm to bottle <span>03</span></a><a href="#bowls">Beyond the bottle <span>04</span></a><a href="#questions">Good questions <span>05</span></a><p>A little wild. Entirely plant-based.</p></nav>
+    <main id="main" tabindex="-1">
       <section class="journey" id="home" aria-label="Rooted in good">
         <div class="journey-stage">
           <div class="hero-orbit" aria-hidden="true"></div>
+          <div class="hero-botanical" data-botanical-flavour="greens" aria-hidden="true">
+            <img class="botanical-greens" src="/img/botanical/cucumber-botanical.webp" alt="" width="1024" height="1536" />
+            <img class="botanical-roots" src="/img/botanical/roots-botanical.webp" alt="" width="1024" height="1536" loading="lazy" />
+          </div>
           <div class="hero-panel">
             <div class="hero-eyebrow eyebrow"><span class="status-dot"></span> Nature does it better.</div>
-            <h1><span class="title-line">ROOTED</span><span class="title-line">IN <em>good.</em></span></h1>
-            <div class="hero-copy"><p>Real plants. Full flavour.<br />A little everyday goodness,<br />straight from the valley.</p><a class="pill-button" href="#range">Explore the good stuff <span aria-hidden="true">↗</span></a></div>
+            <div class="hero-message">
+              <h1><span class="title-line">ROOTED</span><span class="title-line">IN <em>good.</em></span></h1>
+              <div class="hero-copy"><p>Real plants. Full flavour.<br />A little everyday goodness,<br />straight from the valley.</p><a class="pill-button" href="#range">Explore the good stuff <span aria-hidden="true">↗</span></a></div>
+            </div>
             <span class="hero-side-note">COLD-PRESSED. PLANT-POWERED.</span>
+            <div class="field-note hero-field-note" aria-hidden="true"><span>a little wild,<br />a lot of good.</span><svg viewBox="0 0 120 54" fill="none"><path d="M110 7C99 39 58 49 12 33M12 33l12-6M12 33l9 11" /></svg></div>
             <div class="hero-stamp" aria-label="100 percent plant based"><span>100%</span><small>PLANT<br />BASED</small></div>
             <div class="hero-product"><span class="eyebrow">Meet your daily greens</span><button class="hero-product-link" data-product="green-house"><span data-hero-name>Green House</span><span aria-hidden="true">↗</span></button><span class="product-volume">375 ml of the good stuff</span><div class="flavour-switch" role="group" aria-label="Choose the featured juice"><button class="swatch is-active" style="--swatch:#72883e" data-flavour="green-house" aria-label="Green House" aria-pressed="true"></button><button class="swatch" style="--swatch:#e9a438" data-flavour="golden-hour" aria-label="Golden Hour" aria-pressed="false"></button><button class="swatch" style="--swatch:#80353d" data-flavour="classic-beet" aria-label="Classic Beet" aria-pressed="false"></button></div></div>
           </div>
@@ -43,6 +70,7 @@
         </div>
       </section>
       <div class="ticker" aria-label="Cold pressed, all plants, full of life"><div class="ticker-track" aria-hidden="true"><span>COLD PRESSED</span><i>✳</i><span>ALL PLANTS</span><i>✳</i><span>FULL OF LIFE</span><i>✳</i><span>COLD PRESSED</span><i>✳</i><span>ALL PLANTS</span><i>✳</i><span>FULL OF LIFE</span><i>✳</i></div></div>
+      <div class="paper-divider" aria-hidden="true"></div>
       <section class="range section-pad" id="range">
         <div class="section-topline"><span class="eyebrow">02 / The good stuff</span><span class="eyebrow">SIX FLAVOURS. YOUR KIND OF GOOD.</span></div>
         <div class="section-heading-row"><h2 data-reveal>FIND YOUR<br /><em>bright side.</em></h2><div class="range-intro"><p>Greens with a zing. Roots with a kick.<br />A whole spectrum of feel-good flavour.</p><div class="range-filters" role="group" aria-label="Filter juices"><button class="is-active" data-filter="all" aria-pressed="true">All juices <sup>06</sup></button><button data-filter="greens" aria-pressed="false">Greens</button><button data-filter="roots" aria-pressed="false">Roots</button><button data-filter="citrus" aria-pressed="false">Citrus</button></div></div></div>
@@ -58,12 +86,14 @@
       </section>
       <section class="philosophy section-pad" id="philosophy">
         <div class="section-topline"><span class="eyebrow">03 / Our roots</span><span class="small-symbol" aria-hidden="true">✳</span></div>
-        <div class="philosophy-layout"><div class="philosophy-copy"><h2 data-reveal>NATURE<br />DID THE<br /><em>hard part.</em></h2><p>We just bottled it.</p><div class="philosophy-detail"><span class="eyebrow">KEEP IT CLOSE TO NATURE.</span><p>Great ingredients have a lot to say. We give them the space. Whole fruits. Real vegetables. Thoughtfully blended and cold-pressed for a flavour that speaks for itself.</p><a class="text-link" href="#process">See what goes into it <span aria-hidden="true">↘</span></a></div></div><div class="process-film" id="process"><video muted loop playsinline preload="none" poster="/video/insider-2.jpg" aria-label="A look at the cold-pressing process"><source src="/video/insider-2.mp4" type="video/mp4" /></video><div class="film-shade"></div><div class="film-label"><span class="eyebrow">FROM THE VALLEY, WITH LOVE.</span><button class="film-control" aria-label="Play our process film"><span aria-hidden="true">▶</span></button></div><span class="film-caption">Good things<br />take <em>nature.</em></span></div></div>
+        <div class="philosophy-layout"><div class="philosophy-copy"><img class="roots-study" data-pencil-reveal src="/img/botanical/roots-botanical.webp" alt="" width="1024" height="1536" loading="lazy" aria-hidden="true" /><h2 data-reveal>NATURE<br />DID THE<br /><em>hard part.</em></h2><p>We just bottled it.</p><div class="philosophy-detail"><span class="eyebrow">KEEP IT CLOSE TO NATURE.</span><p>Great ingredients have a lot to say. We give them the space. Whole fruits. Real vegetables. Thoughtfully blended and cold-pressed for a flavour that speaks for itself.</p><a class="text-link" href="/farm-to-bottle/">Follow the farm-to-bottle story <span aria-hidden="true">↘</span></a></div></div><div class="process-film" id="process"><video muted loop playsinline preload="none" poster="/video/insider-2.jpg" aria-label="A look at the cold-pressing process"><source src="/video/insider-2.mp4" type="video/mp4" /></video><div class="film-shade"></div><div class="film-label"><span class="eyebrow">FROM THE VALLEY, WITH LOVE.</span><button class="film-control" aria-label="Play our process film"><span aria-hidden="true">▶</span></button></div><span class="film-caption">Good things<br />take <em>nature.</em></span></div></div>
         <div class="principles"><div><span class="eyebrow">01 / THE SOURCE</span><h3>Plants first.<br />Always.</h3><p>Fruits, vegetables, roots and leaves.<br />The things that make us, us.</p></div><div><span class="eyebrow">02 / THE PROCESS</span><h3>Pressed cold.<br />Full of character.</h3><p>Bold colours and honest flavours.<br />That's the beauty of cold-pressed.</p></div><div><span class="eyebrow">03 / THE EVERYDAY</span><h3>A small ritual.<br />A brighter day.</h3><p>A bottle on the go. A bowl over a chat.<br />Make a little room for good.</p></div></div>
       </section>
+      <div class="paper-divider paper-divider--sage" aria-hidden="true"></div>
       <section class="bowls section-pad" id="bowls"><div class="section-topline"><span class="eyebrow">04 / Beyond the bottle</span><span class="eyebrow">GOODNESS, BY THE SPOONFUL.</span></div><div class="bowl-layout"><div class="bowl-art"><span class="bowl-orbit" aria-hidden="true"></span><img data-bowl-image src="/img/bowls/acai-bowl.webp" alt="Acai bowl with granola, toasted coconut and fresh berries" width="1100" height="810" loading="lazy" /><span class="bowl-note">a whole bowl<br />of happy.</span></div><div class="bowl-copy"><h2 data-reveal>GOOD<br />GOES <em>beyond</em><br />THE BOTTLE.</h2><p>Slow mornings. Colourful lunches.<br />Something good to sit down with.</p><div class="bowl-tabs" role="tablist" aria-label="Explore our bowls"><button role="tab" id="bowl-tab-acai" aria-controls="bowl-panel" aria-selected="true" data-bowl="acai">Acai bowl</button><button role="tab" id="bowl-tab-oats" aria-controls="bowl-panel" aria-selected="false" tabindex="-1" data-bowl="oats">Oat meal</button><button role="tab" id="bowl-tab-vegan" aria-controls="bowl-panel" aria-selected="false" tabindex="-1" data-bowl="vegan">Vegan bowl</button></div><div id="bowl-panel" role="tabpanel" aria-labelledby="bowl-tab-acai" tabindex="0"><span class="eyebrow" data-bowl-category>YOUR MORNING, BRIGHTER.</span><h3 data-bowl-title>Berry good beginnings.</h3><p data-bowl-description>Thick, cold acai. Crunchy granola. Toasted coconut and a generous handful of fresh berries. Get your spoon in.</p></div></div></div></section>
+      <div class="paper-divider" aria-hidden="true"></div>
       <section class="questions section-pad" id="questions"><div class="questions-heading"><span class="eyebrow">05 / Good questions</span><h2 data-reveal>A LITTLE<br /><em>curious?</em></h2></div><div class="faq-list"><details><summary>What's inside your juices?<span aria-hidden="true">+</span></summary><p>Each flavour has its own blend of fruits, vegetables and roots. Open a bottle in our range above to explore its ingredient list. Always check the bottle label for the latest product and allergen information.</p></details><details><summary>Is everything plant-based?<span aria-hidden="true">+</span></summary><p>Yes. Our juices and bowls are plant-based. For specific allergies, check the product label and ask about ingredients and preparation before ordering.</p></details><details><summary>How should I keep my juice?<span aria-hidden="true">+</span></summary><p>Keep it refrigerated, give it a good shake, and follow the storage instructions and use-by date on your bottle. Natural separation is normal.</p></details><details><summary>How do I find my flavour?<span aria-hidden="true">+</span></summary><p>Start with Green House for crisp greens, Golden Hour for carrot and ginger, or Classic Beet for something earthy. Use the Greens, Roots and Citrus filters above to explore the range.</p></details></div></section>
-      <footer class="footer section-pad"><div class="footer-top"><a class="brand" href="#home" aria-label="Vegan Valley home"><span class="brand-mark" aria-hidden="true"></span><span>VEGAN<br />VALLEY</span></a><span class="eyebrow">A LITTLE WILD. ENTIRELY PLANT-BASED.</span><a class="back-top" href="#home" aria-label="Back to top">↑</a></div><div class="footer-invitation"><h2>GROW <em>wild.</em></h2><a class="footer-circle" href="#range">Find your<br />good stuff <span aria-hidden="true">↗</span></a></div><div class="footer-bottom"><span>© <span data-year>2026</span> Vegan Valley</span><nav aria-label="Footer navigation"><a href="#range">The juices</a><a href="#philosophy">Our roots</a><a href="#bowls">The bowls</a><a href="#questions">FAQs</a></nav><span>Rooted in good.</span></div></footer>
+      <footer class="footer section-pad"><div class="footer-top"><a class="brand" href="#home" aria-label="Vegan Valley home"><span class="brand-mark" aria-hidden="true"></span><span>VEGAN<br />VALLEY</span></a><span class="eyebrow">A LITTLE WILD. ENTIRELY PLANT-BASED.</span><a class="back-top" href="#home" aria-label="Back to top">↑</a></div><div class="footer-invitation"><h2>GROW <em>wild.</em></h2><a class="footer-circle" href="#range">Find your<br />good stuff <span aria-hidden="true">↗</span></a></div><div class="footer-bottom"><span>© <span data-year>2026</span> Vegan Valley</span><nav aria-label="Footer navigation"><a href="#range">The juices</a><a href="#philosophy">Our roots</a><a href="#bowls">The bowls</a><a href="/farm-to-bottle/">The journey</a><a href="#questions">FAQs</a></nav><span>Rooted in good.</span></div></footer>
     </main>
     <dialog class="product-dialog" aria-labelledby="dialog-title"><button class="dialog-close" aria-label="Close product details">×</button><div class="dialog-art"><span class="eyebrow">COLD-PRESSED / 375 ML</span><img data-dialog-image src="/img/bottles/green-house.webp" alt="" width="234" height="700" /></div><div class="dialog-copy"><span class="eyebrow">MEET YOUR GOOD STUFF</span><h2 id="dialog-title">Green House</h2><p data-dialog-description></p><h3>What's inside</h3><ul data-dialog-ingredients></ul><p class="dialog-storage">Keep cold. Shake well. Check your bottle for current ingredients, allergens and storage instructions.</p><button class="pill-button dialog-done">Keep exploring <span aria-hidden="true">↗</span></button></div></dialog>
   </body>

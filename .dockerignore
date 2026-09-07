@@ -1,0 +1,10 @@
+.git
+node_modules
+dist
+art
+exports
+.env
+.env.*
+.DS_Store
+**/__pycache__
+*.pyc

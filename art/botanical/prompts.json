@@ -1,0 +1,17 @@
+[
+  {
+    "name": "cucumber-botanical.png",
+    "prompt": "Use case: stylized-concept\nAsset type: transparent botanical margin illustration for a Vegan Valley juice website, intended behind a 3D green juice bottle.\nPrimary request: An elegant botanical field-notebook illustration, finely shaded coloured-pencil in forest green #2f5a2c only. A loose airy study of a cucumber vine with two cucumbers, curling tendrils and veined leaves, one small lemon half at the base.\nComposition/framing: Portrait-ish composition with lots of transparent gaps and fine graphite texture; naturally irregular handwork, sophisticated botanical drawing.\nScene/backdrop: Genuinely transparent background with actual alpha channel, not a simulated checkerboard.\nConstraints: No text, no paper background, no drop shadow, no border, no logo. Produce exactly one image.",
+    "source": "/Users/macbookpro/.codex/generated_images/01a07c14-871f-7fb1-a4c8-98ce37b2edc6/exec-7a3e5c15-a18c-40a0-b8e5-a8df76871aaa.png"
+  },
+  {
+    "name": "roots-botanical.png",
+    "prompt": "Use case: stylized-concept\nAsset type: transparent botanical margin illustration for a Vegan Valley juice website.\nPrimary request: An elegant botanical field-notebook illustration in finely shaded forest-green #2f5a2c pencil only. One beetroot with graceful leafy stems and one slender carrot with delicate fronds, arranged diagonally as a sparse botanical study. Fine crosshatching, beautiful root hairs, naturally irregular handwork.\nScene/backdrop: Genuinely transparent background with actual alpha channel, not a simulated checkerboard.\nConstraints: No text, no background, no shadow, no border, no logo. Produce exactly one image.",
+    "source": "/Users/macbookpro/.codex/generated_images/01a07c14-871f-7fb1-a4c8-98ce37b2edc6/exec-394acb9e-2c1f-4179-b31b-fc94566aa298.png"
+  },
+  {
+    "name": "torn-paper-mask.png",
+    "prompt": "Use case: photorealistic-natural\nAsset type: isolated photographic white fibrous torn-paper alpha mask asset for colouring website section edges in CSS.\nPrimary request: Wide horizontal ratio about 3:1. A single sheet of unprinted white cotton paper occupies the lower 60 percent and reaches the LEFT, RIGHT and BOTTOM canvas edges. Its TOP edge is naturally hand-torn, slightly undulating, with small irregular fibre detail; irregularities restrained rather than zigzagged. The upper 40 percent is transparent background.\nComposition/framing: Perfectly overhead flat view. White opaque paper body, actual transparent alpha above torn edge, not a simulated checkerboard.\nConstraints: No text, no drawings, no other objects, no cast shadow. Produce exactly one image.",
+    "source": "/Users/macbookpro/.codex/generated_images/01a07c14-871f-7fb1-a4c8-98ce37b2edc6/exec-1d820117-f280-4b71-a6ff-33e2cf2c591c.png"
+  }
+]

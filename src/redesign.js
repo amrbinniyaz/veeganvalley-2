@@ -1,6 +1,8 @@
 import gsap from 'gsap';
 import ScrollTrigger from 'gsap/ScrollTrigger';
 import Lenis from 'lenis';
+import { startHomeIntro } from './modules/homeIntro.js';
+import { createHomeEntrance } from './modules/homeEntrance.js';
 
 gsap.registerPlugin(ScrollTrigger);
 
@@ -19,7 +21,9 @@ const bowls = {
 };
 const reducedMotion = window.matchMedia('(prefers-reduced-motion: reduce)');
 const cleanups = [];
-let lenis, bottle, selectedFlavour = 'green-house', currentProgress = 0, disposed = false;
+let lenis, bottle, homeIntro, homeEntrance, entranceProgress = 1, selectedFlavour = 'green-house', currentProgress = 0, disposed = false;
+let resolveHeroBottle;
+const heroBottleReady = new Promise(resolve => { resolveHeroBottle = resolve; });
 const listen = (target, type, handler, options) => { target.addEventListener(type, handler, options); cleanups.push(() => target.removeEventListener(type, handler, options)); };
 document.querySelector('[data-year]').textContent = new Date().getFullYear();
 
@@ -33,9 +37,17 @@ function configureScroll() {
     lenis = new Lenis({duration:1.05, smoothWheel:true, syncTouch:false, anchors:true});
     lenis.on('scroll', ScrollTrigger.update);
     gsap.ticker.add(animateScroll);
+    if (homeIntro?.active) lenis.stop();
   }
 }
 configureScroll();
+homeEntrance = createHomeEntrance({ onBottleProgress: value => { entranceProgress = value; bottle?.setEntrance?.(value); } });
+homeIntro = startHomeIntro({ ready: heroBottleReady, onReveal: options => homeEntrance.reveal(options), onUnlock: () => {
+  if (disposed) return;
+  lenis?.start();
+  requestAnimationFrame(() => { if (!disposed) { ScrollTrigger.refresh(); lenis?.resize(); } });
+} });
+if (homeIntro.active) lenis?.stop();
 listen(reducedMotion, 'change', configureScroll);
 const media = gsap.matchMedia();
 media.add({desktop:'(min-width: 768px)', mobile:'(max-width: 767px)', reduce:'(prefers-reduced-motion: reduce)'}, context => {
@@ -55,13 +67,18 @@ media.add({desktop:'(min-width: 768px)', mobile:'(max-width: 767px)', reduce:'(p
     gsap.from(heading,{y:45,opacity:.15,duration:1,ease:'power3.out',scrollTrigger:{trigger:heading,start:'top 92%',once:true}});
   }
   gsap.fromTo('.bowl-art img',{rotation:-9,y:35},{rotation:6,y:-20,ease:'none',scrollTrigger:{trigger:'.bowls',start:'top bottom',end:'bottom top',scrub:1}});
+  for (const study of document.querySelectorAll('[data-pencil-reveal]')) {
+    gsap.fromTo(study, {clipPath: 'inset(100% 0 0 0)'}, {clipPath: 'inset(0% 0 0 0)', duration: 1.6, ease: 'power1.inOut', scrollTrigger: {trigger: study, start: 'top 92%', once: true}});
+  }
   return () => { currentProgress = 0; bottle?.setProgress(0); };
 });
 
 // Keep the feature, its label, and its ingredient story in sync.
 function selectFlavour(name) {
-  if (!products[name]) return;
+  if (!products[name] || name === selectedFlavour) return;
   selectedFlavour = name;
+  const botanical = document.querySelector('[data-botanical-flavour]');
+  if (botanical) botanical.dataset.botanicalFlavour = name === 'green-house' ? 'greens' : 'roots';
   const product = products[name];
   document.querySelector('[data-hero-name]').textContent = product.name;
   document.querySelector('.hero-product-link').dataset.product = name;
@@ -81,7 +98,7 @@ function selectFlavour(name) {
     button.classList.toggle('is-active', active);
     button.setAttribute('aria-pressed', String(active));
   });
-  bottle?.setFlavour(name);
+  bottle?.setFlavour(name, { animate: true });
 }
 for (const button of document.querySelectorAll('[data-flavour]')) listen(button,'click',()=>selectFlavour(button.dataset.flavour));
 
@@ -172,16 +189,19 @@ for(const details of document.querySelectorAll('details'))listen(details,'toggle
 // Load the 3D engine separately, so it never blocks the page or its controls.
 import('./modules/bottle3d.js').then(async({initBottle3D})=>{
   if(disposed)return;
-  const instance=await initBottle3D(document.querySelector('.bottle-view'));
+  const instance=await initBottle3D(document.querySelector('.bottle-view'), { initialEntrance: entranceProgress });
   if(disposed){instance.destroy();return;}
   bottle=instance;
+  bottle.setEntrance?.(entranceProgress);
   bottle.setProgress(currentProgress);
   if(selectedFlavour!=='green-house')bottle.setFlavour(selectedFlavour);
-}).catch(error=>console.warn('[Vegan Valley] Using product photograph:',error.message));
+}).catch(error=>console.warn('[Vegan Valley] Using product photograph:',error.message)).finally(() => resolveHeroBottle());
 document.fonts.ready.then(()=>{if(!disposed){ScrollTrigger.refresh();lenis?.resize();}});
 
 if(import.meta.hot)import.meta.hot.dispose(()=>{
   disposed=true;bowlRequest++;
+  homeIntro?.destroy();
+  homeEntrance?.destroy();
   cleanups.forEach(cleanup=>cleanup());
   media.revert();gsap.ticker.remove(animateScroll);lenis?.destroy();bottle?.destroy();filmObserver.disconnect();video.pause();
   if(dialog.open)dialog.close();

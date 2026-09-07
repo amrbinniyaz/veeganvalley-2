@@ -1,0 +1,108 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover" />
+  <meta name="theme-color" content="#eef2e6" />
+  <title>The Living Valley — A 3D Journey | Vegan Valley</title>
+  <meta name="description" content="A little journey from growing fields to fresh fruit and vegetables, through the cold press and into your bottle. 100% plant-based. No added sugar." />
+  <link rel="icon" type="image/png" href="/img/logo/vegan-valley.png" />
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+  <link href="https://fonts.googleapis.com/css2?family=Caveat:wght@500;600&family=DM+Sans:wght@400;500;550;600;650&family=Oswald:wght@400;500;600&family=Playfair+Display:ital,wght@1,500&display=swap" rel="stylesheet" />
+  <link rel="stylesheet" href="/src/styles/world-journey.css" />
+  <script type="module" src="/src/world-journey.js"></script>
+</head>
+<body class="farm-journey world-journey">
+  <a class="skip-link" href="#journey-content">Skip to the journey</a>
+  <header class="journey-header">
+    <a class="journey-brand" href="/" aria-label="Vegan Valley home"><span class="journey-brand-mark" aria-hidden="true"></span><span>VEGAN<br />VALLEY</span></a>
+    <a class="journey-back" href="/farm-to-bottle/">The illustrated journey <span aria-hidden="true">↗</span></a>
+    <a class="journey-shop" href="/#range">Explore the juices <span aria-hidden="true">↗</span></a>
+  </header>
+  <div class="world-stage" aria-hidden="true"><canvas class="world-canvas"></canvas></div>
+  <main id="journey-content" class="story-viewport" tabindex="0" aria-label="From farm to bottle. Scroll or use the chapter arrows to explore.">
+    <div class="story-track">
+      <section class="story-scene scene-farm" id="the-farm" aria-labelledby="farm-title">
+        <div class="copy-sheet">
+          <div class="scene-copy">
+            <span class="scene-eyebrow">01 / The living valley</span>
+            <h1 id="farm-title">A WORLD<br />OF <em>good.</em></h1>
+            <p>Follow a little green apple from the orchard to a fresh, cold-pressed bottle.</p>
+            <a class="journey-next" href="#the-harvest" data-chapter-link="1">Enter the valley <span class="arrow-circle" aria-hidden="true">→</span></a>
+          </div>
+        </div>
+        <div class="art-stage" aria-hidden="true">
+          <div class="parallax-layer hills-layer" data-depth="45"><div class="atlas-hills"><img src="/img/journey/farm-layers-atlas.webp" alt="" width="1536" height="1024" fetchpriority="high" /></div></div>
+          <div class="parallax-layer tree-layer" data-depth="150"><div class="atlas-tree"><img src="/img/journey/farm-layers-atlas.webp" alt="" width="1536" height="1024" /></div></div>
+          <div class="parallax-layer art-note" data-depth="85">a little seed. a lovely beginning.<svg viewBox="0 0 110 48" fill="none"><path d="M8 8c17 27 57 36 87 13m0 0-13 1m13-1-3 13" /></svg></div>
+          <span class="art-caption">01 — THE GROWING</span>
+        </div>
+      </section>
+      <section class="story-scene scene-harvest" id="the-harvest" aria-labelledby="harvest-title">
+        <div class="copy-sheet">
+          <div class="scene-copy">
+            <span class="scene-eyebrow">02 / Fresh from the field</span>
+            <h2 id="harvest-title">PICKED FOR<br /><em>goodness.</em></h2>
+            <p>Crisp greens. Earthy roots. Sun-bright fruit. Fresh ingredients, each with their own kind of good.</p>
+            <span class="quiet-fact">Whole fruit. Real vegetables. All plants.</span>
+          </div>
+        </div>
+        <div class="art-stage" aria-hidden="true">
+          <div class="parallax-layer hills-layer distant-hills" data-depth="35"><div class="atlas-hills"><img src="/img/journey/farm-layers-atlas.webp" alt="" width="1536" height="1024" /></div></div>
+          <div class="parallax-layer harvest-layer" data-depth="140"><img class="pencil-art" src="/img/journey/harvest-clean.webp" alt="" width="1254" height="1254" loading="lazy" /></div>
+          <span class="art-caption">02 — THE GATHERING</span>
+        </div>
+      </section>
+      <section class="story-scene scene-press" id="the-press" aria-labelledby="press-title">
+        <div class="copy-sheet">
+          <div class="scene-copy">
+            <span class="scene-eyebrow">03 / A gentler squeeze</span>
+            <h2 id="press-title">COLD PRESS.<br /><em>Full of life.</em></h2>
+            <p>Gently pressed for bold, fresh flavour. The character of fruit and vegetables, straight from plants.</p>
+            <div class="press-facts"><span>100% vegan</span><span>No added sugar</span></div>
+            <small class="natural-sugars">Contains naturally occurring sugars.</small>
+          </div>
+        </div>
+        <div class="art-stage" aria-hidden="true">
+          <div class="parallax-layer hills-layer distant-hills" data-depth="30"><div class="atlas-hills"><img src="/img/journey/farm-layers-atlas.webp" alt="" width="1536" height="1024" loading="lazy" /></div></div>
+          <div class="parallax-layer press-layer" data-depth="130"><img class="pencil-art" src="/img/journey/press-clean.webp" alt="" width="1208" height="1302" loading="lazy" /></div>
+          <span class="art-caption">03 — THE PRESSING</span>
+        </div>
+      </section>
+      <section class="story-scene scene-bottle" id="your-bottle" aria-labelledby="bottle-title">
+        <div class="copy-sheet">
+          <div class="scene-copy">
+            <span class="scene-eyebrow">04 / Into your everyday</span>
+            <h2 id="bottle-title">ALL PLANTS.<br />ALL <em>yours.</em></h2>
+            <p>From the first green leaf to your first sip. A little goodness, bottled for you.</p>
+            <a class="finale-button" href="/#range">Find your flavour <span aria-hidden="true">↗</span></a>
+            <a class="replay-link" href="#the-farm" data-chapter-link="0">Back to our roots <span aria-hidden="true">↺</span></a>
+          </div>
+        </div>
+        <div class="art-stage bottle-art-stage">
+          <div class="parallax-layer hills-layer distant-hills" data-depth="40" aria-hidden="true"><div class="atlas-hills"><img src="/img/journey/farm-layers-atlas.webp" alt="" width="1536" height="1024" loading="lazy" /></div></div>
+          <div class="parallax-layer bottle-layer" data-depth="125"><div class="bottle-view journey-bottle" role="img" aria-label="Green House cold-pressed juice bottle"><div class="bottle-shadow"></div><img class="bottle-fallback" src="/img/bottles/green-house.webp" alt="" width="234" height="700" loading="lazy" /><canvas class="bottle-canvas" aria-hidden="true"></canvas></div></div>
+          <span class="art-caption">04 — THE GOOD PART</span>
+        </div>
+      </section>
+    </div>
+  </main>
+  <footer class="journey-controls">
+    <span class="scroll-hint">Scroll to travel <span aria-hidden="true">→</span></span>
+    <nav class="chapter-nav" aria-label="Journey chapters">
+      <a href="#the-farm" data-chapter-link="0" aria-current="step"><span>01</span><strong>The farm</strong></a>
+      <a href="#the-harvest" data-chapter-link="1"><span>02</span><strong>The harvest</strong></a>
+      <a href="#the-press" data-chapter-link="2"><span>03</span><strong>The press</strong></a>
+      <a href="#your-bottle" data-chapter-link="3"><span>04</span><strong>Your bottle</strong></a>
+    </nav>
+    <div class="page-arrows">
+      <button class="arrow-circle" type="button" data-direction="-1" aria-label="Previous chapter" aria-controls="journey-content" disabled><span aria-hidden="true">←</span></button>
+      <span class="page-count" aria-hidden="true"><span data-page-number>01</span> / 04</span>
+      <button class="arrow-circle" type="button" data-direction="1" aria-label="Next chapter" aria-controls="journey-content"><span aria-hidden="true">→</span></button>
+    </div>
+    <div class="chapter-line" aria-hidden="true"><span></span></div>
+    <span class="sr-only" role="status" aria-live="polite" data-chapter-status></span>
+  </footer>
+</body>
+</html>

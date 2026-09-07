@@ -1,6 +1,7 @@
 import * as THREE from 'three';
 import { RoomEnvironment } from 'three/addons/environments/RoomEnvironment.js';
 import { createBottleBody, createLabelGeometry } from '../lib/bottleGeometry.js';
+import { createFlavourTurn, advanceFlavourTurn } from '../lib/flavourTurn.js';
 
 const FLAVOURS = {
   'green-house': { color: '#a4ae43', label: '/img/labels/green-house.png' },
@@ -8,7 +9,8 @@ const FLAVOURS = {
   'classic-beet': { color: '#7a303b', label: '/img/labels/classic-beet.png' },
 };
 
-export async function initBottle3D(host, { reducedMotion = false } = {}) {
+export async function initBottle3D(host, { reducedMotion = false, signal, initialEntrance = 1 } = {}) {
+  if (signal?.aborted) return { setFlavour() {}, setProgress() {}, destroy() {} };
   const canvas = host.querySelector('canvas');
   let renderer;
   try {
@@ -94,6 +96,8 @@ export async function initBottle3D(host, { reducedMotion = false } = {}) {
   }
 
   let progress = 0, smoothProgress = 0, pointerX = 0, pointerY = 0;
+  let entrance = THREE.MathUtils.clamp(initialEntrance, 0, 1);
+  let flavourAngle = 0, flavourTurn;
   let smoothPointerX = 0, smoothPointerY = 0, frame = 0, visible = true, previousTime = 0;
   const motionQuery = window.matchMedia('(prefers-reduced-motion: reduce)');
   const desktopQuery = window.matchMedia('(min-width: 768px)');
@@ -113,12 +117,27 @@ export async function initBottle3D(host, { reducedMotion = false } = {}) {
     const dt = Math.min((time - previousTime) / 1000 || .016, .05);
     previousTime = time;
     const reduce = reducedMotion || motionQuery.matches;
+    if (flavourTurn) {
+      const turn = advanceFlavourTurn(flavourTurn, dt, reduce);
+      flavourAngle = turn.angle;
+      // A newer click invalidates an older label, even while its turn finishes.
+      if (flavourTurn.requestId === selectionId) {
+        juiceMaterial.color.copy(flavourTurn.fromColor).lerp(flavourTurn.toColor, turn.blend);
+        ringMaterial.color.copy(juiceMaterial.color).lerp(new THREE.Color('#ffffff'), .2);
+        if (turn.swap && !flavourTurn.swapped) {
+          labelMaterial.map = flavourTurn.texture;
+          labelMaterial.needsUpdate = true;
+          flavourTurn.swapped = true;
+        }
+      }
+      if (turn.done) { flavourTurn = undefined; flavourAngle = 0; }
+    }
     const damping = 1 - Math.exp(-8 * dt);
     smoothProgress += (progress - smoothProgress) * damping;
     smoothPointerX += (pointerX - smoothPointerX) * damping;
     smoothPointerY += (pointerY - smoothPointerY) * damping;
     // One full, continuous turn. No integer frames or competing scroll loops.
-    spin.rotation.y = reduce ? .12 : smoothProgress * Math.PI * 2 + .12 + smoothPointerX * .10;
+    spin.rotation.y = reduce ? .12 : smoothProgress * Math.PI * 2 + .12 + smoothPointerX * .10 - (1 - entrance) * Math.PI * 1.35 + flavourAngle;
     lean.rotation.z = reduce ? -.17 : THREE.MathUtils.lerp(-.20, .10, smoothProgress) + Math.sin(time * .0007) * .017;
     lean.rotation.x = reduce ? .03 : .035 + smoothPointerY * .04;
     lean.position.y = reduce ? 0 : Math.sin(time * .0011) * .027;
@@ -145,14 +164,23 @@ export async function initBottle3D(host, { reducedMotion = false } = {}) {
   canvas.addEventListener('webglcontextlost', onContextLost);
   canvas.addEventListener('webglcontextrestored', onContextRestored);
 
-  async function setFlavour(name) {
+  async function setFlavour(name, { animate = false } = {}) {
     if (!FLAVOURS[name] || isDisposed) return;
     selectedFlavour = name;
     const requestId = ++selectionId;
-    host.classList.remove('is-3d-ready');
     try {
       const texture = await loadTexture(name);
       if (isDisposed || requestId !== selectionId || !texture) return;
+      if (animate && labelMaterial.map && host.classList.contains('is-3d-ready') && !reducedMotion && !motionQuery.matches) {
+        flavourTurn = {
+          ...createFlavourTurn(flavourAngle), requestId, texture, swapped: false,
+          fromColor: juiceMaterial.color.clone(), toColor: new THREE.Color(FLAVOURS[name].color),
+        };
+        requestFrame();
+        return;
+      }
+      flavourTurn = undefined;
+      flavourAngle = 0;
       labelMaterial.map = texture;
       labelMaterial.needsUpdate = true;
       juiceMaterial.color.set(FLAVOURS[name].color);
@@ -162,17 +190,21 @@ export async function initBottle3D(host, { reducedMotion = false } = {}) {
       host.classList.add('is-3d-ready');
       requestFrame();
     } catch {
+      if (isDisposed || requestId !== selectionId) return;
+      flavourTurn = undefined;
+      flavourAngle = 0;
       // Keep the selected bottle photo visible if its 3D label fails to load.
       host.classList.remove('is-3d-ready');
     }
   }
-  resize();
-  await setFlavour(selectedFlavour);
-  return {
+  const instance = {
     setFlavour,
     setProgress(value) { progress = THREE.MathUtils.clamp(value, 0, 1); requestFrame(); },
+    setEntrance(value) { entrance = THREE.MathUtils.clamp(value, 0, 1); requestFrame(); },
     destroy() {
+      if (isDisposed) return;
       isDisposed = true;
+      signal?.removeEventListener('abort', instance.destroy);
       cancelAnimationFrame(frame);
       observer.disconnect();
       intersection.disconnect();
@@ -189,4 +221,13 @@ export async function initBottle3D(host, { reducedMotion = false } = {}) {
       host.classList.remove('is-3d-ready');
     },
   };
+  signal?.addEventListener('abort', instance.destroy, { once: true });
+  if (signal?.aborted) instance.destroy();
+  resize();
+  await setFlavour(selectedFlavour);
+  // Warm the other two labels so dot clicks can start their turn immediately.
+  if (!isDisposed) for (const name of Object.keys(FLAVOURS)) {
+    if (name !== selectedFlavour) loadTexture(name).catch(() => {});
+  }
+  return instance;
 }

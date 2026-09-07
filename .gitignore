@@ -3,6 +3,13 @@ dist
 .DS_Store
 __pycache__/
 *.pyc
+.env
+.env.*
+!.env.example
+
+# Local social-video editing files and exports are separate from the website.
+art/promo/
+exports/
 
 # Build output. art/bottles/ is the committed source art; everything below is
 # derived from it by `npm run frames`.

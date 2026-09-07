@@ -14,6 +14,26 @@
 @media(prefers-reduced-motion:reduce){html{scroll-behavior:auto}*,*:before,*:after{animation:none!important;transition:none!important}.journey{height:auto}.journey-stage{position:relative;height:auto;min-height:0}.hero-panel{position:relative;height:100svh;min-height:760px}.bottle-view{height:650px;top:85px}.story-panel{position:relative;opacity:1;visibility:visible;display:flex;justify-content:space-between;gap:50px;padding:70px var(--gutter);border-top:1px solid var(--line)}.story-heading,.story-ingredients{position:static;width:40%;max-width:none}.story-heading h2{font-size:7vw}.journey-footer{display:none}.ticker-track{transform:none}.bowl-art img{will-change:auto}}
 @media(prefers-reduced-motion:reduce) and (max-width:767px){.hero-panel{height:115svh;min-height:930px}.bottle-view{height:450px;top:326px}.story-panel{display:grid;grid-template-columns:1fr 1fr;gap:25px;padding:55px var(--gutter)}.story-heading,.story-ingredients{width:auto}.story-heading h2{font-size:12vw}}
 
+/* Keep the heading and supporting copy in one flow, so font metrics and
+   shorter desktop viewports cannot make independently positioned text collide. */
+.hero-message { display: contents; }
+@media (min-width: 768px) {
+  .hero-message {
+    position: absolute;
+    top: clamp(190px, 24svh, 310px);
+    left: var(--gutter);
+    display: flex;
+    flex-direction: column;
+    align-items: flex-start;
+    gap: clamp(28px, 4svh, 48px);
+  }
+  .hero-message h1 {
+    position: static;
+    font-size: clamp(100px, min(13vw, calc((100svh - 490px) / 2)), 220px);
+  }
+  .hero-message .hero-copy { position: static; }
+}
+
 /* Readable supporting copy and generous touch targets at every size. */
 .swatch{width:44px;height:44px;padding:8px}.swatch:before{inset:10px}
 .card-category,.card-index,.product-discover,.product-caption p,.product-caption>span,.product-volume,.hero-side-note,.film-label .eyebrow,.principles .eyebrow,#bowl-panel .eyebrow{font-size:12px}
