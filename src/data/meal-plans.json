@@ -1,0 +1,530 @@
+[
+  {
+    "number": 1,
+    "title": "Fresh beginnings",
+    "days": [
+      {
+        "name": "Monday",
+        "lunch": {
+          "name": "Earth & Grain Bowl",
+          "calories": 610,
+          "protein": 32,
+          "carbs": 72,
+          "fibre": 15,
+          "fat": 22,
+          "image": "/img/meals/week-1-01.webp"
+        },
+        "dinner": {
+          "name": "Butter Tofu & Coconut Rice",
+          "calories": 690,
+          "protein": 34,
+          "carbs": 62,
+          "fibre": 9,
+          "fat": 30,
+          "image": "/img/meals/week-1-02.webp"
+        }
+      },
+      {
+        "name": "Tuesday",
+        "lunch": {
+          "name": "Mexican Midnight Bowl",
+          "calories": 650,
+          "protein": 32,
+          "carbs": 78,
+          "fibre": 17,
+          "fat": 22,
+          "image": "/img/meals/week-1-03.webp"
+        },
+        "dinner": {
+          "name": "Arabic Mushroom Shawarma",
+          "calories": 620,
+          "protein": 31,
+          "carbs": 62,
+          "fibre": 12,
+          "fat": 25,
+          "image": "/img/meals/week-1-04.webp"
+        }
+      },
+      {
+        "name": "Wednesday",
+        "lunch": {
+          "name": "Green Goddess Tofu & Quinoa Bowl",
+          "calories": 570,
+          "protein": 34,
+          "carbs": 50,
+          "fibre": 12,
+          "fat": 25,
+          "image": "/img/meals/week-1-05.webp"
+        },
+        "dinner": {
+          "name": "Roasted Eggplant with Millet Rice",
+          "calories": 640,
+          "protein": 32,
+          "carbs": 76,
+          "fibre": 15,
+          "fat": 22,
+          "image": "/img/meals/week-1-06.webp"
+        }
+      },
+      {
+        "name": "Thursday",
+        "lunch": {
+          "name": "Coastal Bowl",
+          "calories": 650,
+          "protein": 32,
+          "carbs": 72,
+          "fibre": 14,
+          "fat": 25,
+          "image": "/img/meals/week-1-07.webp"
+        },
+        "dinner": {
+          "name": "Tempeh Balado with Brown Rice",
+          "calories": 560,
+          "protein": 32,
+          "carbs": 55,
+          "fibre": 9,
+          "fat": 22,
+          "image": "/img/meals/week-1-08.webp"
+        }
+      },
+      {
+        "name": "Friday",
+        "lunch": {
+          "name": "Sprouted Moong & Sweet Potato Bowl",
+          "calories": 600,
+          "protein": 31,
+          "carbs": 78,
+          "fibre": 16,
+          "fat": 18,
+          "image": "/img/meals/week-1-09.webp"
+        },
+        "dinner": {
+          "name": "Harissa Tofu Balls with Pita & Hummus",
+          "calories": 690,
+          "protein": 34,
+          "carbs": 65,
+          "fibre": 14,
+          "fat": 28,
+          "image": "/img/meals/week-1-10.webp"
+        }
+      },
+      {
+        "name": "Saturday",
+        "lunch": {
+          "name": "Lentil, Roasted Pumpkin & Millet Bowl",
+          "calories": 590,
+          "protein": 31,
+          "carbs": 72,
+          "fibre": 15,
+          "fat": 19,
+          "image": "/img/meals/week-1-11.webp"
+        },
+        "dinner": {
+          "name": "Moroccan Chickpea & Lentil Tagine with Couscous",
+          "calories": 650,
+          "protein": 32,
+          "carbs": 88,
+          "fibre": 17,
+          "fat": 19,
+          "image": "/img/meals/week-1-12.webp"
+        }
+      }
+    ]
+  },
+  {
+    "number": 2,
+    "title": "A world of plants",
+    "days": [
+      {
+        "name": "Monday",
+        "lunch": {
+          "name": "Black Rice, Tofu & Roasted Vegetable Bowl",
+          "calories": 540,
+          "protein": 31,
+          "carbs": 68,
+          "fibre": 15,
+          "fat": 18,
+          "image": "/img/meals/week-2-01.webp"
+        },
+        "dinner": {
+          "name": "Ethiopian Berbere, Red Lentils & Millet Bowl",
+          "calories": 575,
+          "protein": 31,
+          "carbs": 68,
+          "fibre": 15,
+          "fat": 18,
+          "image": "/img/meals/week-2-02.webp"
+        }
+      },
+      {
+        "name": "Tuesday",
+        "lunch": {
+          "name": "Lentil & Quinoa Mediterranean Salad",
+          "calories": 535,
+          "protein": 30,
+          "carbs": 65,
+          "fibre": 14,
+          "fat": 18,
+          "image": "/img/meals/week-2-03.webp"
+        },
+        "dinner": {
+          "name": "Lemon Chickpea Cutlet with Garlic Mash",
+          "calories": 590,
+          "protein": 30,
+          "carbs": 70,
+          "fibre": 13,
+          "fat": 21,
+          "image": "/img/meals/week-2-04.webp"
+        }
+      },
+      {
+        "name": "Wednesday",
+        "lunch": {
+          "name": "Tempeh & Black Bean Mexican Bowl",
+          "calories": 565,
+          "protein": 33,
+          "carbs": 67,
+          "fibre": 17,
+          "fat": 20,
+          "image": "/img/meals/week-2-05.webp"
+        },
+        "dinner": {
+          "name": "Brazilian Black Bean Stew with Brown Rice",
+          "calories": 605,
+          "protein": 32,
+          "carbs": 76,
+          "fibre": 16,
+          "fat": 20,
+          "image": "/img/meals/week-2-06.webp"
+        }
+      },
+      {
+        "name": "Thursday",
+        "lunch": {
+          "name": "Chickpea Socca with Lentil Ragout",
+          "calories": 550,
+          "protein": 30,
+          "carbs": 69,
+          "fibre": 14,
+          "fat": 18,
+          "image": "/img/meals/week-2-07.webp"
+        },
+        "dinner": {
+          "name": "Goan Chana Roast with Red Rice",
+          "calories": 585,
+          "protein": 30,
+          "carbs": 79,
+          "fibre": 16,
+          "fat": 17,
+          "image": "/img/meals/week-2-08.webp"
+        }
+      },
+      {
+        "name": "Friday",
+        "lunch": {
+          "name": "Tofu with Mixed Millet Protein Bowl",
+          "calories": 555,
+          "protein": 32,
+          "carbs": 65,
+          "fibre": 15,
+          "fat": 19,
+          "image": "/img/meals/week-2-09.webp"
+        },
+        "dinner": {
+          "name": "Sri Lankan Jackfruit & Lentil Curry with Red Rice",
+          "calories": 610,
+          "protein": 31,
+          "carbs": 78,
+          "fibre": 15,
+          "fat": 19,
+          "image": "/img/meals/week-2-10.webp"
+        }
+      },
+      {
+        "name": "Saturday",
+        "lunch": {
+          "name": "Chickpea, Sweet Potato & Quinoa Bowl",
+          "calories": 520,
+          "protein": 30,
+          "carbs": 67,
+          "fibre": 16,
+          "fat": 16,
+          "image": "/img/meals/week-2-11.webp"
+        },
+        "dinner": {
+          "name": "Tofu Steak & Garlic Mash with Sautéed Veggies",
+          "calories": 590,
+          "protein": 34,
+          "carbs": 60,
+          "fibre": 10,
+          "fat": 23,
+          "image": "/img/meals/week-2-12.webp"
+        }
+      }
+    ]
+  },
+  {
+    "number": 3,
+    "title": "Flavour, far and wide",
+    "days": [
+      {
+        "name": "Monday",
+        "lunch": {
+          "name": "Japanese Teriyaki Tofu Sushi Bowl",
+          "calories": 560,
+          "protein": 32,
+          "carbs": 72,
+          "fibre": 8,
+          "fat": 18,
+          "image": "/img/meals/week-3-01.webp"
+        },
+        "dinner": {
+          "name": "Egyptian Ful Medames & Grilled Tofu Plate",
+          "calories": 575,
+          "protein": 31,
+          "carbs": 65,
+          "fibre": 15,
+          "fat": 21,
+          "image": "/img/meals/week-3-02.webp"
+        }
+      },
+      {
+        "name": "Tuesday",
+        "lunch": {
+          "name": "Korean Gochujang Tempeh Bowl",
+          "calories": 590,
+          "protein": 33,
+          "carbs": 68,
+          "fibre": 13,
+          "fat": 21,
+          "image": "/img/meals/week-3-03.webp"
+        },
+        "dinner": {
+          "name": "Lebanese Lentil Kofta",
+          "calories": 555,
+          "protein": 30,
+          "carbs": 72,
+          "fibre": 15,
+          "fat": 17,
+          "image": "/img/meals/week-3-04.webp"
+        }
+      },
+      {
+        "name": "Wednesday",
+        "lunch": {
+          "name": "Thai Red Coconut Curry & Brown Rice",
+          "calories": 620,
+          "protein": 32,
+          "carbs": 69,
+          "fibre": 9,
+          "fat": 25,
+          "image": "/img/meals/week-3-05.webp"
+        },
+        "dinner": {
+          "name": "Rajasthani Panchmel Dal with Bajra Roti & Seasoned Vegetables",
+          "calories": 590,
+          "protein": 31,
+          "carbs": 82,
+          "fibre": 16,
+          "fat": 17,
+          "image": "/img/meals/week-3-06.webp"
+        }
+      },
+      {
+        "name": "Thursday",
+        "lunch": {
+          "name": "Harissa Tofu Balls with Hummus, Chickpeas & Pita",
+          "calories": 650,
+          "protein": 34,
+          "carbs": 69,
+          "fibre": 14,
+          "fat": 25,
+          "image": "/img/meals/week-3-07.webp"
+        },
+        "dinner": {
+          "name": "Indonesian Tempeh Satay with Peanut Sauce & Rice",
+          "calories": 680,
+          "protein": 32,
+          "carbs": 67,
+          "fibre": 9,
+          "fat": 32,
+          "image": "/img/meals/week-3-08.webp"
+        }
+      },
+      {
+        "name": "Friday",
+        "lunch": {
+          "name": "Italian White Bean & Tofu Polpette with Tomato Sauce",
+          "calories": 570,
+          "protein": 32,
+          "carbs": 63,
+          "fibre": 14,
+          "fat": 20,
+          "image": "/img/meals/week-3-09.webp"
+        },
+        "dinner": {
+          "name": "Black Rice & Miso Glazed Bowl",
+          "calories": 565,
+          "protein": 31,
+          "carbs": 70,
+          "fibre": 12,
+          "fat": 19,
+          "image": "/img/meals/week-3-10.webp"
+        }
+      },
+      {
+        "name": "Saturday",
+        "lunch": {
+          "name": "Vietnamese Tofu Rice Paper Rolls with Peanut Dip",
+          "calories": 550,
+          "protein": 30,
+          "carbs": 64,
+          "fibre": 9,
+          "fat": 21,
+          "image": "/img/meals/week-3-11.webp"
+        },
+        "dinner": {
+          "name": "Turkish Mezze Feast Box",
+          "calories": 610,
+          "protein": 32,
+          "carbs": 68,
+          "fibre": 16,
+          "fat": 23,
+          "image": "/img/meals/week-3-12.webp"
+        }
+      }
+    ]
+  },
+  {
+    "number": 4,
+    "title": "Comfort, reimagined",
+    "days": [
+      {
+        "name": "Monday",
+        "lunch": {
+          "name": "Tofu Spinach Saag Curry with Rice Bowl",
+          "calories": 650,
+          "protein": 32,
+          "carbs": 78,
+          "fibre": 17,
+          "fat": 22,
+          "image": "/img/meals/week-4-01.webp"
+        },
+        "dinner": {
+          "name": "Mushroom Bolognese",
+          "calories": 585,
+          "protein": 31,
+          "carbs": 76,
+          "fibre": 13,
+          "fat": 18,
+          "image": "/img/meals/week-4-02.webp"
+        }
+      },
+      {
+        "name": "Tuesday",
+        "lunch": {
+          "name": "Chipotle Tempeh Burrito Bowl",
+          "calories": 625,
+          "protein": 33,
+          "carbs": 72,
+          "fibre": 15,
+          "fat": 21,
+          "image": "/img/meals/week-4-03.webp"
+        },
+        "dinner": {
+          "name": "BBQ Tofu, Pickled Red Cabbage & Avocado Ciabatta",
+          "calories": 610,
+          "protein": 32,
+          "carbs": 65,
+          "fibre": 10,
+          "fat": 23,
+          "image": "/img/meals/week-4-04.webp"
+        }
+      },
+      {
+        "name": "Wednesday",
+        "lunch": {
+          "name": "Roasted Peppers & Tempeh Wrap",
+          "calories": 575,
+          "protein": 31,
+          "carbs": 63,
+          "fibre": 12,
+          "fat": 21,
+          "image": "/img/meals/week-4-05.webp"
+        },
+        "dinner": {
+          "name": "Mediterranean Asparagus Grain Bowl",
+          "calories": 560,
+          "protein": 30,
+          "carbs": 68,
+          "fibre": 13,
+          "fat": 19,
+          "image": "/img/meals/week-4-06.webp"
+        }
+      },
+      {
+        "name": "Thursday",
+        "lunch": {
+          "name": "Arrabbiata Pasta with Italian Chopped Salad",
+          "calories": 590,
+          "protein": 30,
+          "carbs": 82,
+          "fibre": 12,
+          "fat": 17,
+          "image": "/img/meals/week-4-07.webp"
+        },
+        "dinner": {
+          "name": "Balsamic Brussels Sprouts & Tempeh Bowl",
+          "calories": 570,
+          "protein": 32,
+          "carbs": 60,
+          "fibre": 13,
+          "fat": 21,
+          "image": "/img/meals/week-4-08.webp"
+        }
+      },
+      {
+        "name": "Friday",
+        "lunch": {
+          "name": "Smoky Tofu Brunch Bowl",
+          "calories": 700,
+          "protein": 44,
+          "carbs": 63,
+          "fibre": 17,
+          "fat": 35,
+          "image": "/img/meals/week-4-09.webp"
+        },
+        "dinner": {
+          "name": "Pesto Tempeh Ciabatta",
+          "calories": 610,
+          "protein": 32,
+          "carbs": 62,
+          "fibre": 10,
+          "fat": 24,
+          "image": "/img/meals/week-4-10.webp"
+        }
+      },
+      {
+        "name": "Saturday",
+        "lunch": {
+          "name": "Vietnamese-style Tempeh Vermicelli Bowl",
+          "calories": 590,
+          "protein": 31,
+          "carbs": 75,
+          "fibre": 10,
+          "fat": 19,
+          "image": "/img/meals/week-4-11.webp"
+        },
+        "dinner": {
+          "name": "Royal Indian Tandoori Tofu Platter",
+          "calories": 625,
+          "protein": 34,
+          "carbs": 65,
+          "fibre": 13,
+          "fat": 23,
+          "image": "/img/meals/week-4-12.webp"
+        }
+      }
+    ]
+  }
+]

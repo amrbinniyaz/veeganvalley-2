@@ -1,0 +1,16 @@
+/* Keep the composition together on large displays; backgrounds stay edge to edge. */
+@media (min-width:1600px) {
+  :root { --gutter:max(80px,calc((100vw - 1440px) / 2)); }
+  .journey-stage { width:100%; max-width:1600px; margin-inline:auto; --gutter:80px; }
+  .hero-orbit { width:1040px; height:1040px; }
+  .hero-message h1 { font-size:clamp(100px,min(208px,calc((100svh - 490px) / 2)),208px); }
+  .hero-botanical { width:640px; }
+  .product-word { font-size:120px; }
+  .meal-page h1 { font-size:126px; }
+  .meal-hero { grid-template-columns:1.1fr minmax(0,1fr); }
+  .meal-how-layout { gap:80px; }
+  .plan-section { gap:90px; }
+  .plan-workspace { width:100%; }
+  .meal-cards { gap:32px; }
+  .site-footer-main { gap:80px; }
+}

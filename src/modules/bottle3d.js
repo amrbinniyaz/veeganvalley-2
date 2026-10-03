@@ -4,9 +4,9 @@ import { createBottleBody, createLabelGeometry } from '../lib/bottleGeometry.js'
 import { createFlavourTurn, advanceFlavourTurn } from '../lib/flavourTurn.js';
 
 const FLAVOURS = {
-  'green-house': { color: '#a4ae43', label: '/img/labels/green-house.png' },
-  'golden-hour': { color: '#efa334', label: '/img/labels/golden-hour.png' },
-  'classic-beet': { color: '#7a303b', label: '/img/labels/classic-beet.png' },
+  'green-house': { color: '#a4ae43', label: '/img/labels/green-house-hd.webp' },
+  'golden-hour': { color: '#efa334', label: '/img/labels/golden-hour-hd.webp' },
+  'classic-beet': { color: '#7a303b', label: '/img/labels/classic-beet-hd.webp' },
 };
 
 export async function initBottle3D(host, { reducedMotion = false, signal, initialEntrance = 1 } = {}) {
@@ -19,7 +19,6 @@ export async function initBottle3D(host, { reducedMotion = false, signal, initia
     // The original photograph is always present, including without WebGL.
     return { setFlavour() {}, setProgress() {}, destroy() {} };
   }
-  renderer.setPixelRatio(Math.min(window.devicePixelRatio || 1, 1.75));
   renderer.setClearColor(0x000000, 0);
   renderer.outputColorSpace = THREE.SRGBColorSpace;
   renderer.toneMapping = THREE.ACESFilmicToneMapping;
@@ -52,7 +51,9 @@ export async function initBottle3D(host, { reducedMotion = false, signal, initia
     clearcoatRoughness: .13, envMapIntensity: .55,
   });
   spin.add(new THREE.Mesh(createBottleBody(), juiceMaterial));
-  const labelMaterial = new THREE.MeshStandardMaterial({ transparent: true, roughness: .74, metalness: 0, envMapIntensity: .15 });
+  // The photographed paper already contains studio lighting. Lower its
+  // reflectance so the bottle's bright key light does not wash out the ink.
+  const labelMaterial = new THREE.MeshStandardMaterial({ color: '#bcbcbc', transparent: true, roughness: .9, metalness: 0, envMapIntensity: .08 });
   const labelMesh = new THREE.Mesh(createLabelGeometry(), labelMaterial);
   spin.add(labelMesh);
 
@@ -86,7 +87,10 @@ export async function initBottle3D(host, { reducedMotion = false, signal, initia
     const promise = textureLoader.loadAsync(FLAVOURS[name].label).then(texture => {
       if (isDisposed) { texture.dispose(); return null; }
       texture.colorSpace = THREE.SRGBColorSpace;
-      texture.anisotropy = Math.min(8, renderer.capabilities.getMaxAnisotropy());
+      // Keep small printed type legible when the label curves away from the camera.
+      texture.anisotropy = renderer.capabilities.getMaxAnisotropy();
+      texture.magFilter = THREE.LinearFilter;
+      texture.minFilter = THREE.LinearMipmapLinearFilter;
       textures.set(name, texture);
       pendingTextures.delete(name);
       return texture;
@@ -104,6 +108,14 @@ export async function initBottle3D(host, { reducedMotion = false, signal, initia
   function resize() {
     const width = host.clientWidth, height = host.clientHeight;
     if (!width || !height || isDisposed) return;
+    // Supersample the fine label lettering, including on Retina displays. Bound
+    // the buffer to three megapixels so a large monitor cannot balloon GPU work.
+    const pixelRatio = Math.min(
+      Math.max(1.5, (window.devicePixelRatio || 1) * 1.25),
+      3,
+      Math.sqrt(3_000_000 / (width * height)),
+    );
+    if (renderer.getPixelRatio() !== pixelRatio) renderer.setPixelRatio(pixelRatio);
     renderer.setSize(width, height, false);
     camera.aspect = width / height;
     // Keep a consistent product scale while avoiding clipping on narrow screens.
@@ -159,6 +171,8 @@ export async function initBottle3D(host, { reducedMotion = false, signal, initia
   const onContextLost = event => { event.preventDefault(); host.classList.remove('is-3d-ready'); };
   const onContextRestored = () => { if (labelMaterial.map) host.classList.add('is-3d-ready'); requestFrame(); };
   window.addEventListener('pointermove', onPointer, { passive: true });
+  // A browser moved between displays can change DPR without resizing the host.
+  window.addEventListener('resize', resize, { passive: true });
   document.addEventListener('visibilitychange', onVisibility);
   motionQuery.addEventListener('change', requestFrame);
   canvas.addEventListener('webglcontextlost', onContextLost);
@@ -209,6 +223,7 @@ export async function initBottle3D(host, { reducedMotion = false, signal, initia
       observer.disconnect();
       intersection.disconnect();
       window.removeEventListener('pointermove', onPointer);
+      window.removeEventListener('resize', resize);
       document.removeEventListener('visibilitychange', onVisibility);
       motionQuery.removeEventListener('change', requestFrame);
       canvas.removeEventListener('webglcontextlost', onContextLost);

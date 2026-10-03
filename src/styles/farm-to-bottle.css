@@ -175,3 +175,16 @@ a:hover .arrow-circle, button.arrow-circle:hover:not(:disabled) { background: va
   *, *::before, *::after { animation: none !important; transition: none !important; scroll-behavior: auto !important; }
   .parallax-layer { transform: none; will-change: auto; }
 }
+
+.journey-closing-links { display:flex; flex-wrap:wrap; gap:8px 22px; margin-top:14px; }
+.journey-closing-links a { display:inline-flex; align-items:center; gap:12px; border-bottom:1px solid var(--line); min-height:38px; font-size:12px; }
+.journey-closing-links span { font-size:18px; }
+@media (max-width:767px) { .journey-closing-links { margin-top:8px; gap:4px 18px; } .journey-closing-links a { font-size:11px; min-height:34px; } }
+
+/* Match the editorial width of the main site on very wide displays. */
+@media (min-width:1920px) {
+  body { position:relative; width:1920px; margin-inline:auto; --gutter:80px; }
+  .story-scene { flex-basis:1920px; width:1920px; }
+  .scene-copy h1,.scene-copy h2 { font-size:120px; }
+  .world-is-ready .scene-farm .scene-copy h1 { font-size:140px; }
+}

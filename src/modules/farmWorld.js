@@ -96,13 +96,13 @@ export async function initFarmWorld(host, { onReady, onUnavailable } = {}) {
   listen(canvas,'webglcontextlost',event=>{event.preventDefault();lost=true;ready=false;onUnavailable?.();});
   listen(canvas,'webglcontextrestored',()=>{lost=false;requestFrame();});
   resize();
-  new T.TextureLoader().loadAsync('/img/labels/green-house.png').then(texture => {
+  new T.TextureLoader().loadAsync('/img/labels/green-house-hd.webp').then(texture => {
     labelSettled=true;
     labelTexture=texture;
     if(disposed) labelTexture.dispose();
     else {
       labelTexture.colorSpace=T.SRGBColorSpace;
-      labelTexture.anisotropy=Math.min(8,renderer.capabilities.getMaxAnisotropy());
+      labelTexture.anisotropy=renderer.capabilities.getMaxAnisotropy();
       world.materials.label.map=labelTexture; world.materials.label.needsUpdate=true; requestFrame();
     }
   }).catch(() => { labelSettled=true; world.materials.label.opacity=0; requestFrame(); });

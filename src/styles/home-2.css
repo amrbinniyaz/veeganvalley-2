@@ -1,0 +1,54 @@
+/* Homepage 2 adds only this arch interlude. Original homepage styles stay intact. */
+.valley-arch { height:220svh; background:#dfe7d2; }
+.valley-arch-stage { position:sticky; top:0; height:100svh; min-height:650px; overflow:clip; isolation:isolate; }
+.valley-arch-frame { position:absolute; inset:22px; border:1px solid #2f5a2c17; pointer-events:none; }
+.valley-arch-pencil { position:absolute; left:-7%; bottom:-23%; width:45%; height:105%; object-fit:contain; opacity:.065; pointer-events:none; transform:rotate(-18deg); }
+.valley-arch-heading { position:absolute; z-index:3; top:10%; left:20px; right:20px; text-align:center; pointer-events:none; }
+.valley-arch-heading .eyebrow { display:block; margin-bottom:23px; font-size:10px; }
+.valley-arch-heading h2 { font-size:clamp(58px,7.4vw,110px); line-height:1.05; }
+.valley-arch-heading h2 em { display:inline-block; font-size:1.06em; }
+.valley-arch-aside { position:absolute; top:59%; z-index:3; font:400 19px/1.6 var(--display); }
+.valley-arch-aside em { font-size:28px; }
+.valley-arch-left { left:var(--gutter); }
+.valley-arch-right { right:var(--gutter); text-align:right; }
+.valley-arch-window,.valley-arch-outline { position:absolute; bottom:-5%; left:50%; width:min(37vw,520px); height:64%; transform:translateX(-50%); border-radius:50% 50% 0 0 / 44% 44% 0 0; }
+.valley-arch-window { overflow:hidden; background:#9eaf8a; z-index:2; }
+.valley-arch-outline { width:min(calc(37vw + 30px),550px); height:calc(64% + 15px); border:1px solid #2f5a2c26; }
+.valley-arch-outline::before { content:''; position:absolute; inset:-13px; border:1px solid #2f5a2c12; border-radius:inherit; }
+.valley-arch-landscape { width:100%; height:100%; object-fit:cover; object-position:50% 58%; transform:scale(1.12); }
+.valley-arch-shade { position:absolute; inset:0; background:linear-gradient(90deg,#0e2b17b8,transparent 90%); opacity:0; }
+.valley-arch-destination { position:absolute; bottom:17%; left:var(--gutter); right:var(--gutter); color:var(--pale); opacity:0; visibility:hidden; }
+.valley-arch-destination h2 { font-size:clamp(65px,7vw,110px); margin:25px 0; }
+.valley-arch-destination p { font-size:16px; line-height:1.7; }
+.valley-arch-destination .text-link { margin-top:24px; }
+.valley-arch-scroll { position:absolute; bottom:44px; left:var(--gutter); z-index:4; display:flex; align-items:center; gap:15px; font-size:9px; letter-spacing:.12em; }
+.valley-arch-scroll>span { font-size:24px; }
+@media (min-width:1800px) { .valley-arch-pencil { width:700px; left:calc(50% - 1100px); } }
+@media (max-width:1100px) { .valley-arch-aside { font-size:15px; } .valley-arch-aside em { font-size:23px; } }
+@media (max-width:767px) {
+  .valley-arch { height:200svh; }
+  .valley-arch-frame { inset:12px; }
+  .valley-arch-heading { top:12%; }
+  .valley-arch-heading .eyebrow { font-size:8px; }
+  .valley-arch-heading h2 { font-size:clamp(30px,8.8vw,64px); }
+  .valley-arch-heading h2 em { font-size:1.25em; margin-top:5px; }
+  .valley-arch-window { width:66vw; height:59%; bottom:-4%; border-radius:50% 50% 0 0 / 37% 37% 0 0; }
+  .valley-arch-outline { width:calc(66vw + 20px); height:calc(59% + 10px); bottom:-4%; border-radius:50% 50% 0 0 / 37% 37% 0 0; }
+  .valley-arch-outline::before { inset:-8px; }
+  .valley-arch-aside { top:36%; font-size:8px; }
+  .valley-arch-aside em { font-family:var(--hand); font-size:16px; letter-spacing:0; }
+  .valley-arch-scroll { left:20px; bottom:24px; writing-mode:vertical-rl; font-size:8px; gap:10px; }
+  .valley-arch-pencil { width:90%; height:70%; left:-38%; bottom:-15%; }
+  .valley-arch-destination { bottom:16%; }
+  .valley-arch-destination h2 { font-size:clamp(40px,11.8vw,66px); margin:22px 0; }
+  .valley-arch-destination .eyebrow { font-size:8px; }
+  .valley-arch-destination p { font-size:14px; }
+  .valley-arch-destination .text-link { font-size:12px; gap:22px; }
+  .valley-arch-shade { background:linear-gradient(0deg,#102b23cb,transparent 95%); }
+}
+@media (prefers-reduced-motion:reduce) {
+  .valley-arch { height:auto; }
+  .valley-arch-stage { position:relative; height:90svh; min-height:680px; }
+  .valley-arch-landscape { transform:none; }
+  .valley-arch-destination { display:none; }
+}

@@ -7,6 +7,8 @@ COPY src ./src
 COPY public ./public
 COPY farm-to-bottle ./farm-to-bottle
 COPY 3d-journey ./3d-journey
+COPY meal-plans ./meal-plans
+COPY home-2 ./home-2
 RUN npm run build
 
 FROM nginx:stable-alpine

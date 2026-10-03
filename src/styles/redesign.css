@@ -56,3 +56,9 @@
   .dialog-copy li,.dialog-copy .dialog-storage{font-size:13px}
 }
 @media(max-width:380px){.hero-panel{min-height:930px}.hero-product{bottom:182px;width:170px}.bottle-view{top:310px;height:420px}.hero-stamp{top:330px}.card-category{font-size:9px;max-width:92px}.product-caption h3{font-size:16px}}
+
+/* A quiet invitation to the complete meal-plan experience. */
+.meal-feature{display:grid;grid-template-columns:1.1fr 1fr;align-items:center;gap:4%;background:var(--pale);overflow:clip;border-bottom:1px solid var(--line);padding-block:95px}
+.meal-feature-copy{position:relative;z-index:1}.meal-feature h2{font-size:clamp(65px,7vw,112px);margin:28px 0}.meal-feature h2 em{font-size:.82em}.meal-feature-copy>p{max-width:430px;font-size:16px;line-height:1.75;margin-bottom:28px}.meal-feature-note{display:block;font:29px/1.2 var(--hand);margin-top:24px;transform:rotate(-3deg)}.meal-feature-art{position:relative;min-width:0}.meal-feature-art:before{content:'';position:absolute;inset:-10% 0;border:1px solid var(--line);border-radius:50%}.meal-feature-art img{width:170%;max-width:none;margin-left:-35%;transform:rotate(-12deg);filter:drop-shadow(10px 20px 16px rgba(36,55,21,.12))}
+@media(min-width:768px) and (max-width:1100px){.site-header .header-cta{display:none}.desktop-nav{gap:18px}}
+@media(max-width:767px){.meal-feature{grid-template-columns:minmax(0,1fr);gap:55px;padding-block:60px 80px}.meal-feature h2{font-size:15vw}.meal-feature-copy>p{font-size:15px}.meal-feature .pill-button{font-size:14px;gap:22px}.meal-feature-art{width:85%;justify-self:center}.meal-feature-note{font-size:25px}.footer-bottom nav{flex-wrap:wrap;justify-content:flex-start;gap:16px 23px}.mobile-menu:not([hidden]){overflow-y:auto;padding-top:20px;padding-bottom:35px}.mobile-menu a{font-size:30px;padding-block:15px}.mobile-menu p{margin-top:25px}}
