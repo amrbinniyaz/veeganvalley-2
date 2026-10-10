@@ -9,11 +9,16 @@
     <link rel="icon" type="image/png" href="/img/logo/vegan-valley.png" />
     <link rel="preload" as="image" href="/img/logo/vegan-valley.png" />
     <script>
-      document.documentElement.classList.add('home-intro-pending');
-      window.veganHomeIntroWatchdog = setTimeout(() => {
-        document.documentElement.classList.remove('home-intro-pending');
-        window.dispatchEvent(new Event('vegan-home-intro-timeout'));
-      }, 8000);
+      // The opening intro plays on a visitor's first visit only.
+      let veganIntroSeen = false;
+      try { veganIntroSeen = localStorage.getItem('vv-intro-seen') === '1'; localStorage.setItem('vv-intro-seen', '1'); } catch {}
+      if (!veganIntroSeen) {
+        document.documentElement.classList.add('home-intro-pending');
+        window.veganHomeIntroWatchdog = setTimeout(() => {
+          document.documentElement.classList.remove('home-intro-pending');
+          window.dispatchEvent(new Event('vegan-home-intro-timeout'));
+        }, 8000);
+      }
     </script>
     <link rel="preconnect" href="https://fonts.googleapis.com" />
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
