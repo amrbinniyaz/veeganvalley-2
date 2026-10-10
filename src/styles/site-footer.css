@@ -41,3 +41,6 @@
   .site-footer-bottom>a { margin-left:auto; }
 }
 @media (max-width:380px) { .site-footer-note { position:static; margin:20px 0 0 100px; } }
+.site-footer-insta { display:flex; align-items:center; gap:10px; width:max-content; margin-top:14px; font-size:13px; color:var(--sage); transition:color .2s; }
+.site-footer-insta .icon { width:18px; height:18px; }
+.site-footer-insta:hover { color:inherit; text-decoration:underline; text-underline-offset:4px; }

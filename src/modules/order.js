@@ -5,6 +5,7 @@ import { icon } from '../lib/icon.js';
 // One basket shared by every page. Orders are sent as an editable WhatsApp
 // message for pickup or delivery; nothing is placed until the customer presses send.
 export const WHATSAPP_NUMBER = '917736005800';
+const INSTAGRAM_URL = 'https://www.instagram.com/veganvalley_official/';
 const STORAGE_KEY = 'vv-order-v1';
 const MAX_QTY = 20;
 // Delivery: free within FREE_KM of the store, a flat fee up to MAX_KM, none beyond.
@@ -397,6 +398,7 @@ function renderOrder() {
         el('span', { class: 'eyebrow', text: sent.mode === 'delivery' ? 'DELIVERY ORDER' : 'PICKUP ORDER' }),
         el('h2', { id: 'order-sheet-title', text: `Thank you${sent.name ? `, ${sent.name.split(' ')[0]}` : ''}!` }),
         el('p', { text: `Your order has been placed on WhatsApp. We will confirm your ${sent.mode === 'delivery' ? 'delivery' : 'pickup'} time there.` }),
+        el('a', { class: 'order-insta', href: INSTAGRAM_URL, target: '_blank', rel: 'noopener noreferrer' }, icon('instagram'), el('span', {}, 'Enjoying it? Tag us ', el('b', { text: '@veganvalley_official' }))),
         el('a', { class: 'pill-button', href: '/menu/' }, 'Order something else ', el('span', {}, icon('arrow-up-right'))),
         el('p', { class: 'order-small' }, "WhatsApp didn't open? ", el('a', { href: sent.url, target: '_blank', rel: 'noopener', text: 'Send the order again' }))));
     return;
