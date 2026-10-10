@@ -12,6 +12,7 @@ export default defineConfig({
         home2: fileURLToPath(new URL("./home-2/index.html", import.meta.url)),
         journey: fileURLToPath(new URL("./farm-to-bottle/index.html", import.meta.url)),
         meals: fileURLToPath(new URL("./meal-plans/index.html", import.meta.url)),
+        menu: fileURLToPath(new URL("./menu/index.html", import.meta.url)),
         world: fileURLToPath(new URL("./3d-journey/index.html", import.meta.url)),
       },
     },

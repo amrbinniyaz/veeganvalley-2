@@ -419,3 +419,99 @@
 }
 @media (prefers-reduced-motion:reduce) { .plan-option { transition:none; } .plan-option:hover { transform:none; } }
 
+
+/* Personal plan quiz: compact, three short steps, then one day at a time. */
+.plan-quiz-head h3{font:italic 500 36px/1.1 var(--serif);letter-spacing:-.045em;margin:10px 0 0;outline:none}
+.plan-q{border:0;padding:0;margin:26px 0 0;min-width:0}
+.plan-q legend{display:flex;align-items:center;gap:10px;padding:0;font-size:15px;font-weight:600}
+.plan-q-num{width:24px;height:24px;border-radius:50%;background:var(--green);color:var(--pale);display:grid;place-items:center;font-size:12px;font-weight:700}
+.plan-q.needs-answer legend{color:#a5402c;animation:plan-nudge .45s}
+@keyframes plan-nudge{25%{transform:translateX(-6px)}75%{transform:translateX(6px)}}
+.plan-about{display:flex;flex-wrap:wrap;gap:10px;margin-top:12px}
+.plan-sex{display:flex;gap:6px}
+.plan-chip{cursor:pointer}
+.plan-chip span{display:inline-block;padding:11px 15px;border:1px solid var(--line);border-radius:30px;font-size:13.5px;white-space:nowrap;transition:background .2s,color .2s}
+.plan-chip:has(input:checked) span{background:var(--green);color:var(--pale);border-color:var(--green)}
+.plan-chip:has(input:focus-visible) span{outline:2px solid #8dbb63;outline-offset:2px}
+.plan-stats{display:grid;grid-template-columns:repeat(3,minmax(0,1fr));gap:6px;flex:1;min-width:260px}
+.plan-input{display:flex;align-items:center;border:1px solid var(--line);border-radius:30px;background:#fff}
+.plan-input:focus-within{outline:2px solid #8dbb63;outline-offset:1px}
+.plan-input input{flex:1;min-width:0;border:0;background:transparent;font:inherit;font-size:15px;color:var(--ink);padding:10px 0 10px 15px;outline:none;-moz-appearance:textfield}
+.plan-input input::-webkit-inner-spin-button,.plan-input input::-webkit-outer-spin-button{-webkit-appearance:none;margin:0}
+.plan-input em{font-family:var(--sans);font-style:normal;letter-spacing:0;font-size:12px;opacity:.55;padding-right:14px}
+.plan-field.is-invalid .plan-input{border-color:#b3412f}
+.plan-opts{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:8px;margin-top:12px}
+.plan-opt{display:flex;gap:12px;align-items:flex-start;padding:13px 14px;border:1px solid var(--line);cursor:pointer;transition:border-color .2s,background .2s}
+.plan-opt:hover{border-color:rgba(47,90,44,.5)}
+.plan-opt strong{display:block;font-size:14.5px;font-weight:600;letter-spacing:-.01em}
+.plan-opt small{display:block;font-size:12px;line-height:1.4;margin-top:2px;opacity:.72}
+.plan-dot{flex:none;width:18px;height:18px;margin-top:1px;border:1.5px solid rgba(47,90,44,.45);border-radius:50%;transition:border .2s}
+.plan-opt:has(input:checked){border-color:var(--green);background:rgba(141,187,99,.14)}
+.plan-opt:has(input:checked) .plan-dot{border:5px solid var(--green)}
+.plan-opt:has(input:focus-visible){outline:2px solid #8dbb63;outline-offset:2px}
+.plan-privacy{font-size:11.5px;opacity:.65;margin-top:14px}
+.plan-suggest:not(:empty){margin-top:26px;padding-top:24px;border-top:1px solid var(--line)}
+.plan-summary{display:flex;flex-wrap:wrap;justify-content:space-between;align-items:flex-end;gap:8px 20px}
+.plan-summary .eyebrow{font-size:10px}
+.plan-summary strong{display:block;font-family:var(--display);font-weight:500;font-size:34px;letter-spacing:-.035em;line-height:1;margin-top:6px}
+.plan-summary small{font-family:var(--sans);font-size:13px;letter-spacing:0;font-weight:500}
+.plan-summary p{font-size:13px}
+.plan-notes{list-style:none;margin:14px 0 0;padding:0;display:grid;gap:6px}
+.plan-notes li{font-size:12.5px;line-height:1.5;background:rgba(233,164,56,.15);padding:9px 12px}
+.plan-picker{display:flex;flex-wrap:wrap;justify-content:space-between;gap:8px;margin:20px 0 10px}
+.plan-weeks,.plan-daytabs{display:flex;flex-wrap:wrap;gap:4px}
+.plan-picker button{border:1px solid var(--line);border-radius:30px;padding:7px 12px;font-size:12.5px;transition:background .2s,color .2s}
+.plan-picker button[aria-pressed=true]{background:var(--green);color:var(--pale);border-color:var(--green)}
+.plan-dayview{border:1px solid var(--line);background:#f6f8f1;padding:6px 16px 8px}
+.plan-dayview-head{display:flex;justify-content:space-between;align-items:baseline;padding:10px 0 6px}
+.plan-dayview h4{font:italic 500 22px/1 var(--serif);letter-spacing:-.03em}
+.plan-dayview-head span{font-size:12px;font-weight:600}
+.plan-dayview ul{list-style:none;margin:0;padding:0}
+.plan-dayview li{display:grid;grid-template-columns:52px 1fr auto;gap:12px;align-items:center;padding:8px 0;border-top:1px solid var(--line);font-size:14px;line-height:1.3}
+.plan-dayview li img{width:52px;height:40px;object-fit:contain;mix-blend-mode:multiply}
+.plan-dayview li.is-bottle img{mix-blend-mode:normal}
+.plan-dayview li small{display:block;font-size:10px;letter-spacing:.06em;text-transform:uppercase;opacity:.6}
+.plan-dayview li em{font-family:var(--sans);font-style:normal;letter-spacing:0;font-size:12px;opacity:.7;white-space:nowrap}
+.plan-send{margin-top:22px}
+.plan-send textarea{width:100%;resize:vertical;border:1px solid var(--line);background:transparent;color:var(--green);font:inherit;font-size:14px;padding:11px 14px}
+.plan-send textarea:focus{outline:2px solid #8dbb63;outline-offset:1px}
+.plan-whatsapp{width:100%;margin-top:10px;background:#1f6b3a;border-color:#1f6b3a;color:#fff}
+.plan-whatsapp span{font-size:22px}
+.plan-whatsapp[aria-disabled=true]{opacity:.45;cursor:not-allowed}
+.plan-whatsapp[aria-disabled=true]:hover{transform:none;background:#1f6b3a;color:#fff}
+.plan-send-hint{font-size:12px;margin-top:8px;font-weight:600}
+.plan-disclaimer{font-size:11px;line-height:1.5;margin-top:8px;opacity:.6}
+@media(min-width:768px){.plan-intro{position:sticky;top:110px;align-self:start}}
+@media(max-width:767px){
+  .plan-quiz-head h3{font-size:30px}
+  .plan-about{display:grid}
+  .plan-sex{flex-wrap:wrap}
+  .plan-stats{min-width:0}
+  .plan-input input{padding-left:12px;font-size:14px}
+  .plan-opts{grid-template-columns:1fr}
+  .plan-summary strong{font-size:28px}
+}
+@media(prefers-reduced-motion:reduce){.plan-q.needs-answer legend{animation:none}}
+.plan-dayview h4{margin:0}@media(max-width:767px){.plan-note{position:static;display:block;margin:22px 0 0 auto;width:max-content;transform:rotate(-5deg);font-size:26px}}
+.plan-stats{min-width:0}
+.plan-stat-msg{margin-top:10px;padding:10px 14px;font-size:13px;line-height:1.5;border-left:3px solid var(--green);background:rgba(141,187,99,.16)}
+.plan-stat-msg[data-tone=fun]{font-family:var(--hand);font-size:22px;line-height:1.15;border-color:#e9a438;background:rgba(233,164,56,.15)}
+.plan-about .plan-stats{max-width:560px}
+/* Number-check pop-up */
+.stat-popup{width:min(380px,calc(100% - 40px));padding:34px 28px 26px;border:0;border-radius:22px;background:var(--pale);color:var(--green);text-align:center;box-shadow:0 30px 60px -20px rgba(20,40,20,.5)}
+.stat-popup[open]{animation:stat-pop .45s cubic-bezier(.34,1.56,.64,1)}
+.stat-popup::backdrop{background:rgba(21,40,21,.45);backdrop-filter:blur(3px)}
+.stat-popup-emoji{display:block;font-size:68px;line-height:1;animation:stat-bounce 1.6s ease-in-out .3s infinite}
+.stat-popup h4{font-family:var(--hand);font-size:36px;font-weight:600;line-height:1;margin:16px 0 10px;transform:rotate(-2deg)}
+.stat-popup p{font-size:15px;line-height:1.55}
+.stat-popup-actions{display:grid;justify-items:center;gap:10px;margin-top:22px}
+.stat-popup-fix{justify-content:center;width:100%;padding:15px 20px}
+.stat-popup-chat{gap:12px;font-size:13px;padding:6px 0}
+.stat-popup-chat[hidden]{display:none}
+.stat-popup[data-tone=fun]{background:#fbefd6}
+.stat-popup[data-tone=kind] .stat-popup-emoji{animation:none}
+.stat-popup[data-tone=kind] h4{font-family:var(--serif);font-style:italic;font-weight:500;font-size:28px;letter-spacing:-.03em;transform:none}
+@keyframes stat-pop{from{opacity:0;transform:scale(.8) translateY(20px)}}
+@keyframes stat-bounce{0%,100%{transform:translateY(0) rotate(0)}30%{transform:translateY(-10px) rotate(-8deg)}60%{transform:translateY(0) rotate(6deg)}}
+@media(prefers-reduced-motion:reduce){.stat-popup[open],.stat-popup-emoji{animation:none}}
+.stat-popup-fix,.stat-popup-fix:hover,.stat-popup-fix:focus{background:var(--green);color:var(--pale);transform:none}.stat-popup-fix:focus-visible{outline:2px solid #8dbb63;outline-offset:3px}

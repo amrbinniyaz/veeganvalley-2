@@ -1,19 +1,14 @@
 import gsap from 'gsap';
 import ScrollTrigger from 'gsap/ScrollTrigger';
 import Lenis from 'lenis';
+import juices from './data/juices.json';
+import { initOrder, openItem, addToOrder, menuCard, getItem, items as menuItems } from './modules/order.js';
 import { startHomeIntro } from './modules/homeIntro.js';
 import { createHomeEntrance } from './modules/homeEntrance.js';
 
 gsap.registerPlugin(ScrollTrigger);
 
-const products = {
-  'green-house': {name:'Green House', description:'Crisp cucumber, orchard-fresh apple and leafy greens, with a bright little lift of lemon and ginger.', ingredients:['Cucumber','Green apple','Celery','Romaine','Lemon','Ginger'], color:'#d8e2bd', eyebrow:'Meet your daily greens'},
-  'golden-hour': {name:'Golden Hour', description:'Carrot and two kinds of apple, brightened with lemon and a gentle ginger kick. A sunny little ritual.', ingredients:['Carrot','Red apple','Green apple','Lemon','Ginger'], color:'#f0d5a5', eyebrow:'A brighter kind of everyday'},
-  'classic-beet': {name:'Classic Beet', description:'Earthy red beet meets juicy orange, crisp cucumber and kale. Deep colour. Full character.', ingredients:['Red beet','Orange','Cucumber','Kale'], color:'#e2bfbd', eyebrow:'Find your earthy side'},
-  'morning-sunshine': {name:'Morning Sunshine', description:'Sweet red apple, sharp lemon and warming ginger, with a little cayenne to wake things up.', ingredients:['Red apple','Lemon','Ginger','Ground cayenne'], color:'#ece0a4'},
-  'hydrator': {name:'The Hydrator', description:'Pineapple and green apple meet cooling cucumber and fresh mint. Bright, crisp refreshment.', ingredients:['Pineapple','Cucumber','Green apple','Mint leaves'], color:'#dce6cd'},
-  'charcoal': {name:'Charcoal Lemonade', description:'A bold twist on lemonade, blending activated charcoal, red apple, lemon and ginger citrus.', ingredients:['Activated charcoal','Red apple','Lemon','Ginger citrus'], color:'#ced6cb'},
-};
+const products = Object.fromEntries(juices.map(juice => [juice.id, {...juice, color: juice.cardBg}]));
 const bowls = {
   acai: {name:'Acai bowl', title:'Berry good beginnings.', category:'Your morning, brighter.', description:'Thick, cold acai. Crunchy granola. Toasted coconut and a generous handful of fresh berries. Get your spoon in.', image:'acai-bowl', alt:'Acai bowl with granola, toasted coconut and fresh berries'},
   oats: {name:'Oat meal', title:'Take the slow morning.', category:'A little comfort, a lot of colour.', description:'Whole-grain oats, cooked slow and creamy. Finished with mango, strawberry, kiwi and chia. A colourful start to your day.', image:'oat-meal', alt:'Creamy oatmeal with mango, strawberry, kiwi and chia'},
@@ -52,7 +47,7 @@ listen(reducedMotion, 'change', configureScroll);
 const media = gsap.matchMedia();
 media.add({desktop:'(min-width: 768px)', mobile:'(max-width: 767px)', reduce:'(prefers-reduced-motion: reduce)'}, context => {
   if (context.conditions.reduce) return;
-  if (context.conditions.desktop) {
+  if (context.conditions.desktop && !document.querySelector('.journey--short')) {
     const timeline = gsap.timeline({scrollTrigger:{trigger:'.journey',start:'top top',end:'bottom bottom',scrub:.65,invalidateOnRefresh:true,onUpdate:self=>{currentProgress=self.progress;bottle?.setProgress(currentProgress);}}});
     timeline.to('.hero-panel',{autoAlpha:0,y:-65,duration:.30,ease:'power1.inOut'},0)
       .to('.bottle-view',{xPercent:-32,scale:.89,duration:.65,ease:'power2.inOut'},.06)
@@ -61,12 +56,12 @@ media.add({desktop:'(min-width: 768px)', mobile:'(max-width: 767px)', reduce:'(p
       .from('.story-ingredients li',{y:18,opacity:0,stagger:.035,duration:.15},.54)
       .to('.chapter-track b',{scaleX:1,duration:1,ease:'none'},0);
   } else {
-    ScrollTrigger.create({trigger:'.hero-panel',start:'top top',end:'bottom top',onUpdate:self=>{currentProgress=self.progress*.6;bottle?.setProgress(currentProgress);}});
+    ScrollTrigger.create({trigger:document.querySelector('.journey--short')?'.journey':'.hero-panel',start:'top top',end:'bottom top',onUpdate:self=>{currentProgress=self.progress*.6;bottle?.setProgress(currentProgress);}});
   }
   for (const heading of document.querySelectorAll('[data-reveal]')) {
     gsap.from(heading,{y:45,opacity:.15,duration:1,ease:'power3.out',scrollTrigger:{trigger:heading,start:'top 92%',once:true}});
   }
-  gsap.fromTo('.bowl-art img',{rotation:-9,y:35},{rotation:6,y:-20,ease:'none',scrollTrigger:{trigger:'.bowls',start:'top bottom',end:'bottom top',scrub:1}});
+  if (document.querySelector('.bowl-art img')) gsap.fromTo('.bowl-art img',{rotation:-9,y:35},{rotation:6,y:-20,ease:'none',scrollTrigger:{trigger:'.bowls',start:'top bottom',end:'bottom top',scrub:1}});
   for (const study of document.querySelectorAll('[data-pencil-reveal]')) {
     gsap.fromTo(study, {clipPath: 'inset(100% 0 0 0)'}, {clipPath: 'inset(0% 0 0 0)', duration: 1.6, ease: 'power1.inOut', scrollTrigger: {trigger: study, start: 'top 92%', once: true}});
   }
@@ -85,9 +80,9 @@ function selectFlavour(name) {
   document.querySelector('.hero-product>.eyebrow').textContent = product.eyebrow;
   document.querySelector('.bottle-fallback').src = `/img/bottles/${name}.webp`;
   document.querySelector('.bottle-view').setAttribute('aria-label',`${product.name} cold-pressed juice bottle`);
-  document.querySelector('.story-ingredients>.eyebrow').textContent = `Inside ${product.name}`;
-  const list = document.querySelector('.story-ingredients ul');
-  list.replaceChildren(...product.ingredients.map((ingredient, i) => {
+  const storyLabel = document.querySelector('.story-ingredients>.eyebrow');
+  if (storyLabel) storyLabel.textContent = `Inside ${product.name}`;
+  document.querySelector('.story-ingredients ul')?.replaceChildren(...product.ingredients.map((ingredient, i) => {
     const item = document.createElement('li');
     const text = document.createElement('span'); text.textContent = ingredient;
     const number = document.createElement('span'); number.textContent = String(i+1).padStart(2,'0');
@@ -102,35 +97,25 @@ function selectFlavour(name) {
 }
 for (const button of document.querySelectorAll('[data-flavour]')) listen(button,'click',()=>selectFlavour(button.dataset.flavour));
 
-// Native dialog supplies keyboard focus trapping and Escape-to-close.
-const dialog = document.querySelector('.product-dialog');
-let dialogTrigger;
-function openProduct(name, trigger) {
-  const product = products[name]; if (!product) return;
-  dialogTrigger = trigger;
-  document.querySelector('#dialog-title').textContent = product.name;
-  document.querySelector('[data-dialog-description]').textContent = product.description;
-  const image = document.querySelector('[data-dialog-image]'); image.src = `/img/bottles/${name}.webp`; image.alt = `${product.name} juice bottle`;
-  document.querySelector('.dialog-art').style.backgroundColor = product.color;
-  document.querySelector('[data-dialog-ingredients]').replaceChildren(...product.ingredients.map(ingredient=>{const li=document.createElement('li');li.textContent=ingredient;return li;}));
-  lenis?.stop();
-  dialog.showModal();
-  document.body.classList.add('modal-open');
-  dialog.scrollTop = 0;
+// Product details and ordering use the shared order sheets (src/modules/order.js).
+initOrder();
+for (const button of document.querySelectorAll('[data-product]')) listen(button,'click',()=>openItem(button.dataset.product));
+for (const button of document.querySelectorAll('[data-add]')) listen(button,'click',()=>addToOrder(button.dataset.add));
+listen(window,'vv-modal',event=>{if(event.detail.open)lenis?.stop();else if(!homeIntro?.active)lenis?.start();});
+const picks = document.querySelector('[data-picks]');
+if (picks) picks.replaceChildren(...picks.dataset.picks.split(',').map(getItem).filter(Boolean).map((item,i)=>menuCard(item,{index:i+1})));
+for (const tile of document.querySelectorAll('[data-mood]')) {
+  const ids = tile.dataset.mood.split(',');
+  const count = menuItems.filter(item=>ids.includes(item.category)).length;
+  tile.querySelector('.mood-count').textContent = `${count} ${count===1?'item':'items'}`;
 }
-for (const button of document.querySelectorAll('[data-product]')) listen(button,'click',()=>openProduct(button.dataset.product,button));
-for (const button of dialog.querySelectorAll('.dialog-close,.dialog-done')) listen(button,'click',()=>dialog.close());
-listen(dialog,'click',event=>{if(event.target!==dialog)return;const rect=dialog.getBoundingClientRect();if(event.clientX<rect.left||event.clientX>rect.right||event.clientY<rect.top||event.clientY>rect.bottom)dialog.close();});
-listen(dialog,'close',()=>{document.body.classList.remove('modal-open');lenis?.start();dialogTrigger?.focus({preventScroll:true});});
-// Prevent Lenis from intercepting scroll inside the product details.
-dialog.setAttribute('data-lenis-prevent','');
 
 const filters = [...document.querySelectorAll('[data-filter]')];
 for (const button of filters) listen(button,'click',()=>{
   const filter = button.dataset.filter; let count=0;
   for (const filterButton of filters) {const active=filterButton===button;filterButton.classList.toggle('is-active',active);filterButton.setAttribute('aria-pressed',String(active));}
   for (const card of document.querySelectorAll('.product-card')) {card.hidden=filter!=='all'&&card.dataset.category!==filter;if(!card.hidden)count++;}
-  document.querySelector('.filter-status').textContent=`Showing ${count} ${filter==='all'?'juices':filter+' juices'}`;
+  document.querySelector('.filter-status').textContent=`Showing ${count} ${filter==='all'?'drinks':filter+' drinks'}`;
   ScrollTrigger.refresh();
   lenis?.resize();
 });
@@ -204,6 +189,5 @@ if(import.meta.hot)import.meta.hot.dispose(()=>{
   homeEntrance?.destroy();
   cleanups.forEach(cleanup=>cleanup());
   media.revert();gsap.ticker.remove(animateScroll);lenis?.destroy();bottle?.destroy();filmObserver.disconnect();video.pause();
-  if(dialog.open)dialog.close();
   document.body.classList.remove('modal-open');
 });

@@ -1,0 +1,67 @@
+/* Homepage: short hero, menu entry points, picks and ordering steps,
+   in the same card language as the juice range. */
+.journey--short{height:auto}
+.journey--short .journey-stage{position:relative;height:100svh;max-height:960px}
+
+.explore,.picks{background:var(--pale)}
+.picks{padding-top:30px}
+.explore-title-wrap{position:relative;display:flex;align-items:flex-end;gap:28px}
+.explore-note{width:170px;text-align:center;transform:rotate(-8deg);margin-bottom:14px;color:var(--green)}
+.explore-note svg{display:block;width:70px;height:70px;margin:2px 0 0 40px}
+.explore-note path{stroke:currentColor;stroke-width:1.5;stroke-linecap:round;stroke-linejoin:round}
+.picks .explore-title-wrap,.how-order .explore-title-wrap{margin-bottom:50px}
+
+/* Mood tiles: coloured cards with a faded word, big photo and an arrow. */
+.mood-grid{display:grid;grid-template-columns:repeat(3,minmax(0,1fr));gap:24px}
+.mood-tile{position:relative;display:flex;align-items:center;justify-content:center;height:400px;padding:40px 24px 90px;background:var(--card-bg);color:var(--card-ink);overflow:hidden;isolation:isolate}
+.mood-tile .product-word{top:42%;font-size:clamp(60px,7vw,120px)}
+.mood-tile img{position:relative;z-index:1;width:72%;max-height:62%;object-fit:contain;transform:rotate(-8deg);filter:drop-shadow(15px 22px 12px rgba(30,35,15,.2));transition:transform .75s var(--ease),filter .75s}
+.mood-tile:nth-child(2n) img{transform:rotate(8deg)}
+.mood-tile:hover img,.mood-tile:focus-visible img{transform:rotate(-3deg) translateY(-10px) scale(1.05)}
+.mood-label{position:absolute;left:24px;bottom:22px;right:80px;display:flex;flex-direction:column;gap:4px}
+.mood-name{font-family:var(--display);font-size:clamp(28px,2.6vw,40px);font-weight:500;letter-spacing:-.04em;line-height:1}
+.mood-sub{font-size:13px;opacity:.85}
+.mood-arrow{position:absolute;right:22px;bottom:22px;width:40px;height:40px;border:1px solid rgba(0,0,0,.18);border-radius:50%;display:grid;place-items:center;font-size:22px;transition:background .25s,color .25s}
+.mood-tile:hover .mood-arrow{background:var(--card-ink);color:var(--card-bg)}
+
+.picks-row{display:grid;grid-template-columns:repeat(4,minmax(0,1fr));gap:45px 20px}
+
+/* How to order: big numerals on sage, connected by hand-drawn dashes. */
+.how-order{background:var(--sage)}
+.how-steps{list-style:none;margin:0;padding:0;display:grid;grid-template-columns:repeat(3,minmax(0,1fr));gap:40px;counter-reset:step}
+.how-steps li{position:relative;border-top:1px solid var(--line);padding-top:26px}
+.how-num{display:block;font-family:var(--display);font-size:110px;font-weight:500;line-height:.85;letter-spacing:-.05em;color:transparent;-webkit-text-stroke:1.5px var(--green)}
+.how-steps h3{font-family:var(--serif);font-style:italic;font-weight:500;font-size:34px;letter-spacing:-.045em;margin:22px 0 10px}
+.how-steps p{font-size:14.5px;line-height:1.65;max-width:300px}
+.how-actions{display:flex;flex-wrap:wrap;align-items:center;gap:20px 40px;margin-top:50px}
+
+@media(max-width:1100px){
+  .mood-grid{grid-template-columns:repeat(2,minmax(0,1fr))}
+  .picks-row{grid-template-columns:repeat(3,minmax(0,1fr))}
+}
+@media(max-width:767px){
+  .journey--short .journey-stage{height:auto;max-height:none}
+  .explore-title-wrap{display:block}
+  .explore-note{width:auto;text-align:left;transform:rotate(-4deg);margin:16px 0 0 6px;font-size:25px}
+  .explore-note svg{display:none}
+  .picks .explore-title-wrap,.how-order .explore-title-wrap{margin-bottom:30px}
+  .mood-grid{gap:12px}
+  .mood-tile{height:250px;padding:28px 10px 70px}
+  .mood-tile .product-word{font-size:15vw}
+  .mood-tile img{width:80%;max-height:58%}
+  .mood-tile .card-index{display:none}
+  .mood-label{left:12px;right:46px;bottom:12px}
+  .mood-name{font-size:22px}
+  .mood-sub{font-size:10.5px}
+  .mood-arrow{right:10px;bottom:12px;width:28px;height:28px;font-size:16px}
+  .mood-tile:last-child{grid-column:1/-1}
+  .picks-row{display:flex;overflow-x:auto;scroll-snap-type:x mandatory;scroll-padding-inline:var(--gutter);gap:12px;margin:0 calc(var(--gutter) * -1);padding:4px var(--gutter) 12px;scrollbar-width:none}
+  .picks-row::-webkit-scrollbar{display:none}
+  .picks-row .product-card{flex:0 0 64%;scroll-snap-align:start}
+  .how-steps{grid-template-columns:1fr;gap:26px}
+  .how-num{font-size:76px}
+  .how-steps h3{font-size:28px;margin-top:14px}
+}
+/* Like the menu cards: a big word that peeks out on both sides of the photo. */
+.mood-tile{container-type:inline-size}
+.mood-tile .product-word{font-size:min(36cqi,calc(200cqi / var(--len,5)));white-space:nowrap}

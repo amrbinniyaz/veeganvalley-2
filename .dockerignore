@@ -8,3 +8,5 @@ exports
 .DS_Store
 **/__pycache__
 *.pyc
+*.pdf
+!public/**/*.pdf

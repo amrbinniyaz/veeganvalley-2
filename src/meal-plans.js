@@ -1,5 +1,7 @@
 import weeks from './data/meal-plans.json';
-import {routineOptions,tasteOptions,timingOptions,recommendMeals,planEnquiry} from './lib/mealPlanner.js';
+import menuData from './data/menu.json';
+import juiceData from './data/juices.json';
+import {ACTIVITY,GOALS,SEXES,validStats,checkStat,dailyTargets,extrasFrom,buildWeek,personalEnquiry} from './lib/personalPlan.js';
 
 const reduced=window.matchMedia('(prefers-reduced-motion: reduce)');
 const escapeHtml=value=>String(value).replace(/[&<>"']/g,c=>({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#39;'}[c]));
@@ -63,31 +65,136 @@ menu.querySelector('.week-picker').addEventListener('keydown',event=>{let next=w
 menu.querySelectorAll('[data-week]').forEach(button=>{const warm=()=>warmWeek(Number(button.dataset.week));button.addEventListener('pointerenter',warm,{once:true});button.addEventListener('focus',warm,{once:true});});
 renderDay();
 
-// Preferences suggest meals from the real menu; the team confirms each enquiry.
+// Personal plan: body stats, activity and goal give an estimated daily target,
+// then a week is built from real dishes. Nothing is stored or sent until the
+// visitor chooses to send their plan on WhatsApp.
 const planner=document.querySelector('#planner');
-const steps=[{key:'routine',eyebrow:'YOUR RHYTHM',title:'What does your day look like?',description:'Start with the pace of your everyday.',options:routineOptions},{key:'taste',eyebrow:'YOUR TASTE',title:'What sounds like your kind of food?',description:'Go with whatever makes you look forward to lunch.',options:tasteOptions},{key:'timing',eyebrow:'YOUR TABLE',title:'When can we take cooking off your plate?',description:'Choose the meal arrangement you’d like to discuss.',options:timingOptions}];
-let step=0;const preferences={routine:null,taste:null,timing:null};let note='';
-function focusPlanner(){const heading=planner.querySelector('h3');heading.focus({preventScroll:true});const rect=heading.getBoundingClientRect();if(rect.top<24||rect.bottom>innerHeight*.7)heading.scrollIntoView({block:'start',behavior:reduced.matches?'instant':'smooth'});}
-const choiceDrawings={
-  desk:'M14 18h36v34H14z M14 28h36 M23 12v12 M41 12v12 M22 36h6 M36 36h6 M22 44h6 M36 44h6',
-  active:'M12 24v16 M18 19v26 M18 32h28 M46 19v26 M52 24v16 M27 16l5-6 5 6',
-  'on-the-go':'M15 23h34l4 30H11z M24 25v-8q8-12 16 0v8 M25 37q8-8 14 0-2 11-14 8z',
-  unhurried:'M14 24h31v17q-1 12-15 12T14 41z M45 28q17-2 11 11-4 5-11 3 M10 57h41 M24 17q-6-5 0-11 M36 17q-6-5 0-11',
-  bowls:'M8 32q24-10 48 0-5 24-24 24T8 32z M8 32q24 9 48 0 M22 28q-15-18-2-19 11 3 9 19 M32 27q-4-20 12-21 8 17-12 21 M25 56h15',
-  comfort:'M14 27h36v19q-2 10-18 10T14 46z M9 27h47 M9 36H5 M54 36h5 M18 21q13-14 28 0 M32 14v-4 M24 6v-3 M43 12V6',
-  explore:'M32 7a25 25 0 1 0 0 50 25 25 0 1 0 0-50 M7 32h50 M32 7q-22 25 0 50 22-25 0-50 M13 18q19 11 38 0 M13 46q19-11 38 0',
-  both:'M9 35a12 12 0 1 1 24 0 M5 39h31 M20 16v-5 M8 22l-4-4 M34 22l4-4 M44 13q-9 26 14 27-9 15-22 3 M18 49h22 M24 56h10',
-  lunch:'M32 18a14 14 0 1 0 0 28 14 14 0 1 0 0-28 M32 6v6 M32 52v6 M6 32h6 M52 32h6 M13 13l5 5 M46 46l5 5 M13 51l5-5 M46 18l5-5',
-  dinner:'M39 8q-11 30 18 32A25 25 0 1 1 39 8z M48 12v8 M44 16h8 M56 25v5 M53 28h6'
-};
-const choiceArt=id=>`<svg class="plan-choice-art" viewBox="0 0 64 64" fill="none" aria-hidden="true"><path d="${choiceDrawings[id]}"/></svg>`;
-function renderStep(focus=false){const current=steps[step];planner.innerHTML=`<div class="plan-progress" aria-label="Step ${step+1} of 3">${steps.map((item,i)=>`<span class="${i<=step?'is-complete':''}"><b>${i<step?'✓':i+1}</b>${['Your rhythm','Your taste','Your table'][i]}</span>`).join('')}</div><div class="plan-question"><span class="eyebrow">0${step+1} / ${current.eyebrow}</span><h3 tabindex="-1">${current.title}</h3><p>${current.description}</p><div class="plan-options" data-choice-count="${current.options.length}" role="group" aria-label="${current.title}">${current.options.map(option=>`<button class="plan-option" data-option="${option.id}" aria-pressed="${preferences[current.key]===option.id}">${choiceArt(option.id)}<span class="plan-choice-copy"><strong>${option.title}</strong><small>${option.detail}</small></span><i aria-hidden="true"><svg viewBox="0 0 16 16" fill="none"><path d="m3 8 3 3 7-7"/></svg></i></button>`).join('')}</div><div class="plan-controls">${step?'<button class="plan-back" data-back>← Go back</button>':'<span class="plan-selection-hint">Choose what feels like you.</span>'}<button class="pill-button" data-next ${preferences[current.key]?'':'disabled'}>${step===2?'See my starting point':'Continue'} <span aria-hidden="true">↗</span></button></div><p class="plan-footnote">A starting point based on your preferences. Our team will help with the final details.</p></div>`;if(focus){focusPlanner();animateIn(planner);}}
-function renderResult(){const matches=recommendMeals(weeks,preferences),routine=routineOptions.find(o=>o.id===preferences.routine),taste=tasteOptions.find(o=>o.id===preferences.taste),timing=timingOptions.find(o=>o.id===preferences.timing);planner.innerHTML=`<div class="plan-result"><span class="eyebrow">YOUR LITTLE PLAN FOR GOOD</span><h3 tabindex="-1">A full plate.<br /><em>A little more you.</em></h3><p>A few ideas for your ${preferences.routine==='active'?'active':preferences.routine==='unhurried'?'unhurried':'busy'} days.</p><div class="plan-tags"><span>${routine.title}</span><span>${taste.title}</span><span>${timing.title}</span></div><div class="plan-total"><strong>${preferences.timing==='both'?48:24}</strong><span>${preferences.timing==='both'?'meals in the complete plan':'meals requested'}<br />4 weeks · Monday–Saturday</span></div><span class="eyebrow">A FEW FLAVOURS YOU MIGHT LOVE</span><div class="plan-matches">${matches.map(meal=>`<article class="plan-match"><img src="${meal.image}" alt="" width="72" height="72" /><div><h4>${escapeHtml(meal.name)}</h4><p>Week ${meal.week} · ${meal.day} ${meal.time} · ${meal.protein}g protein</p></div></article>`).join('')}</div><label for="plan-notes">Anything to add? <span>(optional)</span></label><textarea id="plan-notes" maxlength="1000" placeholder="Your delivery area or preferences you’d like to discuss…">${escapeHtml(note)}</textarea><a class="pill-button plan-whatsapp" id="plan-enquiry" target="_blank" rel="noopener noreferrer">Discuss my plan on WhatsApp <span aria-hidden="true">↗</span></a><p class="plan-footnote">These are sample menu matches. Our team will confirm meal availability, any adjustments, delivery and pricing. Your choices will be included in the WhatsApp message for you to review.</p><button class="plan-restart" data-edit>Edit my choices</button></div>`;updateEnquiry();focusPlanner();animateIn(planner);}
-function updateEnquiry(){document.querySelector('#plan-enquiry').href=`https://wa.me/917736005800?text=${encodeURIComponent(planEnquiry(preferences,note))}`;}
-planner.addEventListener('input',event=>{if(event.target.id==='plan-notes'){note=event.target.value;updateEnquiry();}});
-planner.addEventListener('click',event=>{const option=event.target.closest('[data-option]');if(option){preferences[steps[step].key]=option.dataset.option;planner.querySelectorAll('[data-option]').forEach(button=>button.setAttribute('aria-pressed',button===option));planner.querySelector('[data-next]').disabled=false;}if(event.target.closest('[data-next]')&&preferences[steps[step].key]){if(step===2)renderResult();else{step++;renderStep(true);}}if(event.target.closest('[data-back]')){step--;renderStep(true);}if(event.target.closest('[data-edit]')){step=0;renderStep(true);}});
-renderStep();
-
+const extras=extrasFrom(menuData.items,juiceData);
+const state={stats:{sex:null,age:null,height:null,weight:null},activity:null,goal:null,week:0,day:0};let note='';
+const option=(name,o)=>`<label class="plan-opt"><input class="sr-only" type="radio" name="${name}" value="${o.id}" /><span class="plan-dot" aria-hidden="true"></span><span><strong>${escapeHtml(o.title.replace(/\.$/,''))}</strong><small>${escapeHtml(o.detail)}</small></span></label>`;
+planner.innerHTML=`<div class="plan-quiz">
+  <div class="plan-quiz-head"><span class="eyebrow">YOUR PERSONAL PLAN</span><h3 tabindex="-1">Built around you.</h3></div>
+  <fieldset class="plan-q" data-q="sex"><legend><span class="plan-q-num">1</span>About you</legend>
+    <div class="plan-sex" role="radiogroup" aria-label="Sex">${SEXES.map(o=>`<label class="plan-chip"><input class="sr-only" type="radio" name="sex" value="${o.id}" /><span>${o.title}</span></label>`).join('')}</div>
+  </fieldset>
+  <fieldset class="plan-q" data-q="stats"><legend><span class="plan-q-num">2</span>Your numbers</legend>
+    <div class="plan-about">
+      <div class="plan-stats">
+        <label class="plan-field"><span class="sr-only">Age in years</span><span class="plan-input"><input name="age" type="number" inputmode="numeric" min="16" max="90" placeholder="Age" /><em>yrs</em></span></label>
+        <label class="plan-field"><span class="sr-only">Height in centimetres</span><span class="plan-input"><input name="height" type="number" inputmode="numeric" min="120" max="220" placeholder="Height" /><em>cm</em></span></label>
+        <label class="plan-field"><span class="sr-only">Weight in kilograms</span><span class="plan-input"><input name="weight" type="number" inputmode="decimal" min="35" max="250" placeholder="Weight" /><em>kg</em></span></label>
+      </div>
+    </div>
+  </fieldset>
+  <fieldset class="plan-q" data-q="activity"><legend><span class="plan-q-num">3</span>How active are you?</legend><div class="plan-opts">${ACTIVITY.map(o=>option('activity',o)).join('')}</div></fieldset>
+  <fieldset class="plan-q" data-q="goal"><legend><span class="plan-q-num">4</span>What's your goal?</legend><div class="plan-opts">${GOALS.map(o=>option('goal',o)).join('')}</div></fieldset>
+  <p class="plan-privacy">Your details stay on this page. Nothing is saved or sent unless you send your plan.</p>
+  <div class="plan-suggest" data-plan-suggest aria-live="polite"></div>
+  <div class="plan-send">
+    <textarea id="plan-notes" rows="2" aria-label="Anything to add (optional)" placeholder="Anything to add? Allergies, foods you avoid, pickup time… (optional)"></textarea>
+    <a id="plan-enquiry" class="pill-button plan-whatsapp" href="#" target="_blank" rel="noopener noreferrer" aria-disabled="true">Send my plan on WhatsApp <span aria-hidden="true">↗</span></a>
+    <p class="plan-send-hint" data-plan-hint>Complete the four steps to see and send your plan.</p>
+    <p class="plan-disclaimer">Targets are estimates from a standard formula, not medical advice. If you're pregnant, under 18 or managing a health condition, check with your doctor first. We confirm your plan, pickup and pricing on WhatsApp.</p>
+  </div>
+</div>`;
+let current=null;
+function complete(){return validStats(state.stats)&&state.activity&&state.goal;}
+function render(){
+  const target=planner.querySelector('[data-plan-suggest]');
+  if(!complete()){current=null;target.innerHTML='';updateEnquiry();return;}
+  const targets=dailyTargets({...state.stats,activity:state.activity,goal:state.goal});
+  const week=weeks[state.week];
+  const plan=buildWeek(week,targets,state.goal,extras);
+  current={targets,plan,weekNumber:week.number};
+  const notes=[];
+  if(targets.floored)notes.push(`We've kept your target at a safe minimum of ${targets.calories} kcal. For a stricter plan, please speak with a nutritionist.`);
+  if(plan.calories>targets.calories+120)notes.push('Lunch and dinner alone are a little above your estimate. Our team can suggest lighter swaps.');
+  else if(plan.calories<targets.calories-200)notes.push(`You'd still be about ${targets.calories-plan.calories} kcal short a day. Add plant protein to a breakfast (+₹99) or ask us about bigger portions.`);
+  if(plan.protein<targets.protein-15)notes.push(`Protein lands around ${plan.protein} g of your ${targets.protein} g. The plant protein add-on (+₹99) helps close the gap.`);
+  const day=plan.days[state.day];
+  target.innerHTML=`<div class="plan-summary">
+      <div class="plan-summary-main"><span class="eyebrow">YOUR DAILY TARGET</span><strong>${targets.calories.toLocaleString('en-IN')} <small>kcal</small> · ${targets.protein} <small>g protein</small></strong></div>
+      <p>This plan averages <b>${plan.calories.toLocaleString('en-IN')} kcal</b> and <b>${plan.protein} g protein</b> a day.</p>
+    </div>
+    ${notes.length?`<ul class="plan-notes">${notes.map(n=>`<li>${escapeHtml(n)}</li>`).join('')}</ul>`:''}
+    <div class="plan-picker">
+      <div class="plan-weeks" role="group" aria-label="Week">${weeks.map((w,i)=>`<button type="button" data-plan-week="${i}" aria-pressed="${i===state.week}">Week ${w.number}</button>`).join('')}</div>
+      <div class="plan-daytabs" role="group" aria-label="Day">${plan.days.map((d,i)=>`<button type="button" data-plan-day="${i}" aria-pressed="${i===state.day}">${d.name.slice(0,3)}</button>`).join('')}</div>
+    </div>
+    <div class="plan-dayview">
+      <div class="plan-dayview-head"><h4>${day.name}</h4><span>${day.calories} kcal · ${day.protein} g protein</span></div>
+      <ul>${day.meals.map(m=>`<li class="${m.isJuice?'is-bottle':''}"><img src="${m.image}" alt="" loading="lazy" /><span><small>${m.slot}</small>${escapeHtml(m.name)}</span><em>${m.calories} kcal</em></li>`).join('')}</ul>
+    </div>`;
+  updateEnquiry();
+}
+function updateEnquiry(){
+  const link=planner.querySelector('#plan-enquiry'),ready=!!current;
+  link.setAttribute('aria-disabled',String(!ready));
+  link.href=ready?`https://wa.me/917736005800?text=${encodeURIComponent(personalEnquiry({stats:state.stats,activity:state.activity,goal:state.goal,...current,note}))}`:'#';
+  planner.querySelector('[data-plan-hint]').hidden=ready;
+}
+// Wait until people pause or leave the field, so "1" on the way to 160 isn't judged.
+// Impossible numbers get a playful pop-up; unusual but real ones get a kind one.
+const statPopup=document.createElement('dialog');
+statPopup.className='stat-popup';
+statPopup.setAttribute('aria-labelledby','stat-popup-title');
+statPopup.innerHTML=`<span class="stat-popup-emoji" aria-hidden="true"></span><h4 id="stat-popup-title"></h4><p></p><div class="stat-popup-actions"><button type="button" class="pill-button stat-popup-fix">Let me fix that</button><a class="text-link stat-popup-chat" href="https://wa.me/917736005800?text=Hi%20Vegan%20Valley%2C%20I%27d%20like%20help%20with%20a%20personalised%20meal%20plan." target="_blank" rel="noopener noreferrer">Chat on WhatsApp</a></div>`;
+document.body.append(statPopup);
+let statTimer,popupField=null,lastShown='';
+function issue(){return ['age','height','weight'].map(field=>[field,checkStat(field,state.stats[field])]).find(([,r])=>r);}
+function statMessage(now){
+  clearTimeout(statTimer);
+  const found=issue();
+  planner.querySelectorAll('.plan-field').forEach(f=>f.classList.toggle('is-invalid',!!found&&f.querySelector('input').name===found[0]));
+  if(!found){lastShown='';return;}
+  const open=()=>{
+    const [field,result]=issue()||[];
+    if(!field)return;
+    const key=`${field}:${state.stats[field]}`;
+    if(key===lastShown||statPopup.open)return;
+    lastShown=key;popupField=field;
+    statPopup.dataset.tone=result.tone;
+    statPopup.querySelector('.stat-popup-emoji').textContent=result.emoji;
+    statPopup.querySelector('h4').textContent=result.title;
+    statPopup.querySelector('p').textContent=result.text;
+    statPopup.querySelector('.stat-popup-fix').textContent=result.tone==='fun'?'Let me fix that':'Edit my numbers';
+    statPopup.querySelector('.stat-popup-chat').hidden=result.tone==='fun';
+    statPopup.showModal();
+    statPopup.querySelector('.stat-popup-fix').focus();
+  };
+  if(now)open();else statTimer=setTimeout(open,900);
+}
+statPopup.querySelector('.stat-popup-fix').addEventListener('click',()=>statPopup.close());
+statPopup.addEventListener('click',event=>{if(event.target===statPopup)statPopup.close();});
+statPopup.addEventListener('close',()=>{const input=planner.querySelector(`input[name="${popupField}"]`);input?.focus();input?.select();});
+planner.addEventListener('focusout',event=>{if(['age','height','weight'].includes(event.target.name))statMessage(true);});
+planner.addEventListener('change',event=>{
+  const input=event.target;
+  if(input.name==='sex')state.stats.sex=input.value;
+  if(input.name==='activity')state.activity=input.value;
+  if(input.name==='goal')state.goal=input.value;
+  input.closest('fieldset')?.classList.remove('needs-answer');
+  render();
+});
+planner.addEventListener('input',event=>{
+  const input=event.target;
+  if(['age','height','weight'].includes(input.name)){state.stats[input.name]=input.value===''?null:Number(input.value);statMessage(false);render();}
+  if(input.id==='plan-notes'){note=input.value;updateEnquiry();}
+});
+planner.addEventListener('click',event=>{
+  const weekButton=event.target.closest('[data-plan-week]');
+  if(weekButton){state.week=Number(weekButton.dataset.planWeek);render();planner.querySelector(`[data-plan-week="${state.week}"]`).focus();return;}
+  const dayButton=event.target.closest('[data-plan-day]');
+  if(dayButton){state.day=Number(dayButton.dataset.planDay);render();planner.querySelector(`[data-plan-day="${state.day}"]`).focus();return;}
+  const link=event.target.closest('#plan-enquiry');if(!link||link.getAttribute('aria-disabled')!=='true')return;
+  event.preventDefault();
+  const missing=!state.stats.sex?'sex':!validStats(state.stats)?'stats':!state.activity?'activity':'goal';
+  const fieldset=planner.querySelector(`[data-q="${missing}"]`);
+  fieldset.classList.remove('needs-answer');void fieldset.offsetWidth;fieldset.classList.add('needs-answer');
+  fieldset.scrollIntoView({block:'center',behavior:reduced.matches?'instant':'smooth'});
+  fieldset.querySelector('input').focus({preventScroll:true});
+});
+render();
 const revealObserver=new IntersectionObserver(entries=>entries.forEach(entry=>{if(entry.isIntersecting){animateIn(entry.target);revealObserver.unobserve(entry.target);}}),{threshold:.15});
 document.querySelectorAll('[data-meal-reveal]').forEach(el=>revealObserver.observe(el));
 const hero=document.querySelector('.meal-hero'),bowl=document.querySelector('.meal-bowl-wrap');let frame=0;

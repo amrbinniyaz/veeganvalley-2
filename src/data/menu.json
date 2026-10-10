@@ -1,0 +1,1085 @@
+{
+ "categories": [
+  {
+   "id": "oat-meals",
+   "title": "Oat Meals",
+   "group": "breakfast",
+   "blurb": "Creamy oats and chia puddings to start the day.",
+   "addOns": [
+    {
+     "name": "Plant protein",
+     "price": 99
+    },
+    {
+     "name": "Peanut butter",
+     "price": 40
+    }
+   ]
+  },
+  {
+   "id": "speciality-bowls",
+   "title": "Speciality Bowls",
+   "group": "breakfast",
+   "blurb": "Thick smoothie bowls topped with granola and fresh fruit.",
+   "addOns": [
+    {
+     "name": "Strawberries",
+     "price": 45
+    },
+    {
+     "name": "Blueberries",
+     "price": 45
+    },
+    {
+     "name": "Mangoes",
+     "price": 40
+    },
+    {
+     "name": "Chia seeds",
+     "price": 20
+    },
+    {
+     "name": "Coconut flakes",
+     "price": 20
+    },
+    {
+     "name": "Granola",
+     "price": 30
+    },
+    {
+     "name": "Peanut butter",
+     "price": 40
+    },
+    {
+     "name": "Choco chips",
+     "price": 40
+    },
+    {
+     "name": "Almonds",
+     "price": 45
+    },
+    {
+     "name": "Pistachios",
+     "price": 50
+    },
+    {
+     "name": "Walnuts",
+     "price": 50
+    }
+   ]
+  },
+  {
+   "id": "toasted-delights",
+   "title": "Toasted Delights",
+   "group": "breakfast",
+   "blurb": "Loaded artisan toasts, sweet and savoury."
+  },
+  {
+   "id": "appetisers",
+   "title": "Appetisers",
+   "group": "snacks",
+   "blurb": "Crispy bites for sharing, or not."
+  },
+  {
+   "id": "wraps-quesadillas",
+   "title": "Wraps & Quesadillas",
+   "group": "mains",
+   "blurb": "Rolled, folded and packed with flavour.",
+   "options": [
+    "Gluten-free wrap"
+   ],
+   "note": "Gluten-free option available."
+  },
+  {
+   "id": "ciabattas-sandwiches",
+   "title": "Ciabattas & Sandwiches",
+   "group": "mains",
+   "blurb": "Warm ciabattas with tofu and tempeh."
+  },
+  {
+   "id": "burgers",
+   "title": "Gourmet Plant Burgers",
+   "group": "mains",
+   "blurb": "Served with potato wedges on the side.",
+   "addOns": [
+    {
+     "name": "Sriracha mayo",
+     "price": 45
+    },
+    {
+     "name": "Garlic aioli",
+     "price": 45
+    },
+    {
+     "name": "Vegan cheese",
+     "price": 40
+    }
+   ]
+  },
+  {
+   "id": "pastas",
+   "title": "Artisan Pastas",
+   "group": "mains",
+   "blurb": "Dairy-free sauces, made in house."
+  },
+  {
+   "id": "superfood-bowls",
+   "title": "Superfood Bowls",
+   "group": "mains",
+   "blurb": "Hearty rice and grain bowls: a full meal."
+  },
+  {
+   "id": "sushi",
+   "title": "Clean Coast Sushi",
+   "group": "mains",
+   "blurb": "Plant-based rolls with wasabi and soya dip."
+  },
+  {
+   "id": "treats",
+   "title": "Sweet Valley Treats",
+   "group": "sweets",
+   "blurb": "Cookies, brownies, tarts and pies."
+  },
+  {
+   "id": "juices",
+   "title": "Cold-Pressed Juices",
+   "group": "drinks",
+   "blurb": "Bottled fresh, 375 ml. Keep cold, shake well.",
+   "source": "juices"
+  },
+  {
+   "id": "elixirs",
+   "title": "Elixirs",
+   "group": "drinks",
+   "blurb": "Iced coolers with fresh citrus."
+  },
+  {
+   "id": "teas",
+   "title": "Herbal Teas & Infusions",
+   "group": "drinks",
+   "blurb": "Whole-leaf teas, served hot."
+  }
+ ],
+ "items": [
+  {
+   "id": "coconut-date-cloud",
+   "category": "oat-meals",
+   "name": "Coconut Date Cloud",
+   "price": 369,
+   "description": "Creamy overnight oats blended with coconut, almond milk, and dates, topped with shredded coconut for a naturally sweet and delicious start to your day.",
+   "nutrition": {
+    "calories": 480,
+    "protein": 13,
+    "carbs": 76,
+    "fibre": 12,
+    "fat": 26
+   },
+   "image": "/img/menu/coconut-date-cloud.webp",
+   "width": 272,
+   "height": 261
+  },
+  {
+   "id": "mocha-overnight-oats",
+   "category": "oat-meals",
+   "name": "Mocha Overnight Oats",
+   "price": 389,
+   "description": "Your morning coffee and breakfast rolled into one. Creamy oats infused with rich espresso and dark cocoa, naturally sweetened and packed with wholesome goodness. Decadent, energising, and 100% plant-based.",
+   "nutrition": {
+    "calories": 390,
+    "protein": 15,
+    "carbs": 68,
+    "fibre": 11,
+    "fat": 18
+   },
+   "image": "/img/menu/mocha-overnight-oats.webp",
+   "width": 272,
+   "height": 262
+  },
+  {
+   "id": "apple-cinnamon",
+   "category": "oat-meals",
+   "name": "Apple Cinnamon",
+   "price": 369,
+   "description": "Like apple pie in a jar, without the fuss. Creamy rolled oats infused with fragrant cinnamon, vanilla, and sweet spiced apples, topped with a satisfying crunch. Cozy, wholesome, and 100% plant-based.",
+   "nutrition": {
+    "calories": 320,
+    "protein": 13,
+    "carbs": 65,
+    "fibre": 10,
+    "fat": 13
+   },
+   "image": "/img/menu/apple-cinnamon.webp",
+   "width": 339,
+   "height": 326
+  },
+  {
+   "id": "choco-mond-oatmeal",
+   "category": "oat-meals",
+   "name": "Choco-Mond Oatmeal",
+   "price": 369,
+   "description": "Creamy chocolate oats with almond milk, maple syrup, chia seeds, and peanut butter, topped with vanilla granola, fresh strawberries, and banana.",
+   "nutrition": {
+    "calories": 430,
+    "protein": 18,
+    "carbs": 64,
+    "fibre": 13,
+    "fat": 25
+   },
+   "image": "/img/menu/choco-mond-oatmeal.webp",
+   "width": 342,
+   "height": 292
+  },
+  {
+   "id": "super-blue-chia-pudding",
+   "category": "oat-meals",
+   "name": "Super Blue Chia Pudding",
+   "price": 399,
+   "description": "Creamy chia pudding made with almond milk and blue spirulina, naturally smooth, refreshing, and packed with superfood goodness.",
+   "nutrition": {
+    "calories": 320,
+    "protein": 11,
+    "carbs": 28,
+    "fibre": 16,
+    "fat": 19
+   },
+   "image": "/img/menu/super-blue-chia-pudding.webp",
+   "width": 346,
+   "height": 318
+  },
+  {
+   "id": "strawberry-overnight-oats",
+   "category": "oat-meals",
+   "name": "Strawberry Overnight Oats",
+   "price": 399,
+   "description": "A dreamy, cloud-like breakfast treat. Creamy coconut-soaked oats layered with whipped date caramel and fresh, juicy strawberries. Naturally sweet, ultra-creamy, and 100% plant-based.",
+   "nutrition": {
+    "calories": 360,
+    "protein": 14,
+    "carbs": 62,
+    "fibre": 11,
+    "fat": 18
+   },
+   "image": "/img/menu/strawberry-overnight-oats.webp",
+   "width": 272,
+   "height": 261
+  },
+  {
+   "id": "acai-bowl",
+   "category": "speciality-bowls",
+   "name": "Açaí Bowl",
+   "price": 399,
+   "description": "A creamy blend of açaí, strawberry, blueberry, banana, and almond milk, topped with crunchy granola and fresh fruits for a refreshing, naturally sweet, and nourishing bowl",
+   "nutrition": {
+    "calories": 380,
+    "protein": 9,
+    "carbs": 82,
+    "fibre": 14,
+    "fat": 5
+   },
+   "image": "/img/menu/acai-bowl.webp",
+   "width": 320,
+   "height": 319
+  },
+  {
+   "id": "pitaya-bowl",
+   "category": "speciality-bowls",
+   "name": "Pitaya Bowl",
+   "price": 339,
+   "description": "A creamy blend of vibrant pitaya, juicy mango, and almond milk, topped with crunchy granola and fresh fruits for a refreshing, naturally sweet, and wholesome bowl.",
+   "nutrition": {
+    "calories": 340,
+    "protein": 6,
+    "carbs": 75,
+    "fibre": 11,
+    "fat": 4
+   },
+   "image": "/img/menu/pitaya-bowl.webp",
+   "width": 331,
+   "height": 331
+  },
+  {
+   "id": "cosmic-blue-bowl",
+   "category": "speciality-bowls",
+   "name": "Cosmic Blue Bowl",
+   "price": 399,
+   "description": "A creamy blend of banana, pineapple, mango, blue spirulina, and almond milk, topped with crunchy granola and fresh fruits for a vibrant, tropical, and nourishing superfood bowl.",
+   "nutrition": {
+    "calories": 350,
+    "protein": 10,
+    "carbs": 78,
+    "fibre": 9,
+    "fat": 4
+   },
+   "image": "/img/menu/cosmic-blue-bowl.webp",
+   "width": 374,
+   "height": 369
+  },
+  {
+   "id": "pb-cloud",
+   "category": "speciality-bowls",
+   "name": "PB Cloud",
+   "price": 339,
+   "description": "Creamy banana and peanut butter smoothie, naturally sweet, rich, and satisfying. Perfect for a wholesome breakfast or post-workout boost.",
+   "nutrition": {
+    "calories": 390,
+    "protein": 11,
+    "carbs": 58,
+    "fibre": 8,
+    "fat": 17
+   },
+   "image": "/img/menu/pb-cloud.webp",
+   "width": 292,
+   "height": 294
+  },
+  {
+   "id": "creamy-dreamy-avo-toast",
+   "category": "toasted-delights",
+   "name": "Creamy Dreamy Avo Toast",
+   "price": 229,
+   "description": "Creamy smashed avocado spread over toasted bread, topped with fresh vegetables and a delicious blend of herbs and seasonings for a simple, wholesome, and satisfying bite.",
+   "nutrition": {
+    "calories": 310,
+    "protein": 8,
+    "carbs": 24,
+    "fibre": 9,
+    "fat": 21
+   },
+   "image": "/img/menu/creamy-dreamy-avo-toast.webp",
+   "width": 246,
+   "height": 379
+  },
+  {
+   "id": "chocolate-peanut-butter-toast",
+   "category": "toasted-delights",
+   "name": "Chocolate Peanut Butter Toast",
+   "price": 249,
+   "description": "Thick artisan toast layered with rich dark chocolate, creamy peanut butter, warm caramelised bananas, and fresh strawberries.",
+   "nutrition": {
+    "calories": 520,
+    "protein": 24,
+    "carbs": 68,
+    "fibre": 10,
+    "fat": 45
+   },
+   "image": "/img/menu/chocolate-peanut-butter-toast.webp",
+   "width": 246,
+   "height": 379
+  },
+  {
+   "id": "apple-broccoli-toast",
+   "category": "toasted-delights",
+   "name": "Apple Broccoli Toast",
+   "price": 229,
+   "description": "Crisp apple and tender broccoli atop artisanal whole grain toast, layered with creamy vegan spread and finished with a colourful medley of fresh garden vegetables.",
+   "nutrition": {
+    "calories": 270,
+    "protein": 6,
+    "carbs": 28,
+    "fibre": 6,
+    "fat": 15
+   },
+   "image": "/img/menu/apple-broccoli-toast.webp",
+   "width": 246,
+   "height": 379
+  },
+  {
+   "id": "wild-mushroom-toast",
+   "category": "toasted-delights",
+   "name": "Wild Mushroom Toast",
+   "price": 249,
+   "description": "Thick artisan toast layered with a creamy herb spread and crowned with garlic-sautéed wild mushrooms. Finished with fresh thyme and a drizzle of balsamic glaze for a deep, savoury, earthy bite.",
+   "nutrition": {
+    "calories": 360,
+    "protein": 11,
+    "carbs": 32,
+    "fibre": 8,
+    "fat": 22
+   },
+   "image": "/img/menu/wild-mushroom-toast.webp",
+   "width": 246,
+   "height": 379
+  },
+  {
+   "id": "golden-shroom-strips",
+   "category": "appetisers",
+   "name": "Golden Shroom Strips",
+   "price": 249,
+   "description": "Hand-pulled oyster mushroom strips coated in a seasoned, golden herb crust and fried to absolute perfection. Served with house-made vegan mayo for the ultimate savoury bite.",
+   "nutrition": {
+    "calories": 290,
+    "protein": 8,
+    "carbs": 42,
+    "fibre": 4,
+    "fat": 10
+   },
+   "image": "/img/menu/golden-shroom-strips.webp",
+   "width": 255,
+   "height": 258
+  },
+  {
+   "id": "vegan-cheese-balls",
+   "category": "appetisers",
+   "name": "Vegan Cheese Balls",
+   "price": 269,
+   "description": "Golden, crispy-coated spheres featuring a warm, decadently melty and savoury plant-based cheese centre. Fried to absolute perfection and served alongside a zesty dipping sauce for the ultimate indulgence.",
+   "nutrition": {
+    "calories": 680,
+    "protein": 22,
+    "carbs": 98,
+    "fibre": 9,
+    "fat": 34
+   },
+   "image": "/img/menu/vegan-cheese-balls.webp",
+   "width": 249,
+   "height": 251
+  },
+  {
+   "id": "verde-sunset-tacos",
+   "category": "appetisers",
+   "name": "Verde Sunset Tacos",
+   "price": 269,
+   "description": "Bite-sized perfection featuring spiced tofu crumbles topped with bright pico de gallo and fresh cilantro, served straight from a modern metal taco holder.",
+   "nutrition": {
+    "calories": 210,
+    "protein": 9,
+    "carbs": 22,
+    "fibre": 6,
+    "fat": 9
+   },
+   "image": "/img/menu/verde-sunset-tacos.webp",
+   "width": 298,
+   "height": 317
+  },
+  {
+   "id": "smash-pops",
+   "category": "appetisers",
+   "name": "Smash Pops",
+   "price": 229,
+   "description": "Golden, bite-sized morsels crafted from fluffy smashed potatoes, tender broccoli, and sweet carrots, crisped to absolute perfection on the outside and served with a zesty, house-made dipping sauce.",
+   "nutrition": {
+    "calories": 380,
+    "protein": 8,
+    "carbs": 72,
+    "fibre": 8,
+    "fat": 14
+   },
+   "image": "/img/menu/smash-pops.webp",
+   "width": 249,
+   "height": 251
+  },
+  {
+   "id": "crunchy-saigon",
+   "category": "appetisers",
+   "name": "Crunchy Saigon",
+   "price": 249,
+   "description": "Experience the ultimate satisfying crunch. These vegan rolls are packed with a flavourful blend of fresh vegetables and seasoned tofu, topped with crispy garlic bits. Dip into our spicy-sweet chilli sauce for a perfect balance of flavours.",
+   "nutrition": {
+    "calories": 180,
+    "protein": 6,
+    "carbs": 15,
+    "fibre": 5,
+    "fat": 14
+   },
+   "image": "/img/menu/crunchy-saigon.webp",
+   "width": 329,
+   "height": 329
+  },
+  {
+   "id": "no-yolker-wrap",
+   "category": "wraps-quesadillas",
+   "name": "No-Yolker Wrap",
+   "price": 239,
+   "description": "Vegan soy egg bhurji wrapped in a soft tortilla with crisp lettuce and creamy vegan mayo.",
+   "nutrition": {
+    "calories": 510,
+    "protein": 20,
+    "carbs": 52,
+    "fibre": 8,
+    "fat": 28
+   },
+   "image": "/img/menu/no-yolker-wrap.webp",
+   "width": 409,
+   "height": 295
+  },
+  {
+   "id": "maple-tofu-quesadilla",
+   "category": "wraps-quesadillas",
+   "name": "Maple Tofu Quesadilla",
+   "price": 369,
+   "description": "A crispy tortilla filled with grated tofu, fresh vegetables, vegan cheddar, Dijon mustard, and creamy vegan mayo, finished with a touch of maple and served with tomato herb dip.",
+   "nutrition": {
+    "calories": 430,
+    "protein": 20,
+    "carbs": 46,
+    "fibre": 8,
+    "fat": 21
+   },
+   "image": "/img/menu/maple-tofu-quesadilla.webp",
+   "width": 343,
+   "height": 340
+  },
+  {
+   "id": "fungi-and-fire-wrap",
+   "category": "wraps-quesadillas",
+   "name": "Fungi & Fire Wrap",
+   "price": 249,
+   "description": "Authentic Middle Eastern flavours, 100% plant-based. Tender wild oyster mushrooms seasoned in aromatic shawarma spices, roasted to perfection, and rolled with crisp vegetables and creamy garlic tahini.",
+   "nutrition": {
+    "calories": 460,
+    "protein": 16,
+    "carbs": 58,
+    "fibre": 9,
+    "fat": 20
+   },
+   "image": "/img/menu/fungi-and-fire-wrap.webp",
+   "width": 432,
+   "height": 283
+  },
+  {
+   "id": "all-plant-falafel-roll",
+   "category": "wraps-quesadillas",
+   "name": "All Plant Falafel Roll",
+   "price": 229,
+   "description": "Authentic Mediterranean falafel wrapped in a soft tortilla with fresh vegetables, creamy tahini, and crisp greens.",
+   "nutrition": {
+    "calories": 550,
+    "protein": 18,
+    "carbs": 74,
+    "fibre": 12,
+    "fat": 24
+   },
+   "image": "/img/menu/all-plant-falafel-roll.webp",
+   "width": 452,
+   "height": 297
+  },
+  {
+   "id": "rainbow-rice-wraps",
+   "category": "wraps-quesadillas",
+   "name": "Rainbow Rice Wraps",
+   "price": 369,
+   "description": "Delicate rice paper wraps filled with crisp lettuce, fresh garden vegetables, golden fried tofu and fragrant herbs, served with a rich, creamy peanut dipping sauce.",
+   "nutrition": {
+    "calories": 420,
+    "protein": 16,
+    "carbs": 44,
+    "fibre": 9,
+    "fat": 21
+   },
+   "image": "/img/menu/rainbow-rice-wraps.webp",
+   "width": 304,
+   "height": 302
+  },
+  {
+   "id": "bbq-tofu",
+   "category": "ciabattas-sandwiches",
+   "name": "BBQ Tofu",
+   "price": 439,
+   "description": "Smoky, bold, and endlessly satisfying. Pan-seared tofu smothered in a sweet-and-smoky BBQ glaze, layered with crisp coleslaw and tangy pickles inside a warm, toasted ciabatta. Pure plant-based comfort in every bite.",
+   "nutrition": {
+    "calories": 490,
+    "protein": 20,
+    "carbs": 56,
+    "fibre": 7,
+    "fat": 22
+   },
+   "image": "/img/menu/bbq-tofu.webp",
+   "width": 465,
+   "height": 320
+  },
+  {
+   "id": "tofu-delight-sandwich",
+   "category": "ciabattas-sandwiches",
+   "name": "Tofu Delight Sandwich",
+   "price": 329,
+   "description": "Fluffy, savoury, and loaded with goodness. Spiced plant-based tofu scramble folded with fresh garden vegetables and creamy avocado spread on toasted artisan bread. The ultimate cruelty-free morning fuel.",
+   "nutrition": {
+    "calories": 440,
+    "protein": 22,
+    "carbs": 36,
+    "fibre": 6,
+    "fat": 25
+   },
+   "image": "/img/menu/tofu-delight-sandwich.webp",
+   "width": 425,
+   "height": 328
+  },
+  {
+   "id": "pesto-tempeh",
+   "category": "ciabattas-sandwiches",
+   "name": "Pesto Tempeh",
+   "price": 429,
+   "description": "Herbaceous, nutty, and bursting with flavour. Golden pan-seared tempeh tossed in vibrant, dairy-free basil pesto, layered with fresh greens and ripe tomatoes inside a warm, crusty ciabatta.",
+   "nutrition": {
+    "calories": 610,
+    "protein": 32,
+    "carbs": 54,
+    "fibre": 8,
+    "fat": 31
+   },
+   "image": "/img/menu/pesto-tempeh.webp",
+   "width": 411,
+   "height": 319
+  },
+  {
+   "id": "forest-gold-burger",
+   "category": "burgers",
+   "name": "Forest Gold Burger",
+   "price": 379,
+   "description": "A hearty chickpea and mushroom patty layered with fresh vegetables and house-made sauce, served on a soft, freshly baked vegan bun served with potato wedges on the side.",
+   "nutrition": {
+    "calories": 650,
+    "protein": 20,
+    "carbs": 95,
+    "fibre": 11,
+    "fat": 34
+   },
+   "image": "/img/menu/forest-gold-burger.webp",
+   "width": 309,
+   "height": 279
+  },
+  {
+   "id": "no-bull-burger",
+   "category": "burgers",
+   "name": "No-Bull Burger",
+   "price": 439,
+   "description": "Big flavour, zero compromise. A savoury, umami- packed tempeh mock beef patty char-grilled to perfection, layered with crisp greens, ripe tomato, caramelised onions, and house-made vegan aioli on a toasted bun served with potato wedges on the side.",
+   "nutrition": {
+    "calories": 560,
+    "protein": 28,
+    "carbs": 52,
+    "fibre": 8,
+    "fat": 27
+   },
+   "image": "/img/menu/no-bull-burger.webp",
+   "width": 359,
+   "height": 274
+  },
+  {
+   "id": "the-golden-stack",
+   "category": "burgers",
+   "name": "The Golden Stack",
+   "price": 429,
+   "description": "Crispy tofu glazed with a rich maple and soy reduction, layered with fresh lettuce, tomato, and house-made vegan mayo on a soft, freshly baked vegan bun served with potato wedges on the side.",
+   "nutrition": {
+    "calories": 680,
+    "protein": 22,
+    "carbs": 89,
+    "fibre": 10,
+    "fat": 36
+   },
+   "image": "/img/menu/the-golden-stack.webp",
+   "width": 336,
+   "height": 280
+  },
+  {
+   "id": "arrabbiata-classica",
+   "category": "pastas",
+   "name": "Arrabbiata Classica",
+   "price": 399,
+   "description": "Fettuccine tossed in a bold Arrabbiata sauce made with slow-simmered tomatoes, garlic, chilli, fresh basil, and mushrooms finished with extra virgin olive oil.",
+   "nutrition": {
+    "calories": 580,
+    "protein": 20,
+    "carbs": 82,
+    "fibre": 6,
+    "fat": 22
+   },
+   "image": "/img/menu/arrabbiata-classica.webp",
+   "width": 310,
+   "height": 309
+  },
+  {
+   "id": "garden-pesto-pasta",
+   "category": "pastas",
+   "name": "Garden Pesto Pasta",
+   "price": 399,
+   "description": "Spiral fusilli tossed in a vibrant, dairy-free pesto of fresh basil, mushrooms, rich soaked cashews, and toasted pumpkin seeds. Finished with a drizzle of cold-pressed olive oil for a naturally creamy, herbaceous, and satisfyingly crunchy bowl.",
+   "nutrition": {
+    "calories": 640,
+    "protein": 19,
+    "carbs": 84,
+    "fibre": 6,
+    "fat": 27
+   },
+   "image": "/img/menu/garden-pesto-pasta.webp",
+   "width": 372,
+   "height": 362
+  },
+  {
+   "id": "foothill-farfalle-pasta",
+   "category": "pastas",
+   "name": "Foothill Farfalle Pasta",
+   "price": 429,
+   "description": "Farfalle pasta tossed in a velvety house-made vegan cream sauce with sautéed mushrooms, finished with fragrant herbs and cracked black pepper.",
+   "nutrition": {
+    "calories": 660,
+    "protein": 24,
+    "carbs": 88,
+    "fibre": 8,
+    "fat": 28
+   },
+   "image": "/img/menu/foothill-farfalle-pasta.webp",
+   "width": 342,
+   "height": 318
+  },
+  {
+   "id": "mushroom-bolognese",
+   "category": "pastas",
+   "name": "Mushroom Bolognese",
+   "price": 429,
+   "description": "Rich, comforting, and deeply savoury. Slow- simmered minced mushrooms and aromatic vegetables in a rich tomato herb ragù, tossed with silky fettuccine pasta. A hearty, 100% plant-based Italian favourite.",
+   "nutrition": {
+    "calories": 610,
+    "protein": 20,
+    "carbs": 86,
+    "fibre": 8,
+    "fat": 21
+   },
+   "image": "/img/menu/mushroom-bolognese.webp",
+   "width": 318,
+   "height": 319
+  },
+  {
+   "id": "buddha-bowl",
+   "category": "superfood-bowls",
+   "name": "Buddha Bowl",
+   "price": 439,
+   "description": "A wholesome bowl of herbed brown rice, caramelised tofu, sautéed mushrooms and broccoli, paired with fresh cucumber, carrot, radish, and creamy avocado slices.",
+   "nutrition": {
+    "calories": 540,
+    "protein": 20,
+    "carbs": 68,
+    "fibre": 10,
+    "fat": 23
+   },
+   "image": "/img/menu/buddha-bowl.webp",
+   "width": 374,
+   "height": 374
+  },
+  {
+   "id": "earth-and-grain-bowl",
+   "category": "superfood-bowls",
+   "name": "Earth & Grain Bowl",
+   "price": 449,
+   "description": "A wholesome mix of quinoa, chickpeas, fresh cucumber, carrot, and red cabbage, finished with a creamy tahini dressing for a fresh, colourful, and satisfying vegan meal.",
+   "nutrition": {
+    "calories": 590,
+    "protein": 24,
+    "carbs": 78,
+    "fibre": 15,
+    "fat": 22
+   },
+   "image": "/img/menu/earth-and-grain-bowl.webp",
+   "width": 325,
+   "height": 327
+  },
+  {
+   "id": "the-coastal-bowl",
+   "category": "superfood-bowls",
+   "name": "The Coastal Bowl",
+   "price": 379,
+   "description": "Golden falafel served with creamy hummus, tahini, herbed grains, and a vibrant chickpea salad with onion, sumac, fresh vegetables, and Mediterranean herbs.",
+   "nutrition": {
+    "calories": 590,
+    "protein": 22,
+    "carbs": 76,
+    "fibre": 14,
+    "fat": 26
+   },
+   "image": "/img/menu/the-coastal-bowl.webp",
+   "width": 354,
+   "height": 356
+  },
+  {
+   "id": "mexican-midnight-bowl",
+   "category": "superfood-bowls",
+   "name": "Mexican Midnight Bowl",
+   "price": 419,
+   "description": "A midnight craving reinvented. Earthy black rice topped with smoky, char-grilled Sriracha BBQ oyster mushrooms and sweet sautéed bell peppers, crowned with a bright, zesty Mexican salsa. Bold, smoky, and 100% plant-based.",
+   "nutrition": {
+    "calories": 560,
+    "protein": 17,
+    "carbs": 84,
+    "fibre": 13,
+    "fat": 19
+   },
+   "image": "/img/menu/mexican-midnight-bowl.webp",
+   "width": 329,
+   "height": 325
+  },
+  {
+   "id": "harissa-tofu-bowl",
+   "category": "superfood-bowls",
+   "name": "Harissa Tofu Bowl",
+   "price": 569,
+   "description": "Hand-crafted vegan tofu meatballs infused with aromatic herbs and spices, then seared and tossed in a bold, smoky North African harissa sauce with a fiery kick.",
+   "nutrition": {
+    "calories": 610,
+    "protein": 26,
+    "carbs": 74,
+    "fibre": 11,
+    "fat": 24
+   },
+   "image": "/img/menu/harissa-tofu-bowl.webp",
+   "width": 350,
+   "height": 335
+  },
+  {
+   "id": "red-rice-and-miso-glazed-bowl",
+   "category": "superfood-bowls",
+   "name": "Red Rice and Miso Glazed Bowl",
+   "price": 439,
+   "description": "A savoury, umami-packed Japanese-inspired bowl featuring vegetables caramelised in a rich miso glaze, with a perfect balance of sweet, salty, and deep fermented notes.",
+   "nutrition": {
+    "calories": 550,
+    "protein": 20,
+    "carbs": 76,
+    "fibre": 11,
+    "fat": 20
+   },
+   "image": "/img/menu/red-rice-and-miso-glazed-bowl.webp",
+   "width": 341,
+   "height": 331
+  },
+  {
+   "id": "butter-tofu-and-coconut-rice-bowl",
+   "category": "superfood-bowls",
+   "name": "Butter Tofu and Coconut Rice Bowl",
+   "price": 429,
+   "description": "Rich, velvety, and deeply comforting. Golden tofu simmered in a spiced, creamy tomato-cashew butter gravy, served alongside fragrant coconut rice. A luxurious plant-based twist on a timeless classic.",
+   "nutrition": {
+    "calories": 650,
+    "protein": 23,
+    "carbs": 72,
+    "fibre": 8,
+    "fat": 34
+   },
+   "image": "/img/menu/butter-tofu-and-coconut-rice-bowl.webp",
+   "width": 335,
+   "height": 338
+  },
+  {
+   "id": "thai-red-coconut-curry-bowl-with-brown-rice",
+   "category": "superfood-bowls",
+   "name": "Thai Red Coconut Curry Bowl with Brown Rice",
+   "price": 569,
+   "description": "Aromatic, creamy, and deeply comforting. Golden tofu and tender vegetables simmered in a rich coconut red curry, served over wholesome brown rice. A vibrant bowl bursting with authentic Southeast Asian flavour.",
+   "nutrition": {
+    "calories": 590,
+    "protein": 21,
+    "carbs": 70,
+    "fibre": 10,
+    "fat": 26
+   },
+   "image": "/img/menu/thai-red-coconut-curry-bowl-with-brown-rice.webp",
+   "width": 338,
+   "height": 342
+  },
+  {
+   "id": "golden-tide-roll",
+   "category": "sushi",
+   "name": "Golden Tide Roll",
+   "price": 529,
+   "description": "Crisp, golden-crusted tofu paired with creamy avocado and fresh, vibrant garden vegetables wrapped in seasoned white sushi rice. Clean, wholesome, and bursting with flavour in every bite— served with a side of savoury soya dip & wasabi.",
+   "nutrition": {
+    "calories": 410,
+    "protein": 12,
+    "carbs": 62,
+    "fibre": 5,
+    "fat": 13
+   },
+   "image": "/img/menu/golden-tide-roll.webp",
+   "width": 479,
+   "height": 161
+  },
+  {
+   "id": "ocean-free-horizon",
+   "category": "sushi",
+   "name": "Ocean-Free Horizon",
+   "price": 569,
+   "description": "Delicate, plant-based salmon paired with silky avocado and crisp garden vegetables, wrapped in seasoned sushi rice and nori with wasabi. A tender, melt-in-your-mouth experience with every bite.",
+   "nutrition": {
+    "calories": 390,
+    "protein": 13,
+    "carbs": 60,
+    "fibre": 8,
+    "fat": 11
+   },
+   "image": "/img/menu/ocean-free-horizon.webp",
+   "width": 518,
+   "height": 135
+  },
+  {
+   "id": "root-and-reef-roll",
+   "category": "sushi",
+   "name": "Root and Reef Roll",
+   "price": 529,
+   "description": "Earthy beetroot-infused sushi rice wrapped around savoury, pan-seared tempeh and crisp, garden-fresh vegetables with wasabi. A striking, nutrient-packed fusion of bold colours and wholesome, plant-based flavours.",
+   "nutrition": {
+    "calories": 380,
+    "protein": 14,
+    "carbs": 58,
+    "fibre": 8,
+    "fat": 11
+   },
+   "image": "/img/menu/root-and-reef-roll.webp",
+   "width": 472,
+   "height": 150
+  },
+  {
+   "id": "granola-bites",
+   "category": "treats",
+   "name": "Granola Bites",
+   "price": 59,
+   "description": "A wholesome powerhouse of natural energy— expertly rolled from chewy dates, creamy peanut butter, and hearty rolled oats.",
+   "nutrition": null,
+   "image": "/img/menu/granola-bites.webp",
+   "width": 221,
+   "height": 227
+  },
+  {
+   "id": "midnight-brownie",
+   "category": "treats",
+   "name": "Midnight Brownie",
+   "price": 169,
+   "description": "Rich, fudgy vegan brownie crafted with premium dark cocoa, baked to perfection with a soft, gooey center and an irresistibly decadent finish.",
+   "nutrition": null,
+   "image": "/img/menu/midnight-brownie.webp",
+   "width": 341,
+   "height": 193
+  },
+  {
+   "id": "caramel-eclipse-cake",
+   "category": "treats",
+   "name": "Caramel Eclipse Cake",
+   "price": 369,
+   "description": "Rich, velvety chocolate sponge coated in a glossy dark chocolate ganache and crowned with whipped vegan caramel. Deeply indulgent, wonderfully moist, and balanced with a subtle hint of buttery sweetness in every bite.",
+   "nutrition": null,
+   "image": "/img/menu/caramel-eclipse-cake.webp",
+   "width": 381,
+   "height": 233
+  },
+  {
+   "id": "chocolate-bliss-cookie",
+   "category": "treats",
+   "name": "Chocolate Bliss Cookie",
+   "price": 99,
+   "description": "Soft-baked vegan chocolate cookies loaded with rich dark chocolate chunks, crisp on the edges and irresistibly chewy at the center.",
+   "nutrition": null,
+   "image": "/img/menu/chocolate-bliss-cookie.webp",
+   "width": 265,
+   "height": 251
+  },
+  {
+   "id": "fruit-tart",
+   "category": "treats",
+   "name": "Fruit Tart",
+   "price": 229,
+   "description": "Delicate, crisp mini vegan pastry shells filled with a silky, velvety vanilla bean custard. Topped with a vibrant medley of fresh, seasonal fruit pieces for a burst of natural sweetness in every bite.",
+   "nutrition": null,
+   "image": "/img/menu/fruit-tart.webp",
+   "width": 275,
+   "height": 227,
+   "serving": "Serving: 2 pieces"
+  },
+  {
+   "id": "walnut-pie",
+   "category": "treats",
+   "name": "Walnut Pie",
+   "price": 299,
+   "description": "Flaky artisan shortcrust pastry filled with toasted California walnuts in a rich, amber-sweet maple caramel. Decadently nutty, wonderfully gooey, and baked to a golden-brown perfection for a timeless comfort-food experience.",
+   "nutrition": null,
+   "image": "/img/menu/walnut-pie.webp",
+   "width": 580,
+   "height": 208
+  },
+  {
+   "id": "ruby-hibiscus-chill",
+   "category": "elixirs",
+   "name": "Ruby Hibiscus Chill",
+   "price": 169,
+   "description": "A ruby-red cooler of tart hibiscus petals and bright, zesty citrus. Chilled and naturally sweetened.",
+   "nutrition": null,
+   "image": "/img/menu/ruby-hibiscus-chill.webp",
+   "width": 157,
+   "height": 259
+  },
+  {
+   "id": "crisp-lemon-chill",
+   "category": "elixirs",
+   "name": "Crisp Lemon Chill",
+   "price": 129,
+   "description": "Crisp iced tea with freshly squeezed lemon juice. Ice-cold, revitalising, with a touch of sweetness.",
+   "nutrition": null,
+   "image": "/img/menu/crisp-lemon-chill.webp",
+   "width": 151,
+   "height": 260
+  },
+  {
+   "id": "peach-nectar-chill",
+   "category": "elixirs",
+   "name": "Peach Nectar Chill",
+   "price": 149,
+   "description": "Sun-ripened peach nectar with crisp iced tea, sipped over ice.",
+   "nutrition": null,
+   "image": "/img/menu/peach-nectar-chill.webp",
+   "width": 143,
+   "height": 269
+  },
+  {
+   "id": "mint",
+   "category": "teas",
+   "name": "Mint",
+   "price": 60,
+   "description": "A fresh dash of peppermint with whole leaves to keep you refreshed.",
+   "nutrition": null,
+   "image": "/img/menu/mint.webp",
+   "width": 221,
+   "height": 149
+  },
+  {
+   "id": "rose",
+   "category": "teas",
+   "name": "Rose",
+   "price": 60,
+   "description": "A sweet, comforting blend of whole leaves and fragrant rose petals.",
+   "nutrition": null,
+   "image": "/img/menu/rose.webp",
+   "width": 227,
+   "height": 157
+  },
+  {
+   "id": "jasmine",
+   "category": "teas",
+   "name": "Jasmine",
+   "price": 60,
+   "description": "Earthy whole leaves with soothing jasmine flowers.",
+   "nutrition": null,
+   "image": "/img/menu/jasmine.webp",
+   "width": 236,
+   "height": 160
+  },
+  {
+   "id": "ginger-and-tulsi",
+   "category": "teas",
+   "name": "Ginger & Tulsi",
+   "price": 60,
+   "description": "Turmeric and tulsi with the warm aroma of ginger.",
+   "nutrition": null,
+   "image": "/img/menu/ginger-and-tulsi.webp",
+   "width": 244,
+   "height": 165
+  },
+  {
+   "id": "hibiscus-ritual",
+   "category": "teas",
+   "name": "Hibiscus Ritual",
+   "price": 60,
+   "description": "A warm infusion of hibiscus flowers, naturally tangy and floral.",
+   "nutrition": null,
+   "image": "/img/menu/hibiscus-ritual.webp",
+   "width": 195,
+   "height": 160
+  }
+ ]
+}
