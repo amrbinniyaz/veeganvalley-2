@@ -126,14 +126,15 @@ export const subscribe = listener => { listeners.add(listener); listener(lines);
 const lineUnitPrice = line => getItem(line.id).price + line.extras.reduce((sum, extra) => sum + extra.price, 0);
 export const totals = () => lines.reduce((acc, line) => ({ count: acc.count + line.qty, amount: acc.amount + lineUnitPrice(line) * line.qty }), { count: 0, amount: 0 });
 
-export function addToOrder(id, { qty = 1, extras = [], options = [] } = {}) {
+export function addToOrder(id, { qty = 1, extras = [], options = [], action } = {}) {
   const item = getItem(id); if (!item) return;
   const key = [id, ...extras.map(e => e.name).sort(), ...[...options].sort()].join('|');
   const existing = lines.find(line => line.key === key);
   if (existing) existing.qty = Math.min(MAX_QTY, existing.qty + qty);
   else lines.push({ key, id, qty, extras, options });
   save();
-  announce(`Added ${qty > 1 ? `${qty} × ` : ''}${item.name}`);
+  announce(`Added ${qty > 1 ? `${qty} × ` : ''}${item.name}`, action);
+  return key;
 }
 function setLineQty(key, qty) {
   const line = lines.find(l => l.key === key); if (!line) return;
@@ -192,7 +193,8 @@ function nutritionLine(item) {
   const n = item.nutrition;
   if (n) return `${n.calories} kcal · ${n.protein} g protein`;
   if (item.juiceNutrition) return `${item.juiceNutrition.calories} · ${item.volume}`;
-  return item.volume || item.serving || '';
+  // Dishes without nutrition on the menu show their section instead.
+  return item.volume || item.serving || getCategory(item.category)?.title || '';
 }
 const modalEvent = open => window.dispatchEvent(new CustomEvent('vv-modal', { detail: { open } }));
 
@@ -219,10 +221,14 @@ export function menuCard(item, { index } = {}) {
   subscribe(update);
   return card;
 }
+// "+ Add" always adds straight away. Dishes with optional extras get a
+// "Customise" button on the confirmation, which swaps the plain dish for the
+// customised one, so nothing is counted twice.
 function quickAdd(id) {
   const category = getCategory(getItem(id).category);
-  // Dishes with extras open their sheet, so people see what they can add.
-  if (category?.addOns?.length || category?.options?.length) openItem(id); else addToOrder(id);
+  const customisable = category?.addOns?.length || category?.options?.length;
+  let key;
+  key = addToOrder(id, customisable ? { action: { label: 'Customise', run: () => openItem(id, { replaceKey: key }) } } : {});
 }
 
 let ui;
@@ -257,13 +263,17 @@ function buildUI() {
   return ui;
 }
 let toastTimer;
-function announce(message) {
+function announce(message, action) {
   const { live, toast } = buildUI();
-  live.textContent = message;
+  live.textContent = action ? `${message}. ${action.label} is available.` : message;
+  const hide = () => toast.classList.remove('is-visible');
   toast.replaceChildren(icon('check'), ` ${message}`);
+  if (action) toast.append(el('button', { class: 'order-toast-action', type: 'button', onclick: () => { hide(); action.run(); } }, action.label));
+  toast.classList.toggle('has-action', Boolean(action));
+  if (action) toast.removeAttribute('aria-hidden'); else toast.setAttribute('aria-hidden', 'true');
   toast.classList.add('is-visible');
   clearTimeout(toastTimer);
-  toastTimer = setTimeout(() => toast.classList.remove('is-visible'), 2200);
+  toastTimer = setTimeout(hide, action ? 5000 : 2200);
 }
 function showModal(dialog) {
   if (!dialog.open) { dialog.showModal(); document.body.classList.add('modal-open'); modalEvent(true); }
@@ -277,20 +287,40 @@ function stepper(value, onChange, label) {
   return { node: el('div', { class: 'vv-stepper', role: 'group', 'aria-label': `Quantity of ${label}` }, minus, output, plus), output, minus, plus };
 }
 
-export function openItem(id) {
+export function openItem(id, { replaceKey } = {}) {
   const item = getItem(id); if (!item) return;
   const { sheet } = buildUI();
   const category = getCategory(item.category);
-  let qty = 1; const chosen = new Set(); const chosenOptions = new Set();
+  const chosen = new Set(); const chosenOptions = new Set();
+  // Opened on a dish already in the basket, the sheet edits that plain line's
+  // quantity (down to 0 to remove it). Choosing extras starts a new line.
+  const plainLine = () => !replaceKey && lines.find(l => l.key === id);
+  const editing = () => Boolean(plainLine()) && chosen.size === 0 && chosenOptions.size === 0;
+  let qty = plainLine()?.qty || 1, wasEditing = editing();
   const addButton = el('button', { class: 'pill-button item-sheet-add', type: 'button' });
-  const qtyControl = stepper(qty, delta => { qty = Math.max(1, Math.min(MAX_QTY, qty + delta)); refresh(); }, item.name);
+  const inOrderNote = el('p', { class: 'item-sheet-in-order' });
+  const qtyControl = stepper(qty, delta => { qty = Math.max(editing() ? 0 : 1, Math.min(MAX_QTY, qty + delta)); refresh(); }, item.name);
   function refresh() {
+    const isEditing = editing();
+    if (isEditing !== wasEditing) { qty = isEditing ? plainLine().qty : 1; wasEditing = isEditing; }
     const extras = category?.addOns?.filter(a => chosen.has(a.name)) || [];
     const unit = item.price + extras.reduce((s, e) => s + e.price, 0);
-    qtyControl.output.textContent = qty; qtyControl.minus.disabled = qty === 1;
-    addButton.replaceChildren(el('span', { text: `Add to order · ${rupees(unit * qty)}` }), el('span', { 'aria-hidden': 'true', text: '+' }));
+    const inOrder = quantityInOrder(id);
+    inOrderNote.hidden = inOrder === 0;
+    inOrderNote.textContent = `${inOrder} already in your order`;
+    qtyControl.output.textContent = qty; qtyControl.minus.disabled = qty === (isEditing ? 0 : 1);
+    const label = !isEditing ? `Add to order · ${rupees(unit * qty)}` : qty === 0 ? 'Remove from order' : `Update order · ${rupees(unit * qty)}`;
+    addButton.replaceChildren(el('span', { text: label }), isEditing ? icon('check') : el('span', { 'aria-hidden': 'true', text: '+' }));
   }
   addButton.addEventListener('click', () => {
+    if (editing()) {
+      setLineQty(id, qty);
+      announce(qty === 0 ? `Removed ${item.name}` : `${qty} × ${item.name} in your order`);
+      sheet.close();
+      return;
+    }
+    const replaced = replaceKey && lines.find(l => l.key === replaceKey);
+    if (replaced) setLineQty(replaceKey, replaced.qty - 1);
     addToOrder(id, { qty, extras: category?.addOns?.filter(a => chosen.has(a.name)) || [], options: [...chosenOptions] });
     sheet.close();
   });
@@ -313,7 +343,7 @@ export function openItem(id) {
       facts.length > 0 && el('div', { class: 'item-sheet-block' }, el('h3', { text: 'Nutrition' }), el('dl', { class: 'item-facts' }, facts.map(([k, v]) => el('div', {}, el('dt', { text: k }), el('dd', { text: v }))))),
       category?.addOns?.length > 0 && el('fieldset', { class: 'item-sheet-block item-choices' }, el('legend', { text: 'Add extras' }), category.addOns.map(a => checkbox(a.name, `${a.name} +${rupees(a.price)}`, chosen))),
       category?.options?.length > 0 && el('fieldset', { class: 'item-sheet-block item-choices' }, el('legend', { text: 'Options' }), category.options.map(o => checkbox(o, o, chosenOptions))),
-      el('div', { class: 'item-sheet-actions' }, qtyControl.node, addButton)));
+      el('div', { class: 'item-sheet-actions' }, inOrderNote, qtyControl.node, addButton)));
   refresh();
   showModal(sheet);
 }

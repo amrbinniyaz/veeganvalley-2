@@ -14,5 +14,8 @@ exports/
 # Build output. art/bottles/ is the committed source art; everything below is
 # derived from it by `npm run frames`.
 public/img/seq/*.webp
+# Exception: the hero stills for blue-magic, green-house, golden-hour and
+# classic-beet are cut from art/bottle-photos (see scripts/prepare_photo_labels.py)
+# and committed with -f; `npm run frames` would overwrite the last three.
 public/img/bottles/*.webp
 art/labels/

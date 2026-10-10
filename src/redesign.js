@@ -4,6 +4,7 @@ import Lenis from 'lenis';
 import juices from './data/juices.json';
 import { initOrder, openItem, addToOrder, menuCard, getItem, items as menuItems } from './modules/order.js';
 import { startHomeIntro } from './modules/homeIntro.js';
+import { cafeStatus } from './lib/openingHours.js';
 import { createHomeEntrance } from './modules/homeEntrance.js';
 
 gsap.registerPlugin(ScrollTrigger);
@@ -16,11 +17,22 @@ const bowls = {
 };
 const reducedMotion = window.matchMedia('(prefers-reduced-motion: reduce)');
 const cleanups = [];
-let lenis, bottle, homeIntro, homeEntrance, entranceProgress = 1, selectedFlavour = 'green-house', currentProgress = 0, disposed = false;
+let lenis, bottle, homeIntro, homeEntrance, entranceProgress = 1, selectedFlavour = 'blue-magic', currentProgress = 0, disposed = false;
 let resolveHeroBottle;
 const heroBottleReady = new Promise(resolve => { resolveHeroBottle = resolve; });
 const listen = (target, type, handler, options) => { target.addEventListener(type, handler, options); cleanups.push(() => target.removeEventListener(type, handler, options)); };
 document.querySelector('[data-year]').textContent = new Date().getFullYear();
+// Live "Open now / Closed" in the info strip, refreshed every minute.
+const openStatus = document.querySelector('[data-open-status]');
+function showOpenStatus() {
+  if (!openStatus) return;
+  const status = cafeStatus();
+  openStatus.classList.toggle('is-open', status.open);
+  openStatus.lastElementChild.textContent = status.text;
+}
+showOpenStatus();
+const openStatusTimer = setInterval(showOpenStatus, 60000);
+cleanups.push(() => clearInterval(openStatusTimer));
 
 // Use a single clock for smooth scrolling and scroll-triggered animation.
 const animateScroll = time => lenis?.raf(time * 1000);
@@ -73,9 +85,9 @@ function selectFlavour(name) {
   if (!products[name] || name === selectedFlavour) return;
   selectedFlavour = name;
   const botanical = document.querySelector('[data-botanical-flavour]');
-  const roots = botanical?.querySelector('.botanical-roots[data-src]');
+  const roots = ['golden-hour', 'classic-beet'].includes(name) && botanical?.querySelector('.botanical-roots[data-src]');
   if (roots) { roots.srcset = roots.dataset.srcset; roots.src = roots.dataset.src; roots.removeAttribute('data-src'); roots.removeAttribute('data-srcset'); }
-  if (botanical) botanical.dataset.botanicalFlavour = name === 'green-house' ? 'greens' : 'roots';
+  if (botanical) botanical.dataset.botanicalFlavour = ['golden-hour', 'classic-beet'].includes(name) ? 'roots' : 'greens';
   const product = products[name];
   document.querySelector('[data-hero-name]').textContent = product.name;
   document.querySelector('.hero-product-link').dataset.product = name;
@@ -176,12 +188,13 @@ for(const details of document.querySelectorAll('details'))listen(details,'toggle
 // Load the 3D engine separately, so it never blocks the page or its controls.
 import('./modules/bottle3d.js').then(async({initBottle3D})=>{
   if(disposed)return;
-  const instance=await initBottle3D(document.querySelector('.bottle-view'), { initialEntrance: entranceProgress });
+  const startFlavour=selectedFlavour;
+  const instance=await initBottle3D(document.querySelector('.bottle-view'), { initialEntrance: entranceProgress, flavour: startFlavour });
   if(disposed){instance.destroy();return;}
   bottle=instance;
   bottle.setEntrance?.(entranceProgress);
   bottle.setProgress(currentProgress);
-  if(selectedFlavour!=='green-house')bottle.setFlavour(selectedFlavour);
+  if(selectedFlavour!==startFlavour)bottle.setFlavour(selectedFlavour);
 }).catch(error=>console.warn('[Vegan Valley] Using product photograph:',error.message)).finally(() => resolveHeroBottle());
 document.fonts.ready.then(()=>{if(!disposed){ScrollTrigger.refresh();lenis?.resize();}});
 
