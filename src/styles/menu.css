@@ -15,7 +15,6 @@
 .menu-hero-art{position:relative;height:520px}
 .menu-hero-botanical{position:absolute;right:2%;top:-6%;height:115%;width:auto;opacity:.42;mix-blend-mode:multiply}
 .menu-hero-bowl{position:absolute;left:14%;top:12%;width:min(390px,30vw);transform:rotate(-8deg);filter:drop-shadow(18px 26px 18px rgba(30,45,20,.25))}
-.menu-hero-bowl--small{left:auto;right:4%;top:auto;bottom:0;width:min(230px,18vw);transform:rotate(12deg)}
 .menu-hero-bottle{position:absolute;left:0;bottom:-2%;height:300px;width:auto;transform:rotate(-14deg);filter:drop-shadow(14px 22px 14px rgba(30,45,20,.25))}
 .menu-hero-stamp{right:6%;top:2%;background:transparent}
 .menu-hero-note{position:absolute;right:30%;bottom:-2%;width:150px;text-align:center;transform:rotate(-8deg)}
@@ -66,7 +65,6 @@
   .menu-hero-orbit{width:130vw;height:130vw;right:-50%;top:auto;bottom:-30%;transform:none}
   .menu-hero-art{height:300px;margin-top:20px}
   .menu-hero-bowl{left:22%;top:0;width:230px}
-  .menu-hero-bowl--small{width:130px;right:0}
   .menu-hero-bottle{height:190px}
   .menu-hero-stamp{width:72px;height:72px;right:2%;top:-4%}
   .menu-hero-note{display:none}
