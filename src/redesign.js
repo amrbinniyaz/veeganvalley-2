@@ -73,6 +73,8 @@ function selectFlavour(name) {
   if (!products[name] || name === selectedFlavour) return;
   selectedFlavour = name;
   const botanical = document.querySelector('[data-botanical-flavour]');
+  const roots = botanical?.querySelector('.botanical-roots[data-src]');
+  if (roots) { roots.srcset = roots.dataset.srcset; roots.src = roots.dataset.src; roots.removeAttribute('data-src'); roots.removeAttribute('data-srcset'); }
   if (botanical) botanical.dataset.botanicalFlavour = name === 'green-house' ? 'greens' : 'roots';
   const product = products[name];
   document.querySelector('[data-hero-name]').textContent = product.name;

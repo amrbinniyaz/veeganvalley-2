@@ -13,12 +13,12 @@ export function createHomeEntrance({ onBottleProgress } = {}) {
   const cleanups = [];
   function animate(selector, from, delay, duration, stagger = 0) {
     document.querySelectorAll(selector).forEach((element, index) => {
-      // Preserve each layer's designed opacity, including the softer mobile art.
-      // Ending at 1 would flash it opaque before cancellation restores the CSS.
-      const finalOpacity = getComputedStyle(element).opacity;
+      // The end keyframe leaves opacity out, so it ends on each layer's designed
+      // CSS opacity (like the faint botanical) read while the animation runs.
+      // Reading it here could happen before the stylesheet loads and fade to 1.
       const animation = element.animate([
         { opacity: 0, ...from },
-        { opacity: finalOpacity, translate: '0px 0px', rotate: '0deg', scale: '1' },
+        { translate: '0px 0px', rotate: '0deg', scale: '1' },
       ], { duration, delay: delay + index * stagger, easing: 'cubic-bezier(.22,1,.36,1)', fill: 'both' });
       animation.pause(); animations.push(animation);
     });

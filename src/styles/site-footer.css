@@ -44,3 +44,6 @@
 .site-footer-insta { display:flex; align-items:center; gap:10px; width:max-content; margin-top:14px; font-size:13px; color:var(--sage); transition:color .2s; }
 .site-footer-insta .icon { width:18px; height:18px; }
 .site-footer-insta:hover { color:inherit; text-decoration:underline; text-underline-offset:4px; }
+.site-footer-credit { margin:14px 0 0; color:var(--sage); font-size:11px; opacity:.8; }
+.site-footer-credit a { text-decoration:underline; text-underline-offset:3px; }
+.site-footer-credit a:hover { opacity:1; color:var(--pale); }

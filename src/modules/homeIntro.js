@@ -49,7 +49,8 @@ export function startHomeIntro({ onReveal, onUnlock, ready = Promise.resolve() }
     });
     const logo = new Image();
     logo.src = '/img/logo/vegan-valley.png';
-    const heroImages = [...document.querySelectorAll('.hero-botanical .botanical-greens, .journey-stage > .bottle-view .bottle-fallback')];
+    // Wait for the bottle only; the faint botanical art can arrive after the intro.
+    const heroImages = [...document.querySelectorAll('.journey-stage > .bottle-view .bottle-fallback')];
     Promise.allSettled([ready, document.fonts.ready, logo.decode(), ...heroImages.map(image => image.decode())]).then(() => {
       if (finished || leaving) return;
       holdTimer = setTimeout(() => finish(), motion.matches ? 0 : Math.max(0, 1350 - (performance.now() - started)));
