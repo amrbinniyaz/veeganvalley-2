@@ -76,3 +76,16 @@
 
 /* iOS Safari zooms into any field under 16px on focus; keep touch inputs at 16px. */
 @media (hover:none) and (pointer:coarse){input:not([type=radio]):not([type=checkbox]),select,textarea{font-size:16px!important}}
+
+/* Line icons from /icons.svg; they take the size and colour of the text around them. */
+.icon{display:inline-block;width:1em;height:1em;flex:none;vertical-align:-.125em;fill:none;stroke:currentColor;stroke-width:2;stroke-linecap:round;stroke-linejoin:round;overflow:visible}
+/* Ticker marks: a drop for cold pressed, a leaf for all plants, a citrus slice for full of life. */
+.ticker-mark{display:inline-grid;place-items:center}
+.ticker-mark .icon{width:1.15em;height:1.15em;stroke-width:2.1}
+.ticker-mark.is-drop .icon{animation:mark-bob 2.4s ease-in-out infinite}
+.ticker-mark.is-leaf .icon{transform-origin:10% 90%;animation:mark-sway 3.2s ease-in-out infinite}
+.ticker-mark.is-citrus .icon{animation:mark-spin 9s linear infinite}
+@keyframes mark-bob{50%{transform:translateY(-12%)}}
+@keyframes mark-sway{0%,100%{transform:rotate(-8deg)}50%{transform:rotate(8deg)}}
+@keyframes mark-spin{to{transform:rotate(360deg)}}
+@media(prefers-reduced-motion:reduce){.ticker-mark .icon{animation:none}}

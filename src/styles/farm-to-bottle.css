@@ -188,3 +188,6 @@ a:hover .arrow-circle, button.arrow-circle:hover:not(:disabled) { background: va
   .scene-copy h1,.scene-copy h2 { font-size:120px; }
   .world-is-ready .scene-farm .scene-copy h1 { font-size:140px; }
 }
+
+/* Line icons from /icons.svg; they take the size and colour of the text around them. */
+.icon{display:inline-block;width:1em;height:1em;flex:none;vertical-align:-.125em;fill:none;stroke:currentColor;stroke-width:2;stroke-linecap:round;stroke-linejoin:round;overflow:visible}

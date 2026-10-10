@@ -1,11 +1,16 @@
 import menu from '../data/menu.json';
 import juices from '../data/juices.json';
+import { icon } from '../lib/icon.js';
 
 // One basket shared by every page. Orders are sent as an editable WhatsApp
-// message for pickup; nothing is placed until the customer presses send.
+// message for pickup or delivery; nothing is placed until the customer presses send.
 export const WHATSAPP_NUMBER = '917736005800';
 const STORAGE_KEY = 'vv-order-v1';
 const MAX_QTY = 20;
+// Delivery: free within FREE_KM of the store, a flat fee up to MAX_KM, none beyond.
+// Distances are straight-line from the store, so road distance is a little longer.
+const STORE = { lat: 11.2448934, lng: 75.7738241 };
+const FREE_KM = 5, MAX_KM = 10, DELIVERY_FEE = 50;
 const rupees = value => `₹${value.toLocaleString('en-IN')}`;
 
 const juiceItems = juices.map(juice => ({
@@ -136,15 +141,36 @@ function setLineQty(key, qty) {
 }
 const quantityInOrder = id => lines.filter(line => line.id === id).reduce((sum, line) => sum + line.qty, 0);
 
-export function whatsappMessage({ name, pickup, note }) {
+function distanceKm(a, b) {
+  const rad = d => d * Math.PI / 180;
+  const h = Math.sin(rad(b.lat - a.lat) / 2) ** 2 + Math.cos(rad(a.lat)) * Math.cos(rad(b.lat)) * Math.sin(rad(b.lng - a.lng) / 2) ** 2;
+  return 12742 * Math.asin(Math.sqrt(h));
+}
+// Fee for a known distance: 0, DELIVERY_FEE, or null when out of range.
+export const deliveryFee = km => km <= FREE_KM ? 0 : km <= MAX_KM ? DELIVERY_FEE : null;
+
+export function whatsappMessage({ name, pickup, note, mode = 'pickup', address = '', landmark = '' }, place = null) {
+  const delivery = mode === 'delivery';
+  const fee = delivery && place ? deliveryFee(place.km) : 0;
   const rows = lines.map(line => {
     const item = getItem(line.id);
     const details = [...line.extras.map(e => `+ ${e.name}`), ...line.options].join(', ');
     return `${line.qty} × ${item.name}${item.volume ? ` (${item.volume})` : ''}${details ? ` [${details}]` : ''} — ${rupees(lineUnitPrice(line) * line.qty)}`;
   });
-  return [
+  const amount = totals().amount;
+  if (!delivery) return [
     "Hi Vegan Valley! I'd like to place a pickup order:", '', ...rows, '',
-    `Total: ${rupees(totals().amount)}`, `Name: ${name}`, `Pickup: ${pickup}`, ...(note ? [`Note: ${note}`] : []),
+    `Total: ${rupees(amount)}`, `Name: ${name}`, `Pickup: ${pickup}`, ...(note ? [`Note: ${note}`] : []),
+  ].join('\n');
+  const km = place ? `${place.km.toFixed(1)} km` : '';
+  return [
+    "Hi Vegan Valley! I'd like to place a delivery order:", '', ...rows, '',
+    `Items: ${rupees(amount)}`,
+    place ? `Delivery: ${fee ? rupees(fee) : 'Free'} (${km})` : `Delivery: to be confirmed (free within ${FREE_KM} km, ${rupees(DELIVERY_FEE)} up to ${MAX_KM} km)`,
+    `Total: ${rupees(amount + fee)}${place ? '' : ' + delivery'}`, '',
+    `Name: ${name}`, `Delivery: ${pickup}`, `Address: ${address}`, ...(landmark ? [`Landmark: ${landmark}`] : []),
+    ...(place ? [`Location: https://maps.google.com/?q=${place.lat.toFixed(6)},${place.lng.toFixed(6)}`] : []),
+    ...(note ? [`Note: ${note}`] : []),
   ].join('\n');
 }
 
@@ -181,7 +207,7 @@ export function menuCard(item, { index } = {}) {
       index && el('span', { class: 'card-index', text: String(index).padStart(2, '0') }),
       el('span', { class: 'product-word', 'aria-hidden': 'true', text: wordFor(item), style: `--len:${Math.max(4, wordFor(item).length)}` }),
       el('img', { src: item.image, alt: '', loading: 'lazy', width: item.width || 180, height: item.height || 520 }),
-      el('span', { class: 'product-discover' }, 'Discover ', el('span', { text: '↗' }))),
+      el('span', { class: 'product-discover' }, 'Discover ', el('span', {}, icon('arrow-up-right')))),
     el('div', { class: 'product-caption' },
       el('div', {}, el('h3', { text: item.name }), meta && el('p', { class: 'menu-product-meta', text: meta })),
       el('div', { class: 'product-buy' },
@@ -206,7 +232,7 @@ function buildUI() {
   const barCount = el('span', { class: 'order-bar-count' });
   const barTotal = el('span', { class: 'order-bar-total' });
   const bar = el('button', { class: 'order-bar', type: 'button', hidden: true, onclick: () => openOrder() },
-    el('span', { class: 'order-bar-summary' }, barCount, barTotal), el('span', { class: 'order-bar-cta' }, 'Review order ', el('span', { 'aria-hidden': 'true', text: '→' })));
+    el('span', { class: 'order-bar-summary' }, barCount, barTotal), el('span', { class: 'order-bar-cta' }, 'Review order ', icon('arrow-right')));
 
   // Item sheet
   const sheet = el('dialog', { class: 'vv-sheet item-sheet', 'aria-labelledby': 'item-sheet-title', 'data-lenis-prevent': true });
@@ -214,7 +240,7 @@ function buildUI() {
   const orderSheet = el('dialog', { class: 'vv-sheet order-sheet', 'aria-labelledby': 'order-sheet-title', 'data-lenis-prevent': true });
   for (const dialog of [sheet, orderSheet]) {
     dialog.addEventListener('click', event => { if (event.target === dialog) dialog.close(); });
-    dialog.addEventListener('close', () => { document.body.classList.remove('modal-open'); modalEvent(false); });
+    dialog.addEventListener('close', () => { document.body.classList.remove('modal-open'); modalEvent(false); if (dialog === orderSheet) sent = null; });
   }
   document.body.append(bar, toast, live, sheet, orderSheet);
   ui = { bar, barCount, barTotal, sheet, orderSheet, live, toast };
@@ -233,7 +259,7 @@ let toastTimer;
 function announce(message) {
   const { live, toast } = buildUI();
   live.textContent = message;
-  toast.textContent = `✓ ${message}`;
+  toast.replaceChildren(icon('check'), ` ${message}`);
   toast.classList.add('is-visible');
   clearTimeout(toastTimer);
   toastTimer = setTimeout(() => toast.classList.remove('is-visible'), 2200);
@@ -242,7 +268,7 @@ function showModal(dialog) {
   if (!dialog.open) { dialog.showModal(); document.body.classList.add('modal-open'); modalEvent(true); }
   dialog.scrollTop = 0;
 }
-const closeButton = dialog => el('button', { class: 'vv-sheet-close', type: 'button', 'aria-label': 'Close', onclick: () => dialog.close() }, '×');
+const closeButton = dialog => el('button', { class: 'vv-sheet-close', type: 'button', 'aria-label': 'Close', onclick: () => dialog.close() }, icon('x'));
 function stepper(value, onChange, label) {
   const output = el('output', { 'aria-live': 'polite', text: value });
   const minus = el('button', { type: 'button', 'aria-label': `One fewer ${label}`, onclick: () => onChange(-1) }, '−');
@@ -292,7 +318,22 @@ export function openItem(id) {
 }
 
 const PICKUP_TIMES = ['As soon as possible', 'In about 30 minutes', 'In about 1 hour', "Later today (I'll say when)"];
-let form = { name: '', pickup: PICKUP_TIMES[0], note: '' };
+let form = { name: '', pickup: PICKUP_TIMES[0], note: '', mode: 'pickup', address: '', landmark: '' };
+// The customer's shared location for this visit only: { lat, lng, km }.
+let place = null, locating = false, locateError = '';
+function useMyLocation() {
+  if (!navigator.geolocation) { locateError = 'Location is not available on this device. Please type your address.'; renderOrder(); return; }
+  locating = true; locateError = ''; renderOrder();
+  navigator.geolocation.getCurrentPosition(position => {
+    const point = { lat: position.coords.latitude, lng: position.coords.longitude };
+    place = { ...point, km: distanceKm(STORE, point) };
+    locating = false; renderOrder();
+  }, () => {
+    locating = false; locateError = "We couldn't get your location. Please type your address and we'll confirm the distance on WhatsApp."; renderOrder();
+  }, { enableHighAccuracy: true, timeout: 15000, maximumAge: 60000 });
+}
+// The last order sent, shown as a thank-you until the sheet is closed.
+let sent = null;
 try { form = { ...form, ...JSON.parse(localStorage.getItem(`${STORAGE_KEY}-details`) || '{}') }; } catch { /* Defaults are fine. */ }
 function renderOrder() {
   const { orderSheet } = buildUI();
@@ -307,28 +348,66 @@ function renderOrder() {
       control.node);
   });
   const field = (label, input, hint) => el('label', { class: 'order-field' }, el('span', { text: label }), input, hint && el('small', { text: hint }));
-  const nameInput = el('input', { type: 'text', name: 'name', autocomplete: 'name', required: true, value: form.name, placeholder: 'So we know whose order it is' });
-  const pickupSelect = el('select', { name: 'pickup' }, PICKUP_TIMES.map(t => el('option', { value: t, selected: t === form.pickup, text: t })));
-  const noteInput = el('textarea', { name: 'note', rows: 2, placeholder: 'Allergies, less spicy, cutlery…' }); noteInput.value = form.note;
-  const sendButton = el('button', { class: 'pill-button order-send', type: 'submit' }, el('span', { text: 'Send order on WhatsApp' }), el('span', { 'aria-hidden': 'true', text: '↗' }));
+  const delivery = form.mode === 'delivery';
+  // Keep typed details in `form` so re-rendering (quantity, location) never loses them.
+  const synced = (input, key) => { input.addEventListener('input', () => { form[key] = input.value; input.removeAttribute('aria-invalid'); }); return input; };
+  const nameInput = synced(el('input', { type: 'text', name: 'name', autocomplete: 'name', required: true, value: form.name, placeholder: 'So we know whose order it is' }), 'name');
+  const pickupSelect = el('select', { name: 'pickup', onchange: event => { form.pickup = event.target.value; } }, PICKUP_TIMES.map(t => el('option', { value: t, selected: t === form.pickup, text: t })));
+  const noteInput = synced(el('textarea', { name: 'note', rows: 2, placeholder: 'Allergies, less spicy, cutlery…' }), 'note'); noteInput.value = form.note;
+  const addressInput = synced(el('textarea', { name: 'address', rows: 2, autocomplete: 'street-address', placeholder: 'House / flat, street, area' }), 'address'); addressInput.value = form.address;
+  const landmarkInput = synced(el('input', { type: 'text', name: 'landmark', value: form.landmark, placeholder: 'Near…' }), 'landmark');
+  const modeOption = (value, label, hint) => el('label', { class: `order-mode-option${form.mode === value ? ' is-active' : ''}` },
+    el('input', { type: 'radio', name: 'mode', value, checked: form.mode === value, onchange: () => { form.mode = value; renderOrder(); } }),
+    el('strong', { text: label }), el('small', { text: hint }));
+  const fee = delivery && place ? deliveryFee(place.km) : 0;
+  const outOfRange = delivery && place && fee === null;
+  const placeStatus = !place ? null
+    : outOfRange ? el('p', { class: 'order-place is-out', role: 'status', text: `You're about ${place.km.toFixed(1)} km away. Sorry, we only deliver within ${MAX_KM} km. You can still choose pickup.` })
+    : el('p', { class: 'order-place', role: 'status', text: `About ${place.km.toFixed(1)} km away · ${fee ? `Delivery ${rupees(fee)}` : 'Free delivery'}` });
+  const deliveryBlock = delivery && el('div', { class: 'order-delivery' },
+    el('button', { class: 'order-locate', type: 'button', disabled: locating, onclick: useMyLocation }, icon('map-pin'), locating ? ' Finding you…' : place ? ' Update my location' : ' Use my location'),
+    placeStatus, locateError && el('p', { class: 'order-place is-out', role: 'status', text: locateError }),
+    field('Delivery address', addressInput), field('Landmark (optional)', landmarkInput),
+    el('p', { class: 'order-small', text: `Free delivery within ${FREE_KM} km, ${rupees(DELIVERY_FEE)} up to ${MAX_KM} km. Sharing your location lets us check the distance and pin your door.` }));
+  const totalRow = delivery
+    ? el('div', { class: 'order-total' }, el('span', { text: place ? `Total incl. delivery · ${count} item${count === 1 ? '' : 's'}` : 'Total · delivery added once we know the distance' }), el('strong', { text: rupees(amount + (fee || 0)) }))
+    : el('div', { class: 'order-total' }, el('span', { text: `Total · ${count} item${count === 1 ? '' : 's'}` }), el('strong', { text: rupees(amount) }));
+  const sendButton = el('button', { class: 'pill-button order-send', type: 'submit', disabled: outOfRange }, el('span', { text: 'Send order on WhatsApp' }), el('span', {}, icon('arrow-up-right')));
   const formNode = el('form', { class: 'order-form', novalidate: true, onsubmit: event => {
     event.preventDefault();
-    form = { name: nameInput.value.trim(), pickup: pickupSelect.value, note: noteInput.value.trim() };
+    form = { ...form, name: nameInput.value.trim(), pickup: pickupSelect.value, note: noteInput.value.trim(), address: addressInput.value.trim(), landmark: landmarkInput.value.trim() };
     try { localStorage.setItem(`${STORAGE_KEY}-details`, JSON.stringify(form)); } catch { /* Not essential. */ }
     if (!form.name) { nameInput.setAttribute('aria-invalid', 'true'); nameInput.focus(); return; }
-    window.open(`https://wa.me/${WHATSAPP_NUMBER}?text=${encodeURIComponent(whatsappMessage(form))}`, '_blank', 'noopener');
+    if (delivery && !form.address) { addressInput.setAttribute('aria-invalid', 'true'); addressInput.focus(); return; }
+    if (outOfRange) return;
+    const url = `https://wa.me/${WHATSAPP_NUMBER}?text=${encodeURIComponent(whatsappMessage(form, delivery ? place : null))}`;
+    window.open(url, '_blank', 'noopener');
+    sent = { name: form.name, url, mode: form.mode };
+    lines = [];
+    save();
   } },
-    field('Your name', nameInput), field('Pickup time', pickupSelect), field('Anything we should know? (optional)', noteInput),
-    sendButton, el('p', { class: 'order-small', text: 'This opens WhatsApp with your order written out. Nothing is placed until you press send there, and we will confirm your pickup time.' }));
-  nameInput.addEventListener('input', () => nameInput.removeAttribute('aria-invalid'));
+    el('fieldset', { class: 'order-mode' }, el('legend', { class: 'sr-only', text: 'Pickup or delivery' }),
+      modeOption('pickup', 'Pickup', 'Collect from the café'), modeOption('delivery', 'Delivery', `Free within ${FREE_KM} km`)),
+    deliveryBlock, totalRow,
+    field('Your name', nameInput), field(delivery ? 'Delivery time' : 'Pickup time', pickupSelect), field('Anything we should know? (optional)', noteInput),
+    sendButton, el('p', { class: 'order-small', text: `This opens WhatsApp with your order written out. Nothing is placed until you press send there, and we will confirm your ${delivery ? 'delivery' : 'pickup'} time.` }));
+  if (sent && count === 0) {
+    orderSheet.replaceChildren(closeButton(orderSheet),
+      el('div', { class: 'order-sheet-body order-thanks' },
+        el('span', { class: 'eyebrow', text: sent.mode === 'delivery' ? 'DELIVERY ORDER' : 'PICKUP ORDER' }),
+        el('h2', { id: 'order-sheet-title', text: `Thank you${sent.name ? `, ${sent.name.split(' ')[0]}` : ''}!` }),
+        el('p', { text: `Your order has been placed on WhatsApp. We will confirm your ${sent.mode === 'delivery' ? 'delivery' : 'pickup'} time there.` }),
+        el('a', { class: 'pill-button', href: '/menu/' }, 'Order something else ', el('span', {}, icon('arrow-up-right'))),
+        el('p', { class: 'order-small' }, "WhatsApp didn't open? ", el('a', { href: sent.url, target: '_blank', rel: 'noopener', text: 'Send the order again' }))));
+    return;
+  }
   orderSheet.replaceChildren(closeButton(orderSheet),
     el('div', { class: 'order-sheet-body' },
-      el('span', { class: 'eyebrow', text: 'PICKUP ORDER' }),
+      el('span', { class: 'eyebrow', text: 'PICKUP OR DELIVERY' }),
       el('h2', { id: 'order-sheet-title', text: 'Your order' }),
       count === 0
-        ? el('div', { class: 'order-empty' }, el('p', { text: 'Nothing here yet.' }), el('a', { class: 'pill-button', href: '/menu/' }, 'Browse the menu ', el('span', { 'aria-hidden': 'true', text: '↗' })))
+        ? el('div', { class: 'order-empty' }, el('p', { text: 'Nothing here yet.' }), el('a', { class: 'pill-button', href: '/menu/' }, 'Browse the menu ', el('span', {}, icon('arrow-up-right'))))
         : [el('ul', { class: 'order-lines' }, list),
-          el('div', { class: 'order-total' }, el('span', { text: `Total · ${count} item${count === 1 ? '' : 's'}` }), el('strong', { text: rupees(amount) })),
           formNode,
           el('button', { class: 'order-clear', type: 'button', onclick: () => { lines = []; save(); } }, 'Clear order')]));
 }
