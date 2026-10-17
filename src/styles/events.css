@@ -197,3 +197,5 @@
   .event-facts>div>.event-fact-link,.event-facts>div>.event-cal{grid-column:2;justify-self:start}
   .event-cal-menu{left:0;right:auto}
 }
+.event-gst{font-family:var(--sans);font-size:14px;font-weight:600;letter-spacing:0;opacity:.7}
+.event-sticky strong small{font-family:var(--sans);font-size:11px;font-weight:600;opacity:.8}

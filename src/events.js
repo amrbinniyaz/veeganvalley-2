@@ -2,6 +2,13 @@
 const WHATSAPP_NUMBER = '917736005800';
 const EVENT = { name: 'World Vegan Day Community Gathering 2.0', when: 'Sunday 1 Nov 2026, 9:00 am to 12:00 pm', where: 'The Social Cue, opp. Vegan Valley, South Beach', price: 1499, seats: 20, ends: new Date('2026-11-01T12:00:00+05:30') };
 const rupees = value => `₹${value.toLocaleString('en-IN')}`;
+const paise = value => `₹${value.toLocaleString('en-IN', { minimumFractionDigits: 2, maximumFractionDigits: 2 })}`;
+// Tickets are priced before tax: add 5% GST, then round up to the rupee like the café bill.
+const GST_RATE = 0.05;
+const ticketBill = seats => {
+  const amount = seats * EVENT.price, gst = Math.round(amount * GST_RATE * 100) / 100;
+  return { amount, gst, total: Math.ceil(amount + gst - 1e-9) };
+};
 document.querySelectorAll('[data-year]').forEach(node => { node.textContent = new Date().getFullYear(); });
 
 // Mobile navigation
@@ -50,8 +57,9 @@ function render() {
     form.querySelector(`[data-step="${choice}"][data-delta="1"]`).disabled = total >= EVENT.seats;
     document.querySelector(`.event-choice[data-choice="${choice}"]`).classList.toggle('is-picked', counts[choice] > 0);
   }
-  form.querySelector('[data-seat-summary]').textContent = `${total} seat${total === 1 ? '' : 's'} × ${rupees(EVENT.price)}`;
-  form.querySelector('[data-total]').textContent = rupees(total * EVENT.price);
+  const bill = ticketBill(total);
+  form.querySelector('[data-seat-summary]').textContent = `${total} seat${total === 1 ? '' : 's'} × ${rupees(EVENT.price)} + GST ${paise(bill.gst)}`;
+  form.querySelector('[data-total]').textContent = rupees(bill.total);
   form.querySelector('.event-send').disabled = total === 0;
 }
 form.addEventListener('click', event => {
@@ -90,16 +98,17 @@ form.addEventListener('submit', event => {
   const name = form.elements.name.value.trim(), note = form.elements.note.value.trim();
   if (!name) { form.elements.name.setAttribute('aria-invalid', 'true'); form.elements.name.focus(); return; }
   const total = counts.A + counts.B; if (!total) return;
+  const bill = ticketBill(total);
   const message = [
     `Hi Vegan Valley! I'd like to book seats for ${EVENT.name}.`, '',
     `When: ${EVENT.when}`, `Where: ${EVENT.where}`, '',
     ...(counts.A ? [`Choice A × ${counts.A}`] : []), ...(counts.B ? [`Choice B × ${counts.B}`] : []),
-    `Seats: ${total} × ${rupees(EVENT.price)} = ${rupees(total * EVENT.price)}`, '',
+    `Seats: ${total} × ${rupees(EVENT.price)} = ${rupees(bill.amount)}`, `GST (5%): ${paise(bill.gst)}`, `Total: ${rupees(bill.total)}`, '',
     `Name: ${name}`, ...(note ? [`Note: ${note}`] : []),
   ].join('\n');
   const url = `https://wa.me/${WHATSAPP_NUMBER}?text=${encodeURIComponent(message)}`;
   window.open(url, '_blank', 'noopener');
-  window.umami?.track('Event booking sent', { seats: total, choiceA: counts.A, choiceB: counts.B, value: total * EVENT.price });
+  window.umami?.track('Event booking sent', { seats: total, choiceA: counts.A, choiceB: counts.B, value: bill.total });
   const thanks = form.querySelector('[data-event-thanks]');
   thanks.hidden = false;
   thanks.innerHTML = `Thank you, ${name.split(' ')[0].replace(/[&<>"']/g, '')}! Send the message in WhatsApp and we'll confirm your seats there. Didn't open? <a href="${url}" target="_blank" rel="noopener">Try again</a>.`;
