@@ -186,7 +186,8 @@ planner.addEventListener('click',event=>{
   if(weekButton){state.week=Number(weekButton.dataset.planWeek);render();planner.querySelector(`[data-plan-week="${state.week}"]`).focus();return;}
   const dayButton=event.target.closest('[data-plan-day]');
   if(dayButton){state.day=Number(dayButton.dataset.planDay);render();planner.querySelector(`[data-plan-day="${state.day}"]`).focus();return;}
-  const link=event.target.closest('#plan-enquiry');if(!link||link.getAttribute('aria-disabled')!=='true')return;
+  const link=event.target.closest('#plan-enquiry');if(link&&link.getAttribute('aria-disabled')!=='true')window.umami?.track('Meal plan enquiry',{goal:state.goal,activity:state.activity});
+  if(!link||link.getAttribute('aria-disabled')!=='true')return;
   event.preventDefault();
   const missing=!state.stats.sex?'sex':!validStats(state.stats)?'stats':!state.activity?'activity':'goal';
   const fieldset=planner.querySelector(`[data-q="${missing}"]`);

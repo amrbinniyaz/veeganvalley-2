@@ -429,6 +429,8 @@ function renderOrder() {
     if (outOfRange) return;
     const url = `https://wa.me/${WHATSAPP_NUMBER}?text=${encodeURIComponent(whatsappMessage(form, delivery ? place : null))}`;
     window.open(url, '_blank', 'noopener');
+    // Counts and totals only: never names, phones or addresses.
+    window.umami?.track('Order sent', { mode: form.mode, items: count, total: total + (fee || 0) });
     sent = { name: form.name, url, mode: form.mode };
     lines = [];
     save();

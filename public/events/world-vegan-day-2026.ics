@@ -1,0 +1,21 @@
+BEGIN:VCALENDAR
+VERSION:2.0
+PRODID:-//Vegan Valley//Events//EN
+CALSCALE:GREGORIAN
+METHOD:PUBLISH
+BEGIN:VEVENT
+UID:world-vegan-day-2026@veganvalley.in
+DTSTAMP:20261017T000000Z
+DTSTART:20261101T033000Z
+DTEND:20261101T063000Z
+SUMMARY:World Vegan Day Community Gathering 2.0
+LOCATION:The Social Cue\, opp. Vegan Valley\, South Beach\, Kozhikode
+DESCRIPTION:Brunch\, games and great company with Vegan Valley. https://veganvalley.in/events/
+URL:https://veganvalley.in/events/
+BEGIN:VALARM
+ACTION:DISPLAY
+DESCRIPTION:World Vegan Day brunch tomorrow
+TRIGGER:-PT15H
+END:VALARM
+END:VEVENT
+END:VCALENDAR
