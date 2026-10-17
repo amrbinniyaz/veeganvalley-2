@@ -1,0 +1,23 @@
+/* One-time homepage card for the next event. */
+.event-promo{position:fixed;z-index:65;left:24px;bottom:24px;width:min(360px,calc(100% - 24px));padding:0 24px 22px;border-radius:24px;background:var(--green);color:var(--pale);overflow:hidden;box-shadow:0 28px 60px -24px rgba(15,30,15,.65);opacity:0;transform:translateY(24px);transition:opacity .4s var(--ease),transform .5s var(--ease)}
+.event-promo.is-open{opacity:1;transform:none}
+body.has-order .event-promo{bottom:96px}
+.event-promo-doodle{display:block;width:calc(100% + 48px);max-width:none;height:120px;margin:0 -24px 14px;object-fit:cover;object-position:center 30%;opacity:.75;border-bottom:1px solid rgba(238,242,230,.15)}
+.event-promo-close{position:absolute;top:12px;right:12px;width:34px;height:34px;border-radius:50%;display:grid;place-items:center;background:var(--green);color:var(--pale);border:1px solid rgba(238,242,230,.35)}
+.event-promo-close:hover{background:var(--pale);color:var(--green)}
+.event-promo-eyebrow{font-size:11px;font-weight:600;letter-spacing:.11em;text-transform:uppercase;color:var(--leaf)}
+.event-promo h2{font-size:34px;margin:8px 0 8px;letter-spacing:-.04em;line-height:1}
+.event-promo h2 em{color:var(--leaf)}
+.event-promo p{font-size:14px;line-height:1.5;opacity:.85}
+.event-promo-actions{display:flex;align-items:center;gap:16px;margin-top:18px}
+.event-promo-cta{display:inline-flex;align-items:center;gap:10px;padding:12px 18px;border-radius:60px;background:var(--pale);color:var(--green);font-size:14px;font-weight:600;transition:background .25s}
+.event-promo-cta:hover{background:var(--leaf)}
+.event-promo-later{font-size:13px;opacity:.75;text-decoration:underline;text-underline-offset:3px}
+.event-promo-later:hover{opacity:1}
+@media(max-width:767px){
+  .event-promo{left:12px;right:12px;bottom:12px;width:auto}
+  body.has-order .event-promo{bottom:84px}
+  .event-promo-doodle{height:96px}
+  .event-promo h2{font-size:30px}
+}
+@media(prefers-reduced-motion:reduce){.event-promo{transition:opacity .2s;transform:none}}

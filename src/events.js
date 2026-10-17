@@ -1,3 +1,5 @@
+import { markEventPromoSeen } from './modules/eventPromo.js';
+
 // World Vegan Day booking: pick seats per menu choice, then send the booking on WhatsApp.
 const WHATSAPP_NUMBER = '917736005800';
 const EVENT = { name: 'World Vegan Day Community Gathering 2.0', when: 'Sunday 1 Nov 2026, 9:00 am to 12:00 pm', where: 'The Social Cue, opp. Vegan Valley, South Beach', price: 1499, seats: 20, ends: new Date('2026-11-01T12:00:00+05:30') };
@@ -9,6 +11,7 @@ const ticketBill = seats => {
   const amount = seats * EVENT.price, gst = Math.round(amount * GST_RATE * 100) / 100;
   return { amount, gst, total: Math.ceil(amount + gst - 1e-9) };
 };
+markEventPromoSeen();
 document.querySelectorAll('[data-year]').forEach(node => { node.textContent = new Date().getFullYear(); });
 
 // Mobile navigation

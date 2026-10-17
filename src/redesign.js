@@ -4,6 +4,7 @@ import Lenis from 'lenis';
 import juices from './data/juices.json';
 import { initOrder, openItem, addToOrder, menuCard, getItem, items as menuItems } from './modules/order.js';
 import { startHomeIntro } from './modules/homeIntro.js';
+import { showEventPromo } from './modules/eventPromo.js';
 import { cafeStatus } from './lib/openingHours.js';
 import { createHomeEntrance } from './modules/homeEntrance.js';
 
@@ -113,6 +114,7 @@ for (const button of document.querySelectorAll('[data-flavour]')) listen(button,
 
 // Product details and ordering use the shared order sheets (src/modules/order.js).
 initOrder();
+showEventPromo();
 for (const button of document.querySelectorAll('[data-product]')) listen(button,'click',()=>openItem(button.dataset.product));
 for (const button of document.querySelectorAll('[data-add]')) listen(button,'click',()=>addToOrder(button.dataset.add));
 listen(window,'vv-modal',event=>{if(event.detail.open)lenis?.stop();else if(!homeIntro?.active)lenis?.start();});
