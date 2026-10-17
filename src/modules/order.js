@@ -12,7 +12,12 @@ const MAX_QTY = 20;
 // Distances are straight-line from the store, so road distance is a little longer.
 const STORE = { lat: 11.2448934, lng: 75.7738241 };
 const FREE_KM = 5, MAX_KM = 10, DELIVERY_FEE = 50;
+// Menu prices are before tax. The café till adds a parcel charge to every takeaway
+// order (₹20 minimum; staff add more for bigger orders that need extra bags), then 5% GST (2.5% SGST + 2.5% CGST) on items + parcel, and rounds up to the rupee.
+const PARCEL_CHARGE = 20, GST_RATE = 0.05;
 const rupees = value => `₹${value.toLocaleString('en-IN')}`;
+const CONFIRM_NOTE = '(Bigger orders may need extra bags. Please confirm the final total.)';
+const paise = value => `₹${value.toLocaleString('en-IN', { minimumFractionDigits: 2, maximumFractionDigits: 2 })}`;
 
 const juiceItems = juices.map(juice => ({
   id: juice.id, category: 'juices', name: juice.name, price: juice.price, description: juice.description,
@@ -125,6 +130,11 @@ function save() {
 export const subscribe = listener => { listeners.add(listener); listener(lines); return () => listeners.delete(listener); };
 const lineUnitPrice = line => getItem(line.id).price + line.extras.reduce((sum, extra) => sum + extra.price, 0);
 export const totals = () => lines.reduce((acc, line) => ({ count: acc.count + line.qty, amount: acc.amount + lineUnitPrice(line) * line.qty }), { count: 0, amount: 0 });
+// What the till will charge for the items: parcel + GST, rounded up like the printed bill.
+export function bill(amount = totals().amount) {
+  const gst = Math.round((amount + PARCEL_CHARGE) * GST_RATE * 100) / 100;
+  return { amount, parcel: PARCEL_CHARGE, gst, total: Math.ceil(amount + PARCEL_CHARGE + gst - 1e-9) };
+}
 
 export function addToOrder(id, { qty = 1, extras = [], options = [], action } = {}) {
   const item = getItem(id); if (!item) return;
@@ -159,17 +169,18 @@ export function whatsappMessage({ name, pickup, note, mode = 'pickup', address =
     const details = [...line.extras.map(e => `+ ${e.name}`), ...line.options].join(', ');
     return `${line.qty} × ${item.name}${item.volume ? ` (${item.volume})` : ''}${details ? ` [${details}]` : ''} — ${rupees(lineUnitPrice(line) * line.qty)}`;
   });
-  const amount = totals().amount;
+  const { amount, parcel, gst, total } = bill();
+  const charges = [`Items: ${rupees(amount)}`, `Parcel charge: ${rupees(parcel)} (minimum)`, `GST (5%): ${paise(gst)}`];
   if (!delivery) return [
     "Hi Vegan Valley! I'd like to place a pickup order:", '', ...rows, '',
-    `Total: ${rupees(amount)}`, `Name: ${name}`, `Pickup: ${pickup}`, ...(note ? [`Note: ${note}`] : []),
+    ...charges, `Total: ${rupees(total)}`, CONFIRM_NOTE, '', `Name: ${name}`, `Pickup: ${pickup}`, ...(note ? [`Note: ${note}`] : []),
   ].join('\n');
   const km = place ? `${place.km.toFixed(1)} km` : '';
   return [
     "Hi Vegan Valley! I'd like to place a delivery order:", '', ...rows, '',
-    `Items: ${rupees(amount)}`,
+    ...charges,
     place ? `Delivery: ${fee ? rupees(fee) : 'Free'} (${km})` : `Delivery: to be confirmed (free within ${FREE_KM} km, ${rupees(DELIVERY_FEE)} up to ${MAX_KM} km)`,
-    `Total: ${rupees(amount + fee)}${place ? '' : ' + delivery'}`, '',
+    `Total: ${rupees(total + fee)}${place ? '' : ' + delivery'}`, CONFIRM_NOTE, '',
     `Name: ${name}`, `Delivery: ${pickup}`, `Address: ${address}`, ...(landmark ? [`Landmark: ${landmark}`] : []),
     ...(place ? [`Location: https://maps.google.com/?q=${place.lat.toFixed(6)},${place.lng.toFixed(6)}`] : []),
     ...(note ? [`Note: ${note}`] : []),
@@ -400,9 +411,14 @@ function renderOrder() {
     placeStatus, locateError && el('p', { class: 'order-place is-out', role: 'status', text: locateError }),
     field('Delivery address', addressInput), field('Landmark (optional)', landmarkInput),
     el('p', { class: 'order-small', text: `Free delivery within ${FREE_KM} km, ${rupees(DELIVERY_FEE)} up to ${MAX_KM} km. Sharing your location lets us check the distance and pin your door.` }));
+  const { parcel, gst, total } = bill(amount);
+  const chargeRow = (label, value) => el('div', { class: 'order-charge' }, el('span', { text: label }), el('span', { text: value }));
+  const charges = el('div', { class: 'order-charges' },
+    chargeRow(`Items · ${count} item${count === 1 ? '' : 's'}`, rupees(amount)), chargeRow('Parcel charge (from)', rupees(parcel)), chargeRow('GST (5%)', paise(gst)),
+    delivery && place && !outOfRange && chargeRow('Delivery', fee ? rupees(fee) : 'Free'));
   const totalRow = delivery
-    ? el('div', { class: 'order-total' }, el('span', { text: place ? `Total incl. delivery · ${count} item${count === 1 ? '' : 's'}` : 'Total · delivery added once we know the distance' }), el('strong', { text: rupees(amount + (fee || 0)) }))
-    : el('div', { class: 'order-total' }, el('span', { text: `Total · ${count} item${count === 1 ? '' : 's'}` }), el('strong', { text: rupees(amount) }));
+    ? el('div', { class: 'order-total' }, el('span', { text: place ? 'Total incl. GST & delivery' : 'Total incl. GST · delivery added once we know the distance' }), el('strong', { text: rupees(total + (fee || 0)) }))
+    : el('div', { class: 'order-total' }, el('span', { text: 'Total incl. GST' }), el('strong', { text: rupees(total) }));
   const sendButton = el('button', { class: 'pill-button order-send', type: 'submit', disabled: outOfRange }, el('span', { text: 'Send order on WhatsApp' }), el('span', {}, icon('arrow-up-right')));
   const formNode = el('form', { class: 'order-form', novalidate: true, onsubmit: event => {
     event.preventDefault();
@@ -419,7 +435,8 @@ function renderOrder() {
   } },
     el('fieldset', { class: 'order-mode' }, el('legend', { class: 'sr-only', text: 'Pickup or delivery' }),
       modeOption('pickup', 'Pickup', 'Collect from the café'), modeOption('delivery', 'Delivery', `Free within ${FREE_KM} km`)),
-    deliveryBlock, totalRow,
+    deliveryBlock, charges, totalRow,
+    el('p', { class: 'order-small', text: `Parcel charge starts at ${rupees(parcel)}. Bigger orders that need extra bags cost a little more, and we'll confirm your final total on WhatsApp.` }),
     field('Your name', nameInput), field(delivery ? 'Delivery time' : 'Pickup time', pickupSelect), field('Anything we should know? (optional)', noteInput),
     sendButton, el('p', { class: 'order-small', text: `This opens WhatsApp with your order written out. Nothing is placed until you press send there, and we will confirm your ${delivery ? 'delivery' : 'pickup'} time.` }));
   if (sent && count === 0) {

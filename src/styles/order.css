@@ -72,6 +72,7 @@ body.has-order .site-footer{padding-bottom:120px}
 .order-line-info{display:flex;flex-direction:column;gap:2px;font-size:14px;min-width:0}
 .order-line-info small{font-size:11.5px;opacity:.7}
 .order-line-info span{font-weight:600;font-size:13px}
+.order-charges{display:grid;gap:4px;padding-top:12px;font-size:13px}.order-charge{display:flex;justify-content:space-between;opacity:.75}
 .order-total{display:flex;justify-content:space-between;align-items:baseline;padding:16px 0 6px;font-size:14px}
 .order-total strong{font-family:var(--display);font-weight:500;font-size:30px;letter-spacing:-.03em}
 .order-form{display:grid;gap:14px;margin-top:16px}
